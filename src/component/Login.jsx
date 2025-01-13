@@ -25,6 +25,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
 import { AuthTypeEnum } from "../enums/oauth";
+import { env } from "../config/env";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -67,8 +68,10 @@ const Login = () => {
     const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
     const options = {
-      redirect_uri: "http://localhost:3000/auth/callback",
+      redirect_uri:
+        env.GOOGLE_REDIRECT_URL || "http://localhost:3000/auth/callback",
       client_id:
+        env.GOOGLE_CLIENT_ID ||
         "274136206982-naj76ba4l49nqieh60ce0o4lkep704n3.apps.googleusercontent.com",
       response_type: "code",
       state: JSON.stringify({
