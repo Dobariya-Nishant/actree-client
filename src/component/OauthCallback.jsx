@@ -1,0 +1,41 @@
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import API_ENDPOINTS from "../api/apiConfig";
+import { networkRequest } from "../utils/networkRequest";
+
+const OAuthCallback = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  async function name() {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const state = JSON.parse(params.get("state"));
+
+    if (code) {
+      const user = await networkRequest(
+        "GET",
+        API_ENDPOINTS.GOOGLE_OAUTH,
+        {},
+        {},
+        { authType: state.authType, type: state.type, code },
+        {}
+      );
+
+      localStorage.setItem("user", JSON.stringify(user));
+
+      navigate("/socialMedia");
+    } else {
+      // Handle error: code not found or other issues
+      console.error("No authorization code found");
+    }
+  }
+
+  useEffect(() => {
+    name();
+  }, [location, navigate]);
+
+  return <div>Loading...</div>;
+};
+
+export default OAuthCallback;

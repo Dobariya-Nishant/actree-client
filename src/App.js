@@ -1,0 +1,81 @@
+import React from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Header from "./component/Header";
+import { SignUpProvider } from "./context/SignUpContext";
+
+import Login from "./component/Login";
+import SignUp from "./component/SignUp";
+import IndividualSignUp from "./component/IndividualSignUp";
+
+import ConnectSocials from "./component/ConnectSocials";
+import InterestSignup from "./component/InterestSignup";
+
+import Home from "./component/Home";
+import SocialMedia from "./component/SocialMedia";
+import MarketPlace from "./component/MarketPlace";
+import DiscussionForum from "./component/DiscussionForum";
+import OAuthCallback from "./component/OauthCallback";
+import Profile from "./component/Profile";
+import Monetize from "./component/Monetize";
+import ActivaPost from "./component/ActivaPost";
+import Video from "./component/Video";
+import FrindRequest from "./component/FrindRequest";
+import Following from "./component/Following";
+import Followers from "./component/Followers";
+import Bookmark from "./component/Bookmark";
+import Group from "./component/Group";
+import Livestream from "./component/Livestream";
+
+function App() {
+  const location = useLocation();
+
+  const hideHeaderPaths = [
+    "/login",
+    "/signup",
+    "/individualSignUp",
+    "/connectSocials",
+    "/interestSignup",
+  ];
+
+  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
+
+  return (
+    <>
+      {/* {location.pathname !== "/login" &&
+        location.pathname !== "/signup" &&
+        location.pathname !== "/individualSignUp" &&
+        location.pathname !== "connectSocials" && <Header />} */}
+
+      <SignUpProvider>
+        {!shouldHideHeader && <Header />}
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/individualSignUp" element={<IndividualSignUp />} />
+          <Route path="/connectSocials" element={<ConnectSocials />} />
+          <Route path="/interestSignup" element={<InterestSignup />} />
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/socialMedia" element={<SocialMedia />} />
+          <Route path="/marketPlace" element={<MarketPlace />} />
+          <Route path="/discussionForum" element={<DiscussionForum />} />
+
+          <Route path="/monetize" element={<Monetize />} />
+          <Route path="/activapost" element={<ActivaPost />} />
+          <Route path="/video" element={<Video />} />
+          <Route path="/friendsrequest" element={<FrindRequest />} />
+          <Route path="/follwing" element={<Following />} />
+          <Route path="/followers" element={<Followers />} />
+          <Route path="/bookmark" element={<Bookmark />} />
+          <Route path="/group" element={<Group />} />
+          <Route path="/livestream" element={<Livestream />} />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
+        </Routes>
+      </SignUpProvider>
+    </>
+  );
+}
+
+export default App;
