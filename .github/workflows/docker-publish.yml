@@ -1,0 +1,58 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    # Step 1: Build the Docker image
+    - name: Build the Docker image
+      run: |
+        IMAGE_NAME="${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.CONTAINER_NAME }}"
+        IMAGE_TAG="latest"
+        docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_TAG
+
+    # Step 2: Log in to Docker Hub and push the image
+    - name: Log in to Docker Hub
+      run: |
+        docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.CONTAINER_NAME }}:latest
+
+    # Step 3: Deploy Docker Image on EC2
+    - name: Deploy Docker Image on EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          CONTAINER_NAME="${{ secrets.CONTAINER_NAME }}"
+          IMAGE_NAME="${{ secrets.DOCKER_HUB_USERNAME }}/$CONTAINER_NAME"
+          IMAGE_TAG="latest"
+          ENV_FILE="/tmp/env.json"
+         
+          # Stop and remove old container
+          sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          sudo docker stop $CONTAINER_NAME || true
+          sudo docker rm $CONTAINER_NAME || true
+          sudo docker image rm $IMAGE_NAME:$IMAGE_TAG || true
+         
+          # Pull the latest image
+          sudo docker pull $IMAGE_NAME:$IMAGE_TAG
+         
+          # Run container with environment variables
+          sudo docker run -d --name $CONTAINER_NAME --restart=on-failure \
+          -e REACT_APP_PORT="${{ secrets.REACT_APP_PORT }}" \
+          -e REACT_APP_USER_SERVICE_URL="${{ secrets.REACT_APP_USER_SERVICE_URL }}" \
+          -e REACT_APP_POST_SERVICE_URL="${{ secrets.REACT_APP_POST_SERVICE_URL }}" \
+          -e REACT_APP_GOOGLE_CLIENT_ID="${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" \
+          -e REACT_APP_GOOGLE_CLIENT_SECRETE="${{ secrets.REACT_APP_GOOGLE_CLIENT_SECRETE }}" \
+          -e REACT_APP_GOOGLE_REDIRECT_URL="${{ secrets.REACT_APP_GOOGLE_REDIRECT_URL }}" \
+          -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG
+
+          # exit the session
+           exit
