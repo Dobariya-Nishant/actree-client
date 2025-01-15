@@ -13,7 +13,7 @@ const OAuthCallback = () => {
     const state = JSON.parse(params.get("state"));
 
     if (code) {
-      const user = await networkRequest(
+      const response = await networkRequest(
         "GET",
         API_ENDPOINTS.GOOGLE_OAUTH,
         {},
@@ -22,8 +22,13 @@ const OAuthCallback = () => {
         {}
       );
 
-      localStorage.setItem("user", JSON.stringify(user));
+      if (!response?.data?.session?.token) {
+        throw new Error("Token not found !!");
+      }
 
+      localStorage.setItem("token", response?.data?.session?.token);
+
+      localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/socialMedia");
     } else {
       // Handle error: code not found or other issues

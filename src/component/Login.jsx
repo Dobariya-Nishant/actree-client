@@ -264,6 +264,7 @@ const Login = () => {
                 alt="Google Logo"
               />
             }
+            disabled={!selectedOption}
             sx={{
               commonStyles,
               mb: 2,
@@ -280,6 +281,7 @@ const Login = () => {
             variant="outlined"
             onClick={() => handleOauth(AuthTypeEnum.APPLE)}
             startIcon={<AppleIcon sx={{ color: "#000000" }} />}
+            disabled={!selectedOption}
             sx={{
               mb: 2,
               width: "100%",
@@ -295,6 +297,7 @@ const Login = () => {
             variant="outlined"
             onClick={() => handleOauth(AuthTypeEnum.FACEBOOK)}
             startIcon={<FacebookIcon sx={{ color: "#1877F2" }} />}
+            disabled={!selectedOption}
             sx={{
               mb: 2,
               width: "100%",
@@ -387,6 +390,7 @@ const Login = () => {
           <Button
             variant="contained"
             onClick={handleSubmit}
+            disabled={!selectedOption}
             sx={{
               background:
                 "linear-gradient(to right, #9A00A9, #580097, #29008B)",
