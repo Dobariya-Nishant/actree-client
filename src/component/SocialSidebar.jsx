@@ -76,9 +76,9 @@ function SocialSidebar() {
                                 <img
                                     src="assets/images/socialsidebar/icon (20).png"
                                     alt="icon"
-                                    style={{ width: "7%" }}
+                                    style={{ width: "7%", marginLeft: "2%" }}
                                 />
-                                <span>ActivaPost</span>
+                                <span style={{ marginLeft: "1%" }}>ActivaPost</span>
                             </Link>
                         </li>
 

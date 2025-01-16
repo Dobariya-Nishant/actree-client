@@ -12,32 +12,96 @@ function Following() {
     const [followingList, setFollowingList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [followings, setFollowings] = useState([]);
+    const [isFollowing, setIsFollowing] = useState(true);
+    const [suggestList, setSuggestList] = useState([]);
+    const [followedUsers, setFollowedUsers] = useState([]);
+    const [followingCount, setFollowingCount] = useState(0);
 
     useEffect(() => {
-
         if (localStorage.getItem("reloadAfterLogin") === "true") {
             localStorage.removeItem("reloadAfterLogin");
             window.location.reload();
         }
-
-        const fetchFollowingList = async () => {
-            try {
-                setIsLoading(true);
-                const response = await networkRequest("GET", API_ENDPOINTS.GET_FOLLOWING, {}, {}, { type: "followers" });
-                if (response.statusCode === 20) {
-                    setFollowingList(response.data || []);
-                    setIsLoading(false);
-                }
-            } catch (err) {
-                console.error("Error fetching following list:", err);
-                setError("Failed to fetch the following list.");
-                setIsLoading(false);
-            }
-        };
-
-        fetchFollowingList();
-
+        getAllFollowing();
+        getAllSuggest();
     }, []);
+
+
+    const getAllFollowing = async () => {
+        try {
+            const response = await networkRequest("GET", API_ENDPOINTS.GET_FOLLOWING, {}, {}, { type: "followings" });
+            if (response.statusCode === 200) {
+                console.log(response.data);
+                const followingsList = response.data.followings || [];
+                setFollowings(response.data.followings || []);
+                setFollowingCount(followingsList.length > 0 ? followingsList.length : 0);
+            } else {
+                console.error("Error: Response status is not 200", response);
+            }
+        } catch (error) {
+            console.error("Error fetching suggestions:", error);
+        }
+    };
+
+    const unfollowUser = async (userId) => {
+        try {
+            const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_UNFOLLOW, { followedId: userId });
+            if (response.statusCode === 201) {
+                console.log("Unfollowed successfully!");
+                setFollowings(prevFollowings => prevFollowings.filter(following => following._id !== userId));
+                setFollowingCount(prevFollowings => prevFollowings.length - 1);
+                getAllSuggest();
+            } else {
+                console.error("Failed to unfollow");
+            }
+        } catch (error) {
+            console.error("Error unfollowing user:", error);
+        }
+    };
+
+    const getAllSuggest = async () => {
+        try {
+            const response = await networkRequest("GET", API_ENDPOINTS.GET_SUGGEST, {}, {});
+            if (response.statusCode === 200) {
+                const filteredSuggestions = (response.data || []).filter(
+                    (suggestedUser) => suggestedUser._id !== user._id
+                );
+                setSuggestList(filteredSuggestions);
+                getAllFollowing();
+            }
+        } catch (error) {
+            console.error("Error fetching suggestions:", error);
+        }
+    };
+
+    const handleFollowToggle = async (userId) => {
+        try {
+            if (followedUsers.includes(userId)) {
+                const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_UNFOLLOW, { followedId: userId });
+                if (response.statusCode === 201) {
+                    console.log("Unfollowed successfully!");
+                    setFollowedUsers((prevFollowedUsers) =>
+                        prevFollowedUsers.filter((id) => id !== userId)
+                    );
+                    getAllFollowing();
+                } else {
+                    console.error("Failed to unfollow");
+                }
+            } else {
+                const response = await networkRequest("POST", API_ENDPOINTS.POST_FOLLOW, { followedId: userId });
+                if (response.statusCode === 201) {
+                    console.log("Followed successfully!");
+                    setFollowedUsers((prevFollowedUsers) => [...prevFollowedUsers, userId]);
+                    getAllFollowing();
+                } else {
+                    console.error("Failed to follow");
+                }
+            }
+        } catch (error) {
+            console.error("Error in follow/unfollow operation:", error);
+        }
+    };
 
     const handleItemClick = (item) => {
         setActiveItem(item);
@@ -61,205 +125,50 @@ function Following() {
                                     </button>
                                     <h6>{user.userName}</h6>
                                 </div>
-                                <h6>{user.followingCount} Following</h6>
+                                <h6>{followingCount} Following</h6>
                             </div>
                             <div className="post-item d-flex flex-column gap-5 gap-md-7" id="news-feed">
                                 <div className="post-single-box p-3 p-sm-5">
                                     <h6>Following</h6>
                                     <div className="top-area pb-5">
                                         <hr></hr>
-                                        {/* {isLoading ? (
-                                            <p>Loading...</p>
-                                        ) : error ? (
-                                            <p>{error}</p>
-                                        ) : followingList.length === 0 ? (
-                                            <p>No following users found.</p>
-                                        ) : (
-                                            followingList.map((follower) => (
-                                                <div className="profile-area d-center justify-content-between">
+                                        {followings && followings.length > 0 ? (
+                                            followings.map((following, index) => (
+                                                <div key={index} className="profile-area d-center justify-content-between py-4">
                                                     <div className="avatar-item d-flex gap-3 align-items-center">
                                                         <div className="position-relative">
-                                                            <img className="avatar-img max-un" src="assets/images/navbar/picture.png" alt="icon" style={{ borderRadius: "50px", width: "40px" }} />
+                                                            <img
+                                                                className="avatar-img max-un"
+                                                                src={following.followedUser.profilePicture || "assets/images/Justus_Everett.png"}
+                                                                alt="avatar"
+                                                                style={{ borderRadius: "50px", width: "40px" }}
+                                                            />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="#">Isai Boyer</a></h6>
-                                                            <span className="mdtxt status">@isaiboyer</span>
+                                                            <h6 className="m-0"><a href="#">{following.followedUser.userName}</a></h6>
+                                                            <span className="mdtxt status">@{following.followedUser.userName}</span>
                                                         </div>
                                                     </div>
                                                     <div className="btn-group cus-dropdown">
-                                                        <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
+                                                        <button
+                                                            className="cmn-btn"
+                                                            style={{
+                                                                // backgroundColor: isFollowing ? "#D0F0E8" : "#FF6B6B",
+                                                                // color: isFollowing ? "#9A00A9" : "#FFFFFF",
+                                                                backgroundColor: isFollowing ? "#D0F0E8" : "#F5E6F6",
+                                                                color: isFollowing ? "#007B5F" : "#9A00A9",
+                                                                borderRadius: "30px",
+                                                            }}
+                                                            onClick={() => unfollowUser(following.followedId)}
+                                                        >
+                                                            {isFollowing ? "Following" : "Unfollow"}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             ))
-                                        )} */}
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Justus_Everett</a></h6>
-                                                    <span className="mdtxt status">@justus_everett</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Unfollow</button>
-                                            </div>
-                                        </div>
+                                        ) : (
+                                            <p>No followings to display.</p>
+                                        )}                                        
                                     </div>
                                 </div>
                             </div>
@@ -299,132 +208,51 @@ function Following() {
                                                 </h6>
                                             </div>
                                             <div className="d-flex flex-column gap-6">
-                                                <div className="profile-area d-center position-relative align-items-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Billy_Williams.png" alt="avatar" style={{ borderRadius: "50px" }} />
+                                                {Array.isArray(suggestList) && suggestList.length > 0 ? (
+                                                    suggestList.map((suggestedUser) => (
+                                                        <div key={suggestedUser._id} className="profile-area d-center position-relative align-items-center justify-content-between">
+                                                            <div className="avatar-item d-flex gap-3 align-items-center">
+                                                                <div className="avatar-item">
+                                                                    <img
+                                                                        className="avatar-img max-un"
+                                                                        src={suggestedUser.profilePicture || "assets/images/avatar-14.png"}
+                                                                        alt="avatar"
+                                                                        style={{ borderRadius: "50px", width: "40px" }}
+                                                                    />
+                                                                </div>
+                                                                <div className="info-area">
+                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <p className="mdtxt">@{suggestedUser.userName}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="btn-group cus-dropdown dropend">
+                                                                <button
+                                                                    className="cmn-btn"
+                                                                    style={{
+                                                                        borderRadius: "50px",
+                                                                        backgroundColor: followedUsers.includes(suggestedUser._id) ? "#D0F0E8" : "#F5E6F6",
+                                                                        color: followedUsers.includes(suggestedUser._id) ? "#007B5F" : "#9A00A9",
+                                                                    }}
+                                                                    onClick={() => handleFollowToggle(suggestedUser._id)}
+                                                                    onMouseEnter={(e) => {
+                                                                        if (followedUsers.includes(suggestedUser._id)) {
+                                                                            e.target.textContent = "Unfollow";
+                                                                        }
+                                                                    }}
+                                                                    onMouseLeave={(e) => {
+                                                                        if (followedUsers.includes(suggestedUser._id)) {
+                                                                            e.target.textContent = "Following";
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {followedUsers.includes(suggestedUser._id) ? "Following" : "Follow"}
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Justus_Everett</a></h6>
-                                                            <p className="mdtxt">@Justus_Everett</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Billy_Williams</a></h6>
-                                                            <p className="mdtxt">@Billy_Williams</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Julie Bates.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Darrell Steward</a></h6>
-                                                            <p className="mdtxt">@Darrell Steward</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Hana Marshall.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Kristin Watson</a></h6>
-                                                            <p className="mdtxt">@Kristin Watson</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Kelvin Leon.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Jane Cooper</a></h6>
-                                                            <p className="mdtxt">@Jane Cooper</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Roy Benton.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Devon Lane</a></h6>
-                                                            <p className="mdtxt">@Devon Lane</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Noel_Hunt.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Annette Black</a></h6>
-                                                            <p className="mdtxt">@Annette Black</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/avatar-10.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Jerome Bell</a></h6>
-                                                            <p className="mdtxt">@Jerome Bell</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-area d-center justify-content-between">
-                                                    <div className="avatar-item d-flex gap-3 align-items-center">
-                                                        <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src="assets/images/Hana Marshall.png" alt="avatar" />
-                                                        </div>
-                                                        <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Guy Hawkins</a></h6>
-                                                            <p className="mdtxt">@Guy Hawkins</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="btn-group cus-dropdown dropend">
-                                                        <button className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#F5E6F6", color: "#9A00A9" }}>Follow</button>
-                                                    </div>
-                                                </div>
+                                                    ))
+                                                ) : (
+                                                    <p>No suggestions available</p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -433,7 +261,7 @@ function Following() {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main >
         </>
     );
 }

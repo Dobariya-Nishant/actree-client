@@ -11,7 +11,7 @@ import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-function SocialMedia() {
+function SocialMedia(post) {
     const navigate = useNavigate();
     const location = useLocation();
     const token = localStorage.getItem("token");
@@ -48,6 +48,7 @@ function SocialMedia() {
     useEffect(() => {
         getAllPost();
         getAllSuggest();
+        fetchComments(post._id);
         if (localStorage.getItem("reloadAfterLogin") === "true") {
             localStorage.removeItem("reloadAfterLogin");
             window.location.reload();
@@ -65,7 +66,7 @@ function SocialMedia() {
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
-    }, [isModalOpen]);
+    }, [post._id, isModalOpen]);
 
 
     const handleItemClick = (item) => {
@@ -114,6 +115,7 @@ function SocialMedia() {
         try {
             const response = await networkRequest("GET", API_ENDPOINTS.GET_POSTLIST, {}, {});
             if (response.statusCode === 200) {
+                console.log("response", response)
                 const postsData = response.data.postList;
                 const updatedPosts = postsData.map((post) => ({
                     ...post,
@@ -121,6 +123,8 @@ function SocialMedia() {
                         ...post.user,
                         isFollowed: post.user.isFollowed || false,
                     },
+                    likeCount: post.likeCount || 0,
+                    isLiked: post.isLiked || false,
                 }));
                 setPosts(updatedPosts);
                 const followedUserIds = updatedPosts
@@ -134,17 +138,6 @@ function SocialMedia() {
     };
 
 
-    // async function getAllPost() {
-    //     const response = await networkRequest("GET", API_ENDPOINTS.GET_POSTLIST, {}, {});
-    //     if (response.statusCode === 200) {
-    //         setPosts(response.data.postList);
-
-    //         const followedUserIds = response.data.postList
-    //             .filter(post => post.user.isFollowed)
-    //             .map(post => post.user._id);
-    //         setFollowedPosts(followedUserIds);
-    //     }
-    // }
 
     const isValidImageUrl = (url) => {
         return (url && url.match(/\.(jpeg|jpg|gif|png)$/) != null);
@@ -165,32 +158,6 @@ function SocialMedia() {
         }
     };
 
-    // const handlePostFollowToggle = async (userId) => {
-    //     try {
-    //         if (followedPosts.includes(userId)) {
-    //             const response = await networkRequest("delete", API_ENDPOINTS.DELETE_UNFOLLOW, { followedId: userId });
-    //             if (response.statusCode === 201) {
-    //                 console.log("Unfollowed successfully!");
-    //                 setFollowedPosts((prevFollowedPosts) =>
-    //                     prevFollowedPosts.filter((id) => id !== userId)
-    //                 );
-    //             } else {
-    //                 console.error("Failed to unfollow");
-    //             }
-    //         } else {
-    //             const response = await networkRequest("post", API_ENDPOINTS.POST_FOLLOW, { followedId: userId });
-    //             if (response.statusCode === 201) {
-    //                 console.log("Followed successfully!");
-    //                 setFollowedPosts((prevFollowedPosts) => [...prevFollowedPosts, userId]);
-    //             } else {
-    //                 console.error("Failed to follow");
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.error("Error in follow/unfollow operation:", error);
-    //     }
-    // };
-
     const handlePostFollowToggle = async (postId) => {
         const updatedPosts = posts.map((post) => {
             if (post._id === postId) {
@@ -205,7 +172,7 @@ function SocialMedia() {
                     ...post,
                     user: {
                         ...post.user,
-                        isFollowed: !isCurrentlyFollowed  // Toggle the follow status locally
+                        isFollowed: !isCurrentlyFollowed
                     }
                 };
             }
@@ -244,57 +211,6 @@ function SocialMedia() {
         }
     };
 
-    // const handleFollow = async (userId) => {
-    //     try {
-    //         const response = await networkRequest("post", API_ENDPOINTS.POST_FOLLOW, { followedId: userId },);
-    //         if (response.statusCode === 201) {
-    //             console.log("Followed post successfully!");
-    //             //setFollowedPosts((prevFollowedPosts) => [...prevFollowedPosts, userId]);
-    //             setFollowedUsers((prevFollowedUsers) => [...prevFollowedUsers, userId]);
-    //             if (!followedPosts.includes(userId)) {
-    //                 setFollowedPosts((prevFollowedPosts) => [...prevFollowedPosts, userId]);
-    //             } else {
-    //                 setFollowedPosts((prevFollowedPosts) => prevFollowedPosts.filter((id) => id !== userId));
-    //             }
-    //             //setIsFollowing(response.data.postList.isFollowed);
-    //         } else {
-    //             console.error("Failed to follow");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error following post:", error);
-    //     }
-    // };
-
-    // const handleFollow = async (userId) => {
-    //     try {
-    //         if (followedUsers.includes(userId)) {
-    //             const response = await networkRequest("delete", API_ENDPOINTS.DELETE_UNFOLLOW, { followedId: userId });
-    //             if (response.statusCode === 200) {
-    //                 console.log("Unfollowed successfully!");
-    //                 setFollowedUsers((prevFollowedUsers) =>
-    //                     prevFollowedUsers.filter((id) => id !== userId)
-    //                 );
-    //                 setFollowedPosts((prevFollowedPosts) =>
-    //                     prevFollowedPosts.filter((id) => id !== userId)
-    //                 );
-    //             } else {
-    //                 console.error("Failed to unfollow");
-    //             }
-    //         } else {
-    //             const response = await networkRequest("post", API_ENDPOINTS.POST_FOLLOW, { followedId: userId });
-    //             if (response.statusCode === 201) {
-    //                 console.log("Followed successfully!");
-    //                 setFollowedUsers((prevFollowedUsers) => [...prevFollowedUsers, userId]);
-    //                 setFollowedPosts((prevFollowedPosts) => [...prevFollowedPosts, userId]);
-    //             } else {
-    //                 console.error("Failed to follow");
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.error("Error in follow/unfollow operation:", error);
-    //     }
-    // };
-
     const handleFollowToggle = async (userId) => {
         try {
             if (followedUsers.includes(userId)) {
@@ -320,8 +236,6 @@ function SocialMedia() {
             console.error("Error in follow/unfollow operation:", error);
         }
     };
-
-
 
     const sliderSettings = {
         infinite: true,
@@ -360,6 +274,117 @@ function SocialMedia() {
     const handleClickOutside = (event) => {
         if (!event.target.closest(".cus-dropdown")) {
             setOpenDropdown(null);
+        }
+    };
+
+    const [comments, setComments] = useState([]);
+    const [commentInput, setCommentInput] = useState("");
+    const [showAll, setShowAll] = useState({});
+    const handleReadMore = (postId) => {
+        setShowAll((prevState) => ({
+            ...prevState,
+            [postId]: !prevState[postId],
+        }));
+    };
+    const getVisibleComments = (postId) => {
+        const postComments = comments.filter(comment => comment.postId === postId);
+        return showAll[postId] ? postComments : postComments.slice(0, 2);
+    };
+
+    const submitComment = (postId, content, media) => {
+        handleComment(postId, content, media);
+    };
+
+    const handleComment = async (postId, content, media = null) => {
+        try {
+            const payload = {
+                postId,
+                content,
+                media,
+            };
+            const response = await networkRequest("POST", API_ENDPOINTS.POST_COMMNET, payload);
+            if (response.statusCode === 201) {
+                console.log("Cooment successfully!");
+                fetchComments(postId)
+            } else {
+                console.error("Failed to commnet");
+            }
+        } catch (error) {
+            console.error("Error in Comment operation:", error);
+        }
+    };
+
+    const fetchComments = async (postId) => {
+        try {
+            const response = await networkRequest("GET", API_ENDPOINTS.GET_COMMENT, { postId });
+            if (response.statusCode === 200) {
+                setComments(response.data.commentList);
+            } else {
+                console.error("Failed to fetch comments:", response.message);
+            }
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
+
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
+    const [likedBy, setLikedBy] = useState([]);
+
+    const handleLikeToggle = async (postId, isLiked) => {
+        try {
+            if (isLiked) {
+                const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_LIKE, { postId });
+                if (response.statusCode === 200) {
+                    console.log("Disliked successfully!");
+                    setIsLiked(false);
+                    setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
+                    setLikedBy((prevList) => prevList.slice(0, -1));
+                } else {
+                    console.error("Failed to dislike");
+                }
+            } else {
+                const payload = { postId };
+                const response = await networkRequest("POST", API_ENDPOINTS.POST_LIKE, payload);
+                if (response.statusCode === 201) {
+                    console.log("Liked successfully!");
+                    setIsLiked(true);
+                    setLikeCount((prevCount) => prevCount + 1);
+                    setLikedBy((prevList) => [...prevList, response.data.user]);
+                }
+            }
+        } catch (error) {
+            console.error("Error toggling like:", error);
+        }
+    };
+
+    const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
+    const handleBookmark = async (postId) => {
+        try {
+            const response = await networkRequest("POST", API_ENDPOINTS.POST_BOOKMARK, { postId: postId });
+            if (response.statusCode === 201) {
+                console.log("bookmark successfully!", response);
+                setBookmarkedPosts((prev) => [...prev, postId]);
+                window.location.reload();
+            } else {
+                console.error("Failed to bookmark");
+            }
+        } catch (error) {
+            console.error("Error in bookmark operation:", error);
+        }
+    };
+
+    const handleBookmarkRemove = async (postId) => {
+        try {
+            const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_BOOKMARK, { postId });
+            if (response.statusCode === 200) {
+                console.log("bookmark remove successfully!", response);
+                window.location.reload();
+            } else {
+                console.error("Failed to bookmark");
+            }
+        } catch (error) {
+            console.error("Error in bookmark operation:", error);
         }
     };
 
@@ -456,31 +481,29 @@ function SocialMedia() {
                                         onChange={(e) => setPostContent(e.target.value)}
                                         style={{
                                             borderRadius: "50px",
-                                            height: "50%",
-                                            //width: "100%",
-                                            //padding: "10px",
-                                            //resize: "none",
-                                            //border: "1px solid #ccc",
+                                            height: "40px",
+                                            width: "100%",
+                                            padding: "10px",
+                                            resize: "none",
+                                            border: "1px solid #ccc",
+                                            textAlign: "left",
                                         }}
                                     ></textarea>
-                                    {/* <div className="abs-area position-absolute d-none d-sm-block">
-                                        <i className="material-symbols-outlined mat-icon xxltxt"> sentiment_satisfied </i>
-                                    </div> */}
-                                    <ul className="d-flex justify-content-between flex-wrap mt-3 gap-3">
-                                        <li className="d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#photoVideoMod">
+                                    <ul className="d-flex justify-content-between flex-wrap">
+                                        <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#photoVideoMod">
                                             <img src="assets/images/socialsidebar/galleryicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
-                                            <span>Photo/Video</span>
+                                            <span style={{ color: "#1565c0" }}>Photo/Video</span>
                                         </li>
-                                        <li className="d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#activityMod">
+                                        <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
                                             <img src="assets/images/socialsidebar/emojiicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
-                                            <span>GIF/Emoji</span>
+                                            <span style={{ color: "#1565c0" }}>GIF/Emoji</span>
                                         </li>
-                                        <li className="d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#activityMod">
+                                        <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
                                             <img src="assets/images/socialsidebar/pollicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
-                                            <span>Poll</span>
+                                            <span style={{ color: "#1565c0" }}>Poll</span>
                                         </li>
-                                        <li className="d-flex align-items-center gap-2">
-                                            <button onClick={handlePostSubmit} className="cmn-btn" style={{ borderRadius: "50px", backgroundColor: "#9A00A9" }}>Post</button>
+                                        <li className="d-flex align-items-center gap-1 me-3">
+                                            <button onClick={handlePostSubmit} className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "35px" }}>POST</button>
                                         </li>
                                     </ul>
                                 </form>
@@ -506,27 +529,6 @@ function SocialMedia() {
                                                 </div>
                                                 <div className="btn-group cus-dropdown">
                                                     {post.user._id !== user._id && (
-                                                        // <button
-                                                        //     className="cmn-btn me-3"
-                                                        //     style={{
-                                                        //         borderRadius: "50px",
-                                                        //         backgroundColor: followedPosts.includes(post.user._id) ? "#D0F0E8" : "#F5E6F6",
-                                                        //         color: followedPosts.includes(post.user._id) ? "#007B5F" : "#9A00A9",
-                                                        //     }}
-                                                        //     onClick={() => handlePostFollowToggle(post.user._id)}
-                                                        //     onMouseEnter={(e) => {
-                                                        //         if (followedPosts.includes(post.user._id)) {
-                                                        //             e.target.textContent = "Unfollow";
-                                                        //         }
-                                                        //     }}
-                                                        //     onMouseLeave={(e) => {
-                                                        //         if (followedPosts.includes(post.user._id)) {
-                                                        //             e.target.textContent = "Following";
-                                                        //         }
-                                                        //     }}
-                                                        // >
-                                                        //     {followedPosts.includes(post.user._id) ? "Following" : "Follow"}
-                                                        // </button>
                                                         <button
                                                             className="cmn-btn me-3"
                                                             style={{
@@ -558,23 +560,26 @@ function SocialMedia() {
                                                         <i className="material-symbols-outlined fs-xxl m-0"> more_horiz </i>
                                                     </button>
                                                     <ul
-                                                        className={`dropdown-menu p-4 pt-2 ${openDropdown === post._id ? "show fade-in" : ""}`}
+                                                        className={`dropdown-menu p-4 mt-8 pt-2 ${openDropdown === post._id ? "show fade-in" : ""} `}
                                                         style={{
                                                             display: openDropdown === post._id ? "block" : "none",
                                                         }}
                                                     >
-                                                        <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                                <i className="material-symbols-outlined mat-icon"> bookmark_add </i>
-                                                                <span>Saved Post</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                                <i className="material-symbols-outlined mat-icon"> person_remove </i>
-                                                                <span>Unfollow</span>
-                                                            </a>
-                                                        </li>
+                                                        {post.isBookMarked ? (
+                                                            <li>
+                                                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(post._id)}>
+                                                                    <i className="material-symbols-outlined mat-icon">delete</i>
+                                                                    <span>Remove Post</span>
+                                                                </a>
+                                                            </li>
+                                                        ) : (
+                                                            <li>
+                                                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmark(post._id)}>
+                                                                    <i className="material-symbols-outlined mat-icon">bookmark_add</i>
+                                                                    <span>Save Post</span>
+                                                                </a>
+                                                            </li>
+                                                        )}
                                                         <li>
                                                             <a className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> hide_source </i>
@@ -617,39 +622,61 @@ function SocialMedia() {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="total-react-share pb-0 d-center gap-2 flex-wrap justify-content-between">
-                                            <div className="friends-list d-flex gap-3 align-items-center text-center">
-                                                <ul className="d-flex align-items-center justify-content-center">
-                                                    <li><img src="assets/images/avatar-2.png" alt="image" /></li>
-                                                    <li><img src="assets/images/avatar-3.png" alt="image" /></li>
-                                                    <li><img src="assets/images/avatar-4.png" alt="image" /></li>
-                                                    <li><span className="mdtxt d-center">8+</span></li>
-                                                </ul>
-                                            </div>
-                                            <button className="mdtxt">{post.commentCount} Comments</button>
-                                            <button className="mdtxt">{post.repostCount} Shares</button>
-                                        </div>
                                         <div className="like-comment-share py-5 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                                <i className="material-symbols-outlined mat-icon"> favorite </i>
-                                                Like
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post._id, post.isLiked)}>
+                                                <i className="material-symbols-outlined mat-icon">
+                                                    {post.isLiked?.userId === user._id ? "favorite" : "favorite_border"}
+                                                </i>
+                                                {post.isLiked?.userId === user._id ? "Liked" : "Like"} {post.likeCount}
+                                                <div className="friends-list d-flex gap-3 align-items-center text-center">
+                                                    <ul className="d-flex align-items-center justify-content-center">
+                                                        {post.isLiked && post.isLiked.userId && (
+                                                            <li key={post.isLiked.userId}>
+                                                                <img
+                                                                    src={post.user.profilePicture || "assets/images/navbar/picture.png"}
+                                                                    alt="User Avatar"
+                                                                    style={{ borderRadius: "50%", width: "30px", height: "30px" }}
+                                                                />
+                                                            </li>
+                                                        )}
+                                                        {post.likeCount > 3 && <li><span className="mdtxt d-center">{post.likeCount - 3}+</span></li>}
+                                                    </ul>
+                                                </div>
                                             </button>
                                             <button className="d-center gap-1 gap-sm-2 mdtxt">
                                                 <i className="material-symbols-outlined mat-icon"> chat </i>
-                                                Comment
+                                                Comment {post.commentCount}
                                             </button>
                                             <button className="d-center gap-1 gap-sm-2 mdtxt">
                                                 <i className="material-symbols-outlined mat-icon"> share </i>
-                                                Share
+                                                Share {post.repostCount}
                                             </button>
                                         </div>
-                                        <form action="#">
+                                        <form onSubmit={(e) => {
+                                            e.preventDefault();
+                                            const content = e.target.elements.commentInput.value;
+                                            const media = null;
+                                            submitComment(post._id, content, media);
+                                            setCommentInput('')
+                                        }} >
                                             <div className="d-flex mt-5 gap-3">
                                                 <div className="profile-box d-none d-xxl-block">
                                                     <a href="#"><img src={user.profilePicture || "assets/images/navbar/picture.png"} className="max-un" alt="icon" style={{ borderRadius: "50px", width: "40px" }} /></a>
                                                 </div>
-                                                <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100" style={{ borderRadius: "50px", }}>
-                                                    <input placeholder="Write a comment.." />
+                                                <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100" style={{
+                                                    borderRadius: "50px",
+                                                    height: "40px",
+                                                    width: "100%",
+                                                    padding: "10px",
+                                                    resize: "none",
+                                                    border: "1px solid #ccc",
+                                                    textAlign: "left",
+                                                }}>
+                                                    <input placeholder="Write a comment.."
+                                                        name="commentInput"
+                                                        value={commentInput}
+                                                        onChange={(e) => setCommentInput(e.target.value)}
+                                                    />
                                                     <div className="file-input d-flex gap-1 gap-md-2">
                                                         <div className="file-upload">
                                                             <label className="file">
@@ -673,12 +700,46 @@ function SocialMedia() {
                                                     </div>
                                                 </div>
                                                 <div className="btn-area d-flex">
-                                                    <button className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", }}>
+                                                    <button type="submit" className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "38px" }}>
                                                         <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </form>
+                                        {getVisibleComments(post._id).map((comment) => (
+                                            <div div key={comment._id} className="comments-area mt-5" >
+                                                <div className="single-comment-area ms-1 ms-xxl-15">
+                                                    <div className="parent-comment d-flex gap-2 gap-sm-4">
+                                                        <div className=" d-center align-items-baseline">
+                                                            <img className="avatar-img max-un" src={comment.user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
+                                                        </div>
+                                                        <div className="info-item active">
+                                                            <div className="top-area px-4 py-3 d-flex gap-3 align-items-start justify-content-between">
+                                                                <div className="title-area">
+                                                                    <h6 className="m-0 mb-3"><a href="public-profile-post.html">{comment.user.userName}</a></h6>
+                                                                    <p className="mdtxt">{comment.content}</p>
+                                                                </div>
+                                                            </div>
+                                                            <form action="#" className="comment-form">
+                                                                <div className="d-flex gap-3">
+                                                                    <input placeholder="Write a comment.." className="py-3" />
+                                                                    <button className="cmn-btn px-2 px-sm-5 px-lg-6" >
+                                                                        <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {post.commentCount > 2 && (
+                                            <div className="read-more-area mt-3 text-center">
+                                                <button className="cmn-btn" onClick={() => handleReadMore(post._id)} style={{ borderRadius: "50px" }}>
+                                                    {showAll[post._id] ? "Show Less" : "Show More"}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                                 {/* <div className="post-single-box p-3 p-sm-5">
@@ -1555,7 +1616,7 @@ function SocialMedia() {
                     <div className="row">
                         <div className="col-lg-8">
                             {/* <div className="modal cmn-modal fade" id="photoVideoMod" tabIndex="-1" aria-hidden="true"> */}
-                            <div className={`modal cmn-modal ${isModalOpen ? "fade show" : "fade"}`}
+                            <div className={`modal cmn - modal ${isModalOpen ? "fade show" : "fade"} `}
                                 id="photoVideoMod"
                                 tabIndex="-1"
                                 style={{ display: isModalOpen ? 'block' : 'none' }}
