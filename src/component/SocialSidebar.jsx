@@ -47,7 +47,7 @@ function SocialSidebar() {
                             <img className="avatar-img max-un" src={user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ width: "40px" }} />
                         </div>
                         <div className="text-area">
-                            <h6 className="m-0 mb-1"><a href="profile-post.html">{user.userName}</a></h6>
+                            <h6 className="m-0 mb-1"><Link to="/socialMedia">{user.userName}</Link></h6>
                             <p className="mdtxt">@{user.userName}</p>
                         </div>
                     </div>

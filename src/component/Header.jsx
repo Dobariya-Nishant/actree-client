@@ -155,10 +155,10 @@ function Header() {
                 <nav className="navbar navbar-expand-lg p-0">
                     <div className="container">
                         <nav className="navbar w-100 navbar-expand-lg justify-content-betweenm">
-                            <Link to="index.html" className="navbar-brand">
+                            <Link to="/socialMedia" className="navbar-brand">
                                 <img src="assets/images/navbar/activatreelogo.png" className="activatreelogo" alt="Activatree Logo" />
                             </Link>
-                            <Link to="index.html" className="navbar-brand">
+                            <Link to="socialMedia" className="navbar-brand">
                                 <img src="assets/images/navbar/ATlogo.png" className="ATlogo" alt="AT Logo" style={{ maxWidth: "30px" }} />
                             </Link>
                             <ul className="navbar-nav feed flex-row gap-xl-20 gap-lg-10 gap-sm-7 gap-1 py-4 py-lg-0 m-lg-auto ms-auto ms-aut align-self-center">
