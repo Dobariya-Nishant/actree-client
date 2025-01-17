@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 import Header from "./component/Header";
 import { SignUpProvider } from "./context/SignUpContext";
 
@@ -28,7 +29,6 @@ import Livestream from "./component/Livestream";
 
 function App() {
   const location = useLocation();
-
   const hideHeaderPaths = [
     "/login",
     "/signup",
@@ -41,12 +41,12 @@ function App() {
 
   return (
     <>
-      {/* {location.pathname !== "/login" &&
+      {location.pathname !== "/login" &&
         location.pathname !== "/signup" &&
         location.pathname !== "/individualSignUp" &&
-        location.pathname !== "connectSocials" && <Header />} */}
+        location.pathname !== "connectSocials" && <Header />}
 
-      <SignUpProvider>
+      {/* <SignUpProvider>
         {!shouldHideHeader && <Header />}
 
         <Routes>
@@ -73,9 +73,136 @@ function App() {
           <Route path="/livestream" element={<Livestream />} />
           <Route path="/auth/callback" element={<OAuthCallback />} />
         </Routes>
+      </SignUpProvider> */}
+      <SignUpProvider>
+        {!shouldHideHeader && <Header />}
+
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/individualSignUp" element={<IndividualSignUp />} />
+          <Route path="/connectSocials" element={<ConnectSocials />} />
+          <Route path="/interestSignup" element={<InterestSignup />} />
+
+          {/* Protected Routes */}
+          {/* <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          /> */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/socialMedia"
+            element={
+              <ProtectedRoute>
+                <SocialMedia />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/marketPlace"
+            element={
+              <ProtectedRoute>
+                <MarketPlace />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/discussionForum"
+            element={
+              <ProtectedRoute>
+                <DiscussionForum />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/monetize"
+            element={
+              <ProtectedRoute>
+                <Monetize />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/activapost"
+            element={
+              <ProtectedRoute>
+                <ActivaPost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/video"
+            element={
+              <ProtectedRoute>
+                <Video />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/friendsrequest"
+            element={
+              <ProtectedRoute>
+                <FrindRequest />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/follwing"
+            element={
+              <ProtectedRoute>
+                <Following />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/followers"
+            element={
+              <ProtectedRoute>
+                <Followers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bookmark"
+            element={
+              <ProtectedRoute>
+                <Bookmark />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/group"
+            element={
+              <ProtectedRoute>
+                <Group />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/livestream"
+            element={
+              <ProtectedRoute>
+                <Livestream />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
+        </Routes>
       </SignUpProvider>
     </>
   );
 }
-
 export default App;

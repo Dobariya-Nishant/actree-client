@@ -249,7 +249,7 @@ const Home = () => {
                     }}
                 >
                     <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
-                        © 2024 Activatree, a Subsidiary of Infotree, Inc.
+                        © 2024 Activatree, a Subsidiary of Infinatree, Inc.
                     </Typography>
                 </Box>
             </footer >
