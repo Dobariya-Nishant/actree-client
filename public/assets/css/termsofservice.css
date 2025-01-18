@@ -1,0 +1,199 @@
+.title-terms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.title-terms img {
+  width: 2%;
+  height: 2%;
+}
+
+.title-terms p {
+  font-size: 18px;
+  font-family: "Poppins, Regular", sans-serif;
+  font-weight: normal;
+  margin: 0px;
+}
+
+.terms-summury {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+.terms-summury img {
+  width: 9%;
+  position: relative;
+  left: 165px;
+  top: -20px;
+}
+
+.terms-summury h1 {
+  font-size: 52px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 700;
+}
+
+.terms-summury p {
+  font-size: 26px;
+  font-family: poppins;
+  font-weight: 600;
+  width: 94%;
+  text-align: center;
+  margin-top: 0px;
+}
+
+li img {
+  width: 2%;
+}
+
+.acceptance-terms h2 {
+  font-size: 20px;
+  font-family: "poppins, semibold" sans-serif !important;
+  font-weight: bold;
+}
+
+.acceptance-terms p {
+  font-size: 16px;
+  font-family: "poppins, regular" sans-serif !important;
+  font-weight: normal;
+  color: #2d2e2e;
+}
+
+.acceptance-terms li span {
+  font-size: 16px;
+  font-family: "poppins, semibold" sans-serif !important;
+  font-weight: 600;
+}
+
+.activatree-details p span {
+  font-size: 16px;
+  font-family: "poppins, semibold" sans-serif !important;
+  font-weight: 600;
+}
+
+.activatree-details p {
+  font-size: 16px;
+  font-family: "poppins, semibold" sans-serif !important;
+  font-weight: 500;
+}
+
+.welcome-activatree p {
+  font-size: 16px;
+  font-family: "poppins, semibold" sans-serif !important;
+  font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+  .privacy-summury img {
+    left: 130px;
+    width: 12%;
+  }
+
+  .privacy-summury h1 {
+    font-size: 42px;
+  }
+
+  .welcome-activatree p {
+    font-size: 14px;
+  }
+
+  .acceptance-terms h2 {
+    font-size: 18px;
+  }
+
+  .acceptance-terms p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 992px) {
+  .title-privacy-policy {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .title-privacy-policy img {
+    width: 5%;
+  }
+
+  .privacy-summury img {
+    width: 15%;
+    left: 80px;
+  }
+
+  .privacy-summury h1 {
+    font-size: 38px;
+  }
+
+  .welcome-activatree p {
+    font-size: 14px;
+  }
+
+  .acceptance-terms h2 {
+    font-size: 18px;
+  }
+
+  .acceptance-terms p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .privacy-summury img {
+    width: 18%;
+    left: 50px;
+    top: -10px;
+  }
+
+  .privacy-summury h1 {
+    font-size: 34px;
+  }
+
+  .welcome-activatree p {
+    font-size: 14px;
+  }
+
+  .acceptance-terms h2 {
+    font-size: 16px;
+  }
+
+  .acceptance-terms p {
+    font-size: 14px;
+  }
+
+  .title-privacy-policy img {
+    width: 6%;
+  }
+}
+
+@media (max-width: 576px) {
+  .privacy-summury img {
+    width: 22%;
+    left: 0;
+  }
+
+  .privacy-summury h1 {
+    font-size: 28px;
+  }
+
+  .welcome-activatree p {
+    font-size: 12px;
+  }
+
+  .acceptance-terms h2 {
+    font-size: 14px;
+  }
+
+  .acceptance-terms p {
+    font-size: 12px;
+  }
+
+  .title-privacy-policy img {
+    width: 8%;
+  }
+}

@@ -1,0 +1,124 @@
+.title-whatsnew {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.title-whatsnew img {
+  width: 2%;
+  height: 2%;
+}
+.title-whatsnew p {
+  font-size: 18px;
+  font-family: "Poppins, Regular", sans-serif;
+  font-weight: normal;
+  margin: 0px;
+}
+.whats-summury {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+.whats-summury img {
+  width: 9%;
+  position: relative;
+  left: 175px;
+  top: -20px;
+}
+.whats-summury h1 {
+  font-size: 52px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 700;
+}
+.whats-summury p {
+  font-size: 26px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+  width: 94%;
+  text-align: center;
+}
+.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-width: 0px !important;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .whats-summury img {
+    left: 100px;
+    width: 12%;
+  }
+
+  .whats-summury h1 {
+    font-size: 40px;
+  }
+
+  .whats-summury p {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 992px) {
+  .title-whatsnew {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .title-whatsnew img {
+    width: 5%;
+  }
+
+  .whats-summury img {
+    width: 14%;
+    left: 80px;
+  }
+
+  .whats-summury h1 {
+    font-size: 36px;
+  }
+
+  .whats-summury p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .whats-summury img {
+    width: 16%;
+    left: 50px;
+    top: -10px;
+  }
+
+  .whats-summury h1 {
+    font-size: 32px;
+  }
+
+  .whats-summury p {
+    font-size: 18px;
+  }
+
+  .title-whatsnew img {
+    width: 6%;
+  }
+}
+
+@media (max-width: 576px) {
+  .whats-summury img {
+    width: 20%;
+    left: 0;
+  }
+
+  .whats-summury h1 {
+    font-size: 28px;
+  }
+
+  .whats-summury p {
+    font-size: 16px;
+  }
+
+  .title-whatsnew img {
+    width: 8%;
+  }
+}

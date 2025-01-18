@@ -1,0 +1,316 @@
+.title-investor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.title-investor img {
+  width: 2%;
+  height: 2%;
+}
+.title-investor p {
+  font-size: 18px;
+  font-family: "Poppins, Regular", sans-serif;
+  font-weight: normal;
+  margin: 0px;
+}
+.investors-summury {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+.investors-summury img {
+  width: 9%;
+  position: relative;
+  left: 165px;
+  top: -20px;
+}
+.investors-summury h1 {
+  font-size: 52px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 700;
+}
+.investors-summury p {
+  font-size: 26px;
+  font-family: poppins;
+  font-weight: 600;
+  width: 94%;
+  text-align: center;
+  margin-top: 0px;
+}
+.invest {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.invest h1 {
+  font-size: 45px;
+  font-family: "Poppins, Mixed" sans-serif;
+  font-weight: 600;
+}
+.invest p {
+  font-size: 14px;
+  font-family: "Poppins, Mixed" sans-serif;
+  font-weight: 400;
+  color: #63676a;
+}
+.innovatives {
+  border-top: 1px solid #d3d3d3;
+  height: 110px;
+  width: -webkit-fill-available;
+}
+.innovatives img {
+  width: 9%;
+  height: 75%;
+  float: inline-start;
+}
+.innovative {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.innovative h2 {
+  font-size: 34px;
+  font-family: "Poppoins, Semibold" sans-serif;
+  font-weight: 600;
+}
+.innovative p {
+  font-size: 14px;
+  font-family: "Poppoins, Semibold" sans-serif;
+  font-weight: 400;
+  color: #63676a;
+  margin-top: 10px;
+}
+.invest-engage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.investment-opportunities h2 {
+  font-size: 34px;
+  font-family: "Poppins, Semibold" sans-serif;
+  font-weight: bold;
+}
+.investment-opportunities p {
+  font-size: 16px;
+  font-family: "Poppins, Medium" sans-serif;
+  font-weight: normal;
+}
+.email-sections {
+  display: flex;
+  align-items: center;
+}
+.email-section {
+  display: flex;
+  align-items: center;
+}
+.email-section span {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-family: "poppins, medium" sans-serif;
+  font-weight: normal;
+}
+.contact-form h2 {
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+.contact-form .form-control {
+  border-radius: 30px;
+  padding: 15px;
+}
+.contact-form button {
+  border-radius: 30px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 992px) {
+  .title-investor {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .title-investor img {
+    width: 4%;
+    height: 4%;
+  }
+
+  .investors-summury img {
+    width: 15%;
+    left: auto;
+    top: -10px;
+  }
+
+  .investors-summury h1 {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .investors-summury p {
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .invest h1 {
+    font-size: 28px;
+  }
+
+  .invest p {
+    font-size: 14px;
+  }
+
+  .innovatives {
+    height: auto;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .innovatives img {
+    width: 15%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .innovative h2 {
+    font-size: 24px;
+  }
+
+  .innovative p {
+    font-size: 14px;
+  }
+
+  .investment-opportunities h2 {
+    font-size: 24px;
+  }
+
+  .investment-opportunities p {
+    font-size: 14px;
+  }
+
+  .contact-form .form-control {
+    font-size: 14px;
+  }
+
+  .contact-form button {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .investors-summury h1 {
+    font-size: 28px;
+  }
+
+  .investors-summury p {
+    font-size: 16px;
+  }
+
+  .invest {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .innovatives {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .innovatives img {
+    width: 20%;
+  }
+
+  .innovative h2 {
+    font-size: 20px;
+  }
+
+  .innovative p {
+    font-size: 12px;
+  }
+
+  .investment-opportunities h2 {
+    font-size: 20px;
+  }
+
+  .investment-opportunities p {
+    font-size: 12px;
+  }
+
+  .contact-form h2 {
+    font-size: 18px;
+  }
+
+  .contact-form .form-control {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .contact-form button {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .title-investor {
+    gap: 5px;
+  }
+
+  .title-investor img {
+    width: 5%;
+  }
+
+  .investors-summury h1 {
+    font-size: 22px;
+  }
+
+  .investors-summury p {
+    font-size: 14px;
+  }
+
+  .invest {
+    padding: 10px;
+  }
+
+  .innovatives img {
+    width: 25%;
+  }
+
+  .innovative h2 {
+    font-size: 18px;
+  }
+
+  .innovative p {
+    font-size: 12px;
+  }
+
+  .investment-opportunities h2 {
+    font-size: 18px;
+  }
+
+  .investment-opportunities p {
+    font-size: 12px;
+  }
+
+  .contact-form h2 {
+    font-size: 16px;
+  }
+
+  .contact-form .form-control {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .contact-form button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}

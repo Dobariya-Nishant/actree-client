@@ -1,0 +1,268 @@
+.title-aboutus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.title-aboutus img {
+  width: 2%;
+  height: 2%;
+}
+.title-aboutus p {
+  font-size: 18px;
+  font-family: "Poppins, Regular", sans-serif;
+  font-weight: normal;
+  margin: 0px;
+}
+.about-summury {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+.about-summury img {
+  width: 9%;
+  position: relative;
+  left: 165px;
+  top: -20px;
+}
+.about-summury h1 {
+  font-size: 52px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 700;
+}
+.about-summury p {
+  font-size: 26px;
+  font-family: poppins;
+  font-weight: 600;
+  width: 94%;
+  text-align: center;
+}
+.about-details h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.about-details p {
+  font-size: 14px;
+  font-family: "poppins, semibold" sans-serif;
+  font-weight: normal;
+}
+.about-details1 p {
+  font-size: 20px;
+  font-family: "poppins, bold" sans-serif;
+  font-weight: 600;
+  margin-top: 0px;
+}
+.history {
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #8d8d8d;
+}
+.history h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.history p {
+  font-size: 14px;
+  font-family: "poppins, semibold" sans-serif;
+  font-weight: normal;
+}
+.about-profile h4 {
+  font-size: 20px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 600;
+}
+.about-profile p {
+  font-size: 14px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 500;
+}
+.ourmission h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+
+.ourmission h4 {
+  font-size: 20px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.ourmission p {
+  font-size: 14px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 300;
+}
+.ourmission img {
+  width: 70%;
+  float: inline-end;
+}
+.rooting img {
+  width: 85%;
+}
+.rooting h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.ourmission h4 {
+  font-size: 20px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.ourmission p {
+  font-size: 14px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 300;
+}
+.branch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d3d3d3;
+}
+.sets h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.sets h4 {
+  font-size: 20px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.sets p {
+  font-size: 14px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 300;
+}
+.branch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d3d3d3;
+}
+.futures img {
+  width: 80%;
+}
+.futures h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.futures h4 {
+  font-size: 20px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 600;
+}
+.futures p {
+  font-size: 14px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 300;
+}
+.community {
+  border-radius: 10px;
+  background-image: url("../images/img/community.png");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-size: cover;
+}
+.community h2 {
+  font-size: 45px;
+  font-family: "Poppins, Bold" sans-serif;
+  font-weight: 700;
+  color: #fff;
+  width: 810px;
+  color: #9a00a9;
+}
+.community p {
+  font-size: 20px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  width: 962px;
+  color: #9a00a9;
+}
+.community h4 {
+  font-size: 24px;
+  font-family: "Poppins, SemiBold" sans-serif;
+  font-weight: 700;
+  color: #fff;
+  width: 696px;
+  color: #9a00a9;
+}
+.flowers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 0px;
+}
+.community .flowerleft {
+  width: 10%;
+  position: relative;
+  left: -375px;
+  top: 4px;
+}
+.community .flowerright {
+  width: 10%;
+  position: relative;
+  left: 375px;
+  top: 4px;
+}
+
+@media (max-width: 1024px) {
+  .about-summury img {
+    width: 30%;
+  }
+  .about-summury h1 {
+    font-size: 1.75rem;
+  }
+  .community h2,
+  .about-details h2,
+  .history h2 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-aboutus img {
+    width: 10%;
+  }
+  .about-summury img {
+    width: 40%;
+  }
+  .about-summury h1,
+  .community h2 {
+    font-size: 1.5rem;
+  }
+  .about-summury p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-aboutus {
+    flex-direction: column;
+  }
+  .about-summury img {
+    width: 60%;
+  }
+  .about-summury h1,
+  .community h2 {
+    font-size: 1.25rem;
+  }
+  .about-summury p {
+    font-size: 0.9rem;
+  }
+}

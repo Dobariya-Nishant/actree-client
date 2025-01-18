@@ -114,12 +114,36 @@ const Profile = () => {
     }
   };
 
+<<<<<<< Updated upstream
   return (
     <>
       <main className="main-content">
         <ToastContainer />
         <style>
           {`
+=======
+    return (
+        <>
+            <main className="main-content">
+                <ToastContainer />
+                <style>
+                    {`
+                        .cmn-btn:hover {
+                            background: #036dcf;
+                            color: var(--bs-white);
+                        }
+
+                        .cmn-btn {
+                            border-radius: 50px;
+                            background-color: #F5E6F6;
+                            color: #9A00A9;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 1rem;
+                            transition: background-color 0.3s, color 0.3s;
+                        }
+>>>>>>> Stashed changes
                        
                         .preview-image {
                             width: 100%;
@@ -195,6 +219,7 @@ const Profile = () => {
                             }
                         }
                     `}
+<<<<<<< Updated upstream
         </style>
         <div className="container">
           <div className="row">
@@ -204,6 +229,75 @@ const Profile = () => {
                   <div className="upload-single cover-img">
                     <div className="head-area mb-2 text-start">
                       <h6>Profile</h6>
+=======
+                </style>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="single-box p-5">
+                                <div className="col-md-12">
+                                    <div className="upload-single cover-img">
+                                        <div className="head-area mb-2 text-start">
+                                            <h6>Profile</h6>
+                                        </div>
+                                        <div className="profile-picture position-relative text-start">
+                                            <img className="preview-image w-100" src={previewCover} alt="Cover Preview" />
+                                            <div className="file-upload position-absolute p-4 bottom-0 end-0">
+                                                <label className="file text-start mt-2">
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        onChange={handleCoverPhotoChange}
+                                                        style={{ display: "none" }}
+                                                    />
+                                                    <span className="cmn-btn d-center gap-1" >
+                                                        <i className="material-symbols-outlined mat-icon fs-2"> edit_note </i>
+                                                        Change Cover Photo
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div className="top-area py-4 d-center flex-wrap gap-3 justify-content-between align-items-start">
+                                            <div className="d-flex gap-3 align-items-center">
+                                                <div className="avatar-item">
+                                                    <img className="avatar-img1 max-un" src={previewAvatar} alt="avatar" />
+                                                    <label className="avatar-upload">
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            onChange={handleAvatarPhotoChange}
+                                                            style={{ display: "none" }}
+                                                        />
+                                                        <i className="material-symbols-outlined cemeraphoto">photo_camera</i>
+                                                    </label>
+                                                </div>
+                                                <div className="text-area text-start mt-5">
+                                                    <h5 className="m-1 mb-1">{user.userName}</h5>
+                                                    <div className="friends-list d-flex flex-wrap gap-2 align-items-center text-center">
+                                                        <span className="mdtxt d-center"></span>
+                                                        <span className="mdtxt d-center">@{user.userName}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="btn-item d-center gap-3">
+                                                {user.type === 'individual' ? (
+                                                    <Link to="/individualsignup" className="cmn-btn d-center gap-1">
+                                                        <i className="material-symbols-outlined mat-icon fs-4"> person_add </i>
+                                                        Edit Profile
+                                                    </Link>
+                                                ) : (
+                                                    <Link to="/individualsignup" className="cmn-btn d-center gap-1">
+                                                        <i className="material-symbols-outlined mat-icon fs-4"> person_add </i>
+                                                        Edit Profile
+                                                    </Link>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+>>>>>>> Stashed changes
                     </div>
                     <div className="profile-picture position-relative text-start">
                       <img

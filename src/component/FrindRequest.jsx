@@ -56,7 +56,7 @@ function FrindRequest() {
                                                 </div>
                                             </div>
                                             <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Confirm</button>
+                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#D0F0E8", color: "#007B5F", borderRadius: "30px", }}>Confirm</button>
                                                 <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
                                             </div>
                                         </div>
@@ -71,11 +71,41 @@ function FrindRequest() {
                                                 </div>
                                             </div>
                                             <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Confirm</button>
+                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#D0F0E8", color: "#007B5F", borderRadius: "30px", }}>Confirm</button>
                                                 <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
                                             </div>
                                         </div>
                                         <div className="profile-area d-center justify-content-between py-4">
+                                            <div className="avatar-item d-flex gap-3 align-items-center">
+                                                <div className="position-relative">
+                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
+                                                </div>
+                                                <div className="info-area">
+                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
+                                                    <span className="mdtxt status">@juliebates</span>
+                                                </div>
+                                            </div>
+                                            <div className="btn-group cus-dropdown">
+                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#D0F0E8", color: "#007B5F", borderRadius: "30px", }}>Confirm</button>
+                                                <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
+                                            </div>
+                                        </div>
+                                        <div className="profile-area d-center justify-content-between py-4">
+                                            <div className="avatar-item d-flex gap-3 align-items-center">
+                                                <div className="position-relative">
+                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
+                                                </div>
+                                                <div className="info-area">
+                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
+                                                    <span className="mdtxt status">@juliebates</span>
+                                                </div>
+                                            </div>
+                                            <div className="btn-group cus-dropdown">
+                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#D0F0E8", color: "#007B5F", borderRadius: "30px", }}>Confirm</button>
+                                                <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
+                                            </div>
+                                        </div>
+                                        {/* <div className="profile-area d-center justify-content-between py-4">
                                             <div className="avatar-item d-flex gap-3 align-items-center">
                                                 <div className="position-relative">
                                                     <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
@@ -209,37 +239,7 @@ function FrindRequest() {
                                                 <button className="cmn-btn me-3" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Confirm</button>
                                                 <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
                                             </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Confirm</button>
-                                                <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
-                                            </div>
-                                        </div>
-                                        <div className="profile-area d-center justify-content-between py-4">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="#">Julie Bates</a></h6>
-                                                    <span className="mdtxt status">@juliebates</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button className="cmn-btn me-3" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>Confirm</button>
-                                                <button className="cmn-btn" style={{ backgroundColor: "#FFD3C6", color: "#FF4747", borderRadius: "30px", }}>Delete</button>
-                                            </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>

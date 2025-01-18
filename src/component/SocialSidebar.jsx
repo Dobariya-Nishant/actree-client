@@ -86,7 +86,7 @@ function SocialSidebar() {
 
                             { path: "/video", label: "Video/Vlog", icon: "video.png" },
                             { path: "/friendsrequest", label: "Friends Request", icon: "friendsrequest.png" },
-                            { path: "/follwing", label: "Following", icon: "follwing.png" },
+                            { path: "/following", label: "Following", icon: "follwing.png" },
                             { path: "/followers", label: "Followers", icon: "followers.png" },
                             { path: "/bookmark", label: "Bookmarks", icon: "bookmark.png" },
                             { path: "/group", label: "Group", icon: "group.png" },

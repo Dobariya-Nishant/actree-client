@@ -69,7 +69,7 @@ const Login = () => {
 
     const options = {
       redirect_uri:
-        env.GOOGLE_REDIRECT_URL || "http://localhost:3000/auth/callback",
+        "http://localhost:3000/auth/callback",
       client_id:
         env.GOOGLE_CLIENT_ID ||
         "274136206982-naj76ba4l49nqieh60ce0o4lkep704n3.apps.googleusercontent.com",
@@ -147,6 +147,7 @@ const Login = () => {
           }
           localStorage.setItem("token", response?.data?.session?.token);
           localStorage.setItem("user", JSON.stringify(response.data));
+          window.location.href = "/socialMedia";
           navigate("/socialMedia");
         }
       } catch (error) {
@@ -203,7 +204,7 @@ const Login = () => {
           px: 2,
         }}
       >
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <Box
           sx={{
             flex: 1,
@@ -390,7 +391,7 @@ const Login = () => {
           <Button
             variant="contained"
             onClick={handleSubmit}
-            disabled={!selectedOption}
+            //disabled={!selectedOption}
             sx={{
               background:
                 "linear-gradient(to right, #9A00A9, #580097, #29008B)",

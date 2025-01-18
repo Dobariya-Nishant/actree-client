@@ -93,10 +93,11 @@ const Livestream = () => {
                 <Box
                     sx={{
                         display: "flex",
-                        alignItems: "center",
                         justifyContent: "space-between",
-                        padding: "0 10%",
-                        marginBottom: "30px",
+                        padding: "0px 17% 0px 10%",
+                        marginBottom: "10px",
+                        borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+                        paddingBottom: "20px",
                     }}
                 >
                     <img
@@ -105,63 +106,40 @@ const Livestream = () => {
                         style={{
                             maxWidth: "20%",
                             height: "auto",
-                            borderRadius: 8,
+                            marginLeft: "11%",
                         }}
                     />
-
-                    <Box sx={{ display: "flex", gap: "15px" }}>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/instagram.png"
-                                alt="Instagram"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/facebook.png"
-                                alt="Facebook"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/x.png"
-                                alt="X"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/linkdin.png"
-                                alt="LinkedIn"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/tiktok.png"
-                                alt="TikTok"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/youtube.png"
-                                alt="YouTube"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
-                        <Link href="#" sx={{ color: "white" }}>
-                            <img
-                                src="assets/images/footer/uo.png"
-                                alt="UO"
-                                style={{ width: "24px" }}
-                            />
-                        </Link>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            gap: "20px",
+                            marginLeft: "8%",
+                            borderLeft: "1px solid rgba(255, 255, 255, 0.3)",
+                            borderRight: "1px solid rgba(255, 255, 255, 0.3)",
+                            paddingLeft: "1%",
+                            paddingRight: "1%",
+                            height: "45px",
+                        }}
+                    >
+                        {[
+                            "instagram",
+                            "facebook",
+                            "x",
+                            "linkdin",
+                            "tiktok",
+                            "youtube",
+                            "uo",
+                        ].map((icon, index) => (
+                            <Link href="#" key={index} sx={{ color: "white" }}>
+                                <img
+                                    src={`assets/images/footer/${icon}.png`}
+                                    alt={icon}
+                                    style={{ width: "24px" }}
+                                />
+                            </Link>
+                        ))}
                     </Box>
                 </Box>
-
                 <Box
                     sx={{
                         display: "flex",
@@ -169,169 +147,116 @@ const Livestream = () => {
                         rowGap: "20px",
                         columnGap: "50px",
                         maxWidth: "1200px",
-                        marginLeft: "10%",
-                        //borderTop: "1px solid rgba(255, 255, 255, 0.3)",
-                        paddingTop: "15px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
                     }}
                 >
-                    <Box>
-                        <Typography
-                            variant="subtitle1"
+                    {[
+                        {
+                            title: "Company",
+                            links: ["About Us", "Blog", "For Investors"],
+                        },
+                        {
+                            title: "Support",
+                            links: ["Help Center", "What's New"],
+                        },
+                        {
+                            title: "Legal",
+                            links: ["Privacy Policy", "Terms of Service"],
+                        },
+                        {
+                            title: "Contact Us",
+                            details: [
+                                {
+                                    text: "info@activatree.com",
+                                    icon: "mail",
+                                },
+                                {
+                                    text: "State of Georgia, U.S.A",
+                                    icon: "location",
+                                },
+                            ],
+                        },
+                    ].map((section, index) => (
+                        <Box
+                            key={index}
                             sx={{
-                                fontWeight: "bold",
-                                marginBottom: "10px",
-                                color: "white",
+                                flex: "1 1 calc(25% - 50px)",
+                                minWidth: "200px",
                             }}
                         >
-                            Company
-                        </Typography>
-                        <ul style={{ listStyle: "none", padding: 0 }}>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    About Us
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    Blog
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    For Investors
-                                </Link>
-                            </li>
-                        </ul>
-                    </Box>
-
-                    <Box sx={{ marginLeft: "15%" }}>
-                        <Typography
-                            variant="subtitle1"
-                            sx={{
-                                fontWeight: "bold",
-                                marginBottom: "10px",
-                                color: "white",
-                            }}
-                        >
-                            Support
-                        </Typography>
-                        <ul style={{ listStyle: "none", padding: 0, }}>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    Help Center
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    What's New
-                                </Link>
-                            </li>
-                        </ul>
-                    </Box>
-
-                    <Box sx={{ marginLeft: "15%" }}>
-                        <Typography
-                            variant="subtitle1"
-                            sx={{
-                                fontWeight: "bold",
-                                marginBottom: "10px",
-                                color: "white",
-                            }}
-                        >
-                            Legal
-                        </Typography>
-                        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    Privacy Policy
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="#" sx={{ color: "white", textDecoration: "none" }}>
-                                    Terms of Service
-                                </Link>
-                            </li>
-                        </ul>
-                    </Box>
-
-                    <Box sx={{ marginLeft: "12%" }}>
-                        <Typography
-                            variant="subtitle1"
-                            sx={{
-                                fontWeight: "bold",
-                                marginBottom: "10px",
-                                color: "white",
-                            }}
-                        >
-                            Contact Us
-                        </Typography>
-                        <Typography sx={{ color: "white", }}>
-                            <img
-                                className="me-2"
-                                src="assets/images/footer/mail.png"
-                                alt="Instagram"
-                                style={{ width: "24px" }}
-                            />
-                            info@activatree.com
-                        </Typography>
-                        <Typography sx={{ color: "white" }}>
-                            <img
-                                className="me-2"
-                                src="assets/images/footer/location.png"
-                                alt="Instagram"
-                                style={{ width: "24px" }}
-                            />
-                            State of Georgia, U.S.A
-                        </Typography>
-                    </Box>
+                            <Typography
+                                variant="subtitle1"
+                                sx={{
+                                    fontWeight: "bold",
+                                    fontSize: "16px",
+                                    marginBottom: "10px",
+                                    color: "white",
+                                }}
+                            >
+                                {section.title}
+                            </Typography>
+                            {section.links ? (
+                                <ul style={{ listStyle: "none", padding: 0 }}>
+                                    {section.links.map((link, i) => (
+                                        <li key={i}>
+                                            <Link
+                                                href="#"
+                                                sx={{
+                                                    color: "white",
+                                                    textDecoration: "none",
+                                                    fontSize: "14px",
+                                                    lineHeight: "24px",
+                                                }}
+                                            >
+                                                {link}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                section.details?.map((detail, i) => (
+                                    <Typography
+                                        key={i}
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            color: "white",
+                                            fontSize: "14px",
+                                            lineHeight: "24px",
+                                            marginTop: "10px",
+                                        }}
+                                    >
+                                        <img
+                                            src={`assets/images/footer/${detail.icon}.png`}
+                                            alt={detail.icon}
+                                            style={{
+                                                width: "20px",
+                                                marginRight: "10px",
+                                            }}
+                                        />
+                                        {detail.text}
+                                    </Typography>
+                                ))
+                            )}
+                        </Box>
+                    ))}
                 </Box>
-
                 <Box
                     sx={{
                         textAlign: "center",
                         marginTop: "30px",
                         borderTop: "1px solid rgba(255, 255, 255, 0.3)",
                         paddingTop: "15px",
+                        marginLeft: "18%",
+                        marginRight: "18%",
                     }}
                 >
-                    <Typography variant="body2" sx={{ color: "white" }}>
-                        © 2024 Activatree, a Subsidiary of Infotree, Inc.
+                    <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
+                        © 2024 Activatree, a Subsidiary of Infinatree, Inc.
                     </Typography>
                 </Box>
-            </footer >
-            {/* <main className="main-content">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="filter-head d-center justify-content-between">
-                                <div className="d-center">
-                                    <button onClick={goBack} className="cmn-btn third gap-1 me-3" style={{ backgroundColor: "#F5E6F6", color: "#9A00A9", borderRadius: "30px", }}>
-                                        <img className="avatar-img max-un me-3" src="assets/images/socialsidebar/arrow.png" alt="icon" style={{ marginLeft: "-5px" }} />
-                                    </button>
-                                    <h6>Live Stream</h6>
-                                </div>
-                            </div>
-                            <div className="banner-area pages-create mb-5">
-                                <div className="single-box p-5">
-                                    <div className="avatar-area">
-                                        <img className="avatar-img w-100" src="assets/images/profile-cover-img.png" alt="image" />
-                                    </div>
-                                    <div className="top-area py-4 d-center flex-wrap gap-3 justify-content-between align-items-start">
-                                        <div className="d-flex gap-3 align-items-center">
-                                            <div className="avatar-item p">
-                                                <img className="avatar-img max-un" src="assets/images/avatar-14.png" alt="avatar" />
-                                            </div>
-                                            <div className="text-area text-start">
-                                                <h4 className="m-0 mb-2">Live Stream Comming Soon</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main> */}
+            </footer>
         </>
     );
 }

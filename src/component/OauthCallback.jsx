@@ -29,6 +29,7 @@ const OAuthCallback = () => {
       localStorage.setItem("token", response?.data?.session?.token);
 
       localStorage.setItem("user", JSON.stringify(response.data));
+      window.location.href = "/socialMedia";
       navigate("/socialMedia");
     } else {
       // Handle error: code not found or other issues

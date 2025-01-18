@@ -233,13 +233,60 @@ function Header() {
                                 </li>
                                 {!token && (
                                     <li className="d-flex">
-                                        <Link to="/login" className="cmn-btn" style={{ border: "1px solid black", color: "black", borderRadius: "30px" }}>
-                                            <div className="icon-container">
-                                                <span style={{ color: "black" }}>Login</span>
-                                            </div>
+                                        <Link
+                                            to="/login"
+                                            className="cmn-btn me-2"
+                                            style={{
+                                                border: "1px solid black",
+                                                color: "black",
+                                                borderRadius: "30px",
+                                                height: "40px",
+                                                width: "90px",
+                                                marginTop: "10px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            <span style={{ color: "#131010", fontWeight: "bold" }}>Log In</span>
+                                        </Link>
+                                        <Link
+                                            to="/signup"
+                                            className="cmn-btn"
+                                            style={{
+                                                border: "1px solid black",
+                                                color: "black",
+                                                background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
+                                                borderRadius: "30px",
+                                                height: "40px",
+                                                width: "110px",
+                                                marginTop: "10px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            <span style={{ color: "white", fontWeight: "bold" }}>Join Now</span>
                                         </Link>
                                     </li>
                                 )}
+
+                                {/* {!token && (
+                                    <li className="d-flex">
+                                        <Link to="/login" className="cmn-btn me-2" style={{ border: "1px solid black", color: "black", borderRadius: "30px", height: "50%", width: "70%", marginTop: "10px", textAlign: "center" }}>
+                                            <div className="icon-container">
+                                                <span style={{ color: "#131010", fontWeight: "bold", textAlign: "center" }}>Log In</span>
+                                            </div>
+                                        </Link>
+                                        <Link to="/signup" className="cmn-btn" style={{ border: "1px solid black", color: "black", background: "linear-gradient(to right, #9A00A9, #580097, #29008B)", borderRadius: "30px", height: "50%", width: "70%", marginTop: "10px", textAlign: "center" }}>
+                                            <div className="icon-container">
+                                                <span style={{ color: "white", fontWeight: "bold", }}>Join Now</span>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                )} */}
                             </ul>
                             {token && user && (
                                 <div className="right-area position-relative d-flex gap-3 gap-xxl-6 align-items-center">
@@ -258,7 +305,7 @@ function Header() {
                                                         </div>
                                                         <div className="text-area">
                                                             <h6 className="m-0 mb-1">{user.userName}</h6>
-                                                            <p className="mdtxt">{user.type}</p>
+                                                            <p className="mdtxt"> {user.type ? user.type.charAt(0).toUpperCase() + user.type.slice(1) : ""}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -306,8 +353,8 @@ function Header() {
                             )}
                         </nav>
                     </div>
-                </nav>
-            </header>
+                </nav >
+            </header >
         </>
     );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 import Header from "./component/Header";
 import { SignUpProvider } from "./context/SignUpContext";
 
@@ -12,6 +13,14 @@ import ConnectSocials from "./component/ConnectSocials";
 import InterestSignup from "./component/InterestSignup";
 
 import Home from "./component/Home";
+import AboutUs from "./component/AboutUs";
+import Blog from "./component/Blog";
+import Investors from "./component/Investors";
+import Helpcenter from "./component/Helpcenter";
+import Whatsnew from "./component/Whatsnew";
+import Privacypolicy from "./component/Privacypolicy";
+import Termsofservice from "./component/Termsofservice";
+
 import SocialMedia from "./component/SocialMedia";
 import MarketPlace from "./component/MarketPlace";
 import DiscussionForum from "./component/DiscussionForum";
@@ -26,6 +35,7 @@ import Followers from "./component/Followers";
 import Bookmark from "./component/Bookmark";
 import Group from "./component/Group";
 import Livestream from "./component/Livestream";
+import NotFound from "./component/NotFound";
 
 function App() {
   const location = useLocation();
@@ -41,10 +51,10 @@ function App() {
 
   return (
     <>
-      {location.pathname !== "/login" &&
+      {/* {location.pathname !== "/login" &&
         location.pathname !== "/signup" &&
         location.pathname !== "/individualSignUp" &&
-        location.pathname !== "connectSocials" && <Header />}
+        location.pathname !== "connectSocials" && <Header />} */}
 
       {/* <SignUpProvider>
         {!shouldHideHeader && <Header />}
@@ -66,7 +76,7 @@ function App() {
           <Route path="/activapost" element={<ActivaPost />} />
           <Route path="/video" element={<Video />} />
           <Route path="/friendsrequest" element={<FrindRequest />} />
-          <Route path="/follwing" element={<Following />} />
+          <Route path="/following" element={<Following />} />
           <Route path="/followers" element={<Followers />} />
           <Route path="/bookmark" element={<Bookmark />} />
           <Route path="/group" element={<Group />} />
@@ -74,11 +84,11 @@ function App() {
           <Route path="/auth/callback" element={<OAuthCallback />} />
         </Routes>
       </SignUpProvider> */}
-      <SignUpProvider>
+
+      {/* <SignUpProvider>
         {!shouldHideHeader && <Header />}
 
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
@@ -86,15 +96,6 @@ function App() {
           <Route path="/connectSocials" element={<ConnectSocials />} />
           <Route path="/interestSignup" element={<InterestSignup />} />
 
-          {/* Protected Routes */}
-          {/* <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route
             path="/profile"
             element={
@@ -200,6 +201,170 @@ function App() {
             }
           />
           <Route path="/auth/callback" element={<OAuthCallback />} />
+        </Routes>
+      </SignUpProvider> */}
+
+      {!shouldHideHeader && <Header />}
+      <SignUpProvider>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/investors" element={<Investors />} />
+          <Route path="/help-center" element={<Helpcenter />} />
+          <Route path="/whats-new" element={<Whatsnew />} />
+          <Route path="/privacy-policy" element={<Privacypolicy />} />
+          <Route path="/terms-of-service" element={<Termsofservice />} />
+
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
+          <Route path="/individualsignup" element={<IndividualSignUp />} />
+          <Route path="/connectSocials" element={<ConnectSocials />} />
+          <Route path="/interestSignup" element={<InterestSignup />} />
+
+          {/* Protected Routes */}
+          {/* <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          /> */}
+          {/* <Route
+            path="/individualsignup"
+            element={
+              <ProtectedRoute>
+                <IndividualSignUp />
+              </ProtectedRoute>
+            }
+          /> */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/socialMedia"
+            element={
+              <ProtectedRoute>
+                <SocialMedia />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/marketPlace"
+            element={
+              <ProtectedRoute>
+                <MarketPlace />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/discussionForum"
+            element={
+              <ProtectedRoute>
+                <DiscussionForum />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/monetize"
+            element={
+              <ProtectedRoute>
+                <Monetize />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/activapost"
+            element={
+              <ProtectedRoute>
+                <ActivaPost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/video"
+            element={
+              <ProtectedRoute>
+                <Video />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/friendsrequest"
+            element={
+              <ProtectedRoute>
+                <FrindRequest />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/following"
+            element={
+              <ProtectedRoute>
+                <Following />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/followers"
+            element={
+              <ProtectedRoute>
+                <Followers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bookmark"
+            element={
+              <ProtectedRoute>
+                <Bookmark />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/group"
+            element={
+              <ProtectedRoute>
+                <Group />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/livestream"
+            element={
+              <ProtectedRoute>
+                <Livestream />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/auth/callback" element={<OAuthCallback />} />
+
+          {/* Catch-all Route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </SignUpProvider>
     </>

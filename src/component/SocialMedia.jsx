@@ -137,8 +137,6 @@ function SocialMedia(post) {
         }
     };
 
-
-
     const isValidImageUrl = (url) => {
         return (url && url.match(/\.(jpeg|jpg|gif|png)$/) != null);
     };
@@ -280,6 +278,7 @@ function SocialMedia(post) {
     const [comments, setComments] = useState([]);
     const [commentInput, setCommentInput] = useState("");
     const [showAll, setShowAll] = useState({});
+    const [activePostId, setActivePostId] = useState(null);
     const handleReadMore = (postId) => {
         setShowAll((prevState) => ({
             ...prevState,
@@ -325,6 +324,11 @@ function SocialMedia(post) {
         } catch (error) {
             console.error("Error fetching comments:", error);
         }
+    };
+
+    const handleOpenModal = (postId) => {
+        setActivePostId(postId);
+        fetchComments(postId);
     };
 
     const [isLiked, setIsLiked] = useState(false);
@@ -385,6 +389,20 @@ function SocialMedia(post) {
             }
         } catch (error) {
             console.error("Error in bookmark operation:", error);
+        }
+    };
+
+    const handleDeletePost = async (postId) => {
+        try {
+            const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_POST, { postId });
+            if (response.statusCode === 200) {
+                console.log("delete post successfully!", response);
+                window.location.reload();
+            } else {
+                console.error("Failed to delete post");
+            }
+        } catch (error) {
+            console.error("Error in delete post operation:", error);
         }
     };
 
@@ -472,23 +490,19 @@ function SocialMedia(post) {
                                     </a>
                                 </div>
                                 <form action="#" className="w-100 position-relative">
-                                    <textarea
+                                    <input
+                                        className="mb-2"
                                         name="content"
                                         cols="10"
                                         rows="1"
-                                        placeholder="Write something to Lerio.."
+                                        placeholder={`Write something to ${user.userName || "user"}...`}
                                         value={postContent}
                                         onChange={(e) => setPostContent(e.target.value)}
                                         style={{
                                             borderRadius: "50px",
                                             height: "40px",
-                                            width: "100%",
-                                            padding: "10px",
-                                            resize: "none",
-                                            border: "1px solid #ccc",
-                                            textAlign: "left",
                                         }}
-                                    ></textarea>
+                                    ></input>
                                     <ul className="d-flex justify-content-between flex-wrap">
                                         <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#photoVideoMod">
                                             <img src="assets/images/socialsidebar/galleryicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
@@ -511,7 +525,7 @@ function SocialMedia(post) {
                             <div className="post-item d-flex flex-column gap-5 gap-md-7" id="news-feed">
                                 {posts.map((post) => (
                                     <div key={post._id} className="post-single-box p-3 p-sm-5">
-                                        <div className="top-area pb-5">
+                                        <div className="top-area pb-2">
                                             <div className="profile-area d-center justify-content-between">
                                                 <div className="avatar-item d-flex gap-3 align-items-center">
                                                     <div className="position-relative">
@@ -580,6 +594,14 @@ function SocialMedia(post) {
                                                                 </a>
                                                             </li>
                                                         )}
+                                                        {post.user._id === user._id && (
+                                                            <li>
+                                                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleDeletePost(post._id)}>
+                                                                    <i className="material-symbols-outlined mat-icon">delete</i>
+                                                                    <span>Delete Post</span>
+                                                                </a>
+                                                            </li>
+                                                        )}
                                                         <li>
                                                             <a className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> hide_source </i>
@@ -601,28 +623,30 @@ function SocialMedia(post) {
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div className="py-4">
+                                            <div className="py-2">
                                                 <p className="description">{post.content}</p>
                                             </div>
-                                            <div className="post-img">
-                                                {post.media && post.media[0] && post.media[0].type === "photos" && (
-                                                    <img src={post.media[0].url} className="w-100" alt="image" style={{ width: "100%", height: "315px" }} />
-                                                )}
-                                                {post.media && post.media[0] && post.media[0].type === "video" && (
-                                                    <div className="post-img video-item">
-                                                        <video
-                                                            controls
-                                                            width="100%"
-                                                            height="315"
-                                                        >
-                                                            <source src={post.media[0].url} type="video/mp4" />
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>
-                                                )}
-                                            </div>
+                                            {post.media && post.media[0] && (
+                                                <div className="post-img">
+                                                    {post.media && post.media[0] && post.media[0].type === "photos" && (
+                                                        <img src={post.media[0].url} className="w-100" alt="image" style={{ width: "100%", height: "315px" }} />
+                                                    )}
+                                                    {post.media && post.media[0] && post.media[0].type === "video" && (
+                                                        <div className="post-img video-item">
+                                                            <video
+                                                                controls
+                                                                width="100%"
+                                                                height="315"
+                                                            >
+                                                                <source src={post.media[0].url} type="video/mp4" />
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="like-comment-share py-5 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
+                                        <div className="like-comment-share py-2 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
                                             <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post._id, post.isLiked)}>
                                                 <i className="material-symbols-outlined mat-icon">
                                                     {post.isLiked?.userId === user._id ? "favorite" : "favorite_border"}
@@ -643,7 +667,8 @@ function SocialMedia(post) {
                                                     </ul>
                                                 </div>
                                             </button>
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt">
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModComment"
+                                                onClick={() => handleOpenModal(post._id)} >
                                                 <i className="material-symbols-outlined mat-icon"> chat </i>
                                                 Comment {post.commentCount}
                                             </button>
@@ -652,7 +677,8 @@ function SocialMedia(post) {
                                                 Share {post.repostCount}
                                             </button>
                                         </div>
-                                        <form onSubmit={(e) => {
+
+                                        {/* <form onSubmit={(e) => {
                                             e.preventDefault();
                                             const content = e.target.elements.commentInput.value;
                                             const media = null;
@@ -663,6 +689,7 @@ function SocialMedia(post) {
                                                 <div className="profile-box d-none d-xxl-block">
                                                     <a href="#"><img src={user.profilePicture || "assets/images/navbar/picture.png"} className="max-un" alt="icon" style={{ borderRadius: "50px", width: "40px" }} /></a>
                                                 </div>
+
                                                 <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100" style={{
                                                     borderRadius: "50px",
                                                     height: "40px",
@@ -700,13 +727,12 @@ function SocialMedia(post) {
                                                     </div>
                                                 </div>
                                                 <div className="btn-area d-flex">
-                                                    <button type="submit" className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "38px" }}>
-                                                        <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
+                                                    <button type="submit" className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "38px" }}>Comment
                                                     </button>
                                                 </div>
                                             </div>
-                                        </form>
-                                        {getVisibleComments(post._id).map((comment) => (
+                                        </form> */}
+                                        {/* {getVisibleComments(post._id).map((comment) => (
                                             <div div key={comment._id} className="comments-area mt-5" >
                                                 <div className="single-comment-area ms-1 ms-xxl-15">
                                                     <div className="parent-comment d-flex gap-2 gap-sm-4">
@@ -739,7 +765,7 @@ function SocialMedia(post) {
                                                     {showAll[post._id] ? "Show Less" : "Show More"}
                                                 </button>
                                             </div>
-                                        )}
+                                        )} */}
                                     </div>
                                 ))}
                                 {/* <div className="post-single-box p-3 p-sm-5">
@@ -1562,7 +1588,9 @@ function SocialMedia(post) {
                     </div>
                 </div>
             </main >
-            <ToastContainer />
+            {/* <ToastContainer /> */}
+
+
 
             <div className="go-live-popup">
                 <div className="container">
@@ -1615,12 +1643,12 @@ function SocialMedia(post) {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-8">
-                            {/* <div className="modal cmn-modal fade" id="photoVideoMod" tabIndex="-1" aria-hidden="true"> */}
-                            <div className={`modal cmn - modal ${isModalOpen ? "fade show" : "fade"} `}
+                            <div className="modal cmn-modal fade" id="photoVideoMod">
+                                {/* <div className={`modal cmn - modal ${isModalOpen ? "fade show" : "fade"} `}
                                 id="photoVideoMod"
                                 tabIndex="-1"
                                 style={{ display: isModalOpen ? 'block' : 'none' }}
-                                aria-hidden={!isModalOpen}>
+                                aria-hidden={!isModalOpen}> */}
                                 <div className="modal-dialog modal-dialog-centered">
                                     <div className="modal-content p-5">
                                         <div className="modal-header justify-content-center">
@@ -1630,6 +1658,7 @@ function SocialMedia(post) {
                                         </div>
                                         <div className="top-content pb-5">
                                             <h5>Add Post Photo/Video</h5>
+                                            <hr />
                                         </div>
                                         <div className="mid-area">
                                             <div className="d-flex mb-5 gap-3">
@@ -1639,7 +1668,7 @@ function SocialMedia(post) {
                                                 <textarea
                                                     cols="10"
                                                     rows="1"
-                                                    placeholder="Write something to Lerio.."
+                                                    placeholder={`Write something to ${user.userName || "user"}...`}
                                                     value={postContent}
                                                     onChange={(e) => setPostContent(e.target.value)}
                                                     style={{
@@ -1673,13 +1702,13 @@ function SocialMedia(post) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
-            <div className="go-live-popup">
+            {/* <div className="go-live-popup">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-8">
-                            <div className="modal cmn-modal fade" id="activityMod">
+                            <div className="modal cmn-modal fade" id="activityModComment">
                                 <div className="modal-dialog modal-dialog-centered">
                                     <div className="modal-content p-5">
                                         <div className="modal-header justify-content-center">
@@ -1688,45 +1717,188 @@ function SocialMedia(post) {
                                             </button>
                                         </div>
                                         <div className="top-content pb-5">
-                                            <h5>Create post</h5>
+                                            <h6>Comment</h6>
+                                            <hr></hr>
                                         </div>
                                         <div className="mid-area">
-                                            <div className="d-flex mb-5 gap-3">
-                                                <div className="profile-box">
-                                                    <a href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
+                                            <form onSubmit={(e) => {
+                                                e.preventDefault();
+                                                const content = e.target.elements.commentInput.value;
+                                                const media = null;
+                                                submitComment(post._id, content, media);
+                                                setCommentInput('')
+                                            }} >
+                                                <div className="d-flex mt-5 gap-3">
+                                                    <div className="profile-box d-none d-xxl-block">
+                                                        <a href="#"><img src={user.profilePicture || "assets/images/navbar/picture.png"} className="max-un" alt="icon" style={{ borderRadius: "50px", width: "40px" }} /></a>
+                                                    </div>
+
+                                                    <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100" style={{
+                                                        borderRadius: "50px",
+                                                        height: "40px",
+                                                        width: "100%",
+                                                        padding: "10px",
+                                                        resize: "none",
+                                                        border: "1px solid #ccc",
+                                                        textAlign: "left",
+                                                    }}>
+                                                        <input placeholder="Write a comment.."
+                                                            name="commentInput"
+                                                            value={commentInput}
+                                                            onChange={(e) => setCommentInput(e.target.value)}
+                                                        />
+                                                        <div className="file-input d-flex gap-1 gap-md-2">
+                                                            <div className="file-upload">
+                                                                <label className="file">
+                                                                    <input type="file" />
+                                                                    <span className="file-custom border-0 d-grid text-center">
+                                                                        <span className="material-symbols-outlined mat-icon m-0 xxltxt"> gif_box </span>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="file-upload">
+                                                                <label className="file">
+                                                                    <input type="file" />
+                                                                    <span className="file-custom border-0 d-grid text-center">
+                                                                        <span className="material-symbols-outlined mat-icon m-0 xxltxt"> perm_media </span>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                            <span className="mood-area">
+                                                                <span className="material-symbols-outlined mat-icon m-0 xxltxt"> mood </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <textarea cols="10" rows="1" placeholder="Write something to Lerio.."></textarea>
-                                            </div>
-                                            <div className="file-upload">
-                                                <label>Upload attachment</label>
-                                                <label className="file mt-1">
-                                                    <input type="file" />
-                                                    <span className="file-custom pt-8 pb-8 d-grid text-center">
-                                                        <i className="material-symbols-outlined mat-icon"> perm_media </i>
-                                                        <span>Drag here or click to upload photo.</span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div className="tooltips-area d-flex mt-3 gap-2">
-                                                <button type="button" className="btn d-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Fallings/Activity">
-                                                    <i className="material-symbols-outlined mat-icon"> mood </i>
-                                                </button>
-                                                <button type="button" className="btn d-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Video">
-                                                    <i className="material-symbols-outlined mat-icon"> movie </i>
-                                                </button>
-                                                <button type="button" className="btn d-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Maps">
-                                                    <i className="material-symbols-outlined mat-icon"> location_on </i>
-                                                </button>
-                                                <button type="button" className="btn d-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Tag">
-                                                    <i className="material-symbols-outlined mat-icon"> sell </i>
-                                                </button>
+                                                <div className="footer-area pt-5">
+                                                    <div className="btn-area d-flex justify-content-end gap-2">
+                                                        <button type="button" className="cmn-btn alt" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                        <button className="cmn-btn">Comment</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {getVisibleComments(post._id).map((comment) => (
+                                                <div div key={comment._id} className="comments-area mt-5">
+                                                    <div className="single-comment-area ms-1 ms-xxl-15">
+                                                        <div className="parent-comment d-flex gap-2 gap-sm-4">
+                                                            <div className=" d-center align-items-baseline">
+                                                                <img className="avatar-img max-un" src={comment.user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
+                                                            </div>
+                                                            <div className="info-item active">
+                                                                <div className="top-area px-4 py-3 d-flex gap-3 align-items-start justify-content-between">
+                                                                    <div className="title-area">
+                                                                        <h6 className="m-0 mb-3"><a href="public-profile-post.html">{comment.user.userName}</a></h6>
+                                                                        <p className="mdtxt">{comment.content}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <form action="#" className="comment-form">
+                                                                    <div className="d-flex gap-3">
+                                                                        <input placeholder="Write a comment.." className="py-3" />
+                                                                        <button className="cmn-btn px-2 px-sm-5 px-lg-6" >
+                                                                            <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
+            <div className="go-live-popup">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="modal cmn-modal fade" id="activityModComment">
+                                <div className="modal-dialog modal-dialog-centered">
+                                    <div className="modal-content p-5">
+                                        <div className="modal-header justify-content-center">
+                                            <button
+                                                type="button"
+                                                className="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                                <i className="material-symbols-outlined mat-icon xxltxt"> close </i>
+                                            </button>
+                                        </div>
+                                        <div className="top-content">
+                                            <h6>Comment</h6>
+                                            <hr />
+                                            <div className="comments-list" style={{
+                                                maxHeight: '600px',
+                                                overflowY: 'auto',
+                                                paddingRight: '10px'
+                                            }}>
+                                                {comments.filter(comment => comment.postId === activePostId).map((comment) => (
+                                                    <div key={comment._id} className="comments-area">
+                                                        <div className="single-comment-area ms-1">
+                                                            <div className="parent-comment d-flex gap-2 gap-sm-4">
+                                                                <div className="d-center align-items-baseline">
+                                                                    <img
+                                                                        className="avatar-img max-un"
+                                                                        src={comment.user.profilePicture || "assets/images/navbar/picture.png"}
+                                                                        alt="avatar"
+                                                                        style={{ borderRadius: "50px", width: "40px" }}
+                                                                    />
+                                                                </div>
+                                                                <div className="info-item active">
+                                                                    <div className="top-area px-4 py-3 d-flex gap-3 align-items-start justify-content-between">
+                                                                        <div className="title-area">
+                                                                            <h6 className="m-0 mb-3">
+                                                                                <a href="public-profile-post.html">{comment.user.userName}</a>
+                                                                            </h6>
+                                                                            <p className="mdtxt">{comment.content}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
-                                        <div className="footer-area pt-5">
-                                            <div className="btn-area d-flex justify-content-end gap-2">
-                                                <button type="button" className="cmn-btn alt" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                                <button className="cmn-btn">Post</button>
-                                            </div>
+                                        <div className="mid-area">
+                                            <form onSubmit={(e) => {
+                                                e.preventDefault();
+                                                const content = e.target.elements.commentInput.value;
+                                                const media = null;
+                                                submitComment(activePostId, content, media);
+                                                setCommentInput('');
+                                            }} >
+                                                <div className="d-flex mt-5 gap-3">
+                                                    <div className="profile-box d-none d-xxl-block">
+                                                        <a href="#">
+                                                            <img
+                                                                src={user.profilePicture || "assets/images/navbar/picture.png"}
+                                                                className="max-un"
+                                                                alt="icon"
+                                                                style={{ borderRadius: "50px", width: "40px" }}
+                                                            />
+                                                        </a>
+                                                    </div>
+                                                    <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
+                                                        <input
+                                                            placeholder="Write a comment.."
+                                                            name="commentInput"
+                                                            value={commentInput}
+                                                            onChange={(e) => setCommentInput(e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="footer-area pt-5">
+                                                    <div className="btn-area d-flex justify-content-end gap-2">
+                                                        <button type="button" className="cmn-btn alt" data-bs-dismiss="modal" aria-label="Close" style={{ borderRadius: "50px" }}>Cancel</button>
+                                                        <button className="cmn-btn" style={{ borderRadius: "50px" }}>Comment</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -1735,7 +1907,6 @@ function SocialMedia(post) {
                     </div>
                 </div>
             </div>
-
         </>
     );
 }
