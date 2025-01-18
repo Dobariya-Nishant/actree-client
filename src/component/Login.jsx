@@ -69,7 +69,7 @@ const Login = () => {
 
     const options = {
       redirect_uri:
-        "http://localhost:3000/auth/callback",
+        env.GOOGLE_REDIRECT_URL || "http://localhost:3000/auth/callback",
       client_id:
         env.GOOGLE_CLIENT_ID ||
         "274136206982-naj76ba4l49nqieh60ce0o4lkep704n3.apps.googleusercontent.com",
