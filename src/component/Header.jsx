@@ -156,10 +156,10 @@ function Header() {
                     <div className="container">
                         <nav className="navbar w-100 navbar-expand-lg justify-content-betweenm">
                             <Link to="/socialMedia" className="navbar-brand">
-                                <img src="assets/images/navbar/activatreelogo.png" className="activatreelogo" alt="Activatree Logo" />
+                                <img src="../assets/images/navbar/activatreelogo.png" className="activatreelogo" alt="Activatree Logo" />
                             </Link>
                             <Link to="socialMedia" className="navbar-brand">
-                                <img src="assets/images/navbar/ATlogo.png" className="ATlogo" alt="AT Logo" style={{ maxWidth: "30px" }} />
+                                <img src="../assets/images/navbar/ATlogo.png" className="ATlogo" alt="AT Logo" style={{ maxWidth: "30px" }} />
                             </Link>
                             <ul className="navbar-nav feed flex-row gap-xl-20 gap-lg-10 gap-sm-7 gap-1 py-4 py-lg-0 m-lg-auto ms-auto ms-aut align-self-center">
                                 <li>
@@ -169,8 +169,8 @@ function Header() {
                                             <img
                                                 src={
                                                     isActive("/")
-                                                        ? "assets/images/navbar/home_avtive.png"
-                                                        : "assets/images/navbar/home_defualt.png"
+                                                        ? "../assets/images/navbar/home_avtive.png"
+                                                        : "../assets/images/navbar/home_defualt.png"
                                                 }
                                                 className="image"
                                                 alt="Home Icon"
@@ -186,8 +186,8 @@ function Header() {
                                             <img
                                                 src={
                                                     isActive("/socialMedia")
-                                                        ? "assets/images/navbar/Social_active.png"
-                                                        : "assets/images/navbar/Social_defualt.png"
+                                                        ? "../assets/images/navbar/Social_active.png"
+                                                        : "../assets/images/navbar/Social_defualt.png"
                                                 }
                                                 className="image"
                                                 alt="Social Media Icon"
@@ -203,8 +203,8 @@ function Header() {
                                             <img
                                                 src={
                                                     isActive("/marketPlace")
-                                                        ? "assets/images/navbar/marketplace_active.png"
-                                                        : "assets/images/navbar/marketplace_defualt.png"
+                                                        ? "../assets/images/navbar/marketplace_active.png"
+                                                        : "../assets/images/navbar/marketplace_defualt.png"
                                                 }
                                                 className="image"
                                                 alt="Market Place Icon"
@@ -220,8 +220,8 @@ function Header() {
                                             <img
                                                 src={
                                                     isActive("/discussionForum")
-                                                        ? "assets/images/navbar/discussionforum_active.png"
-                                                        : "assets/images/navbar/discussionforum_defualt.png"
+                                                        ? "../assets/images/navbar/discussionforum_active.png"
+                                                        : "../assets/images/navbar/discussionforum_defualt.png"
                                                 }
                                                 className="image"
                                                 alt="Discussion Forum Icon"
@@ -293,7 +293,7 @@ function Header() {
                                     <div className="single-item d-none d-lg-block profile-area position-relative">
                                         <div className="profile-pic d-flex align-items-center" onClick={handleProfileClick}>
                                             <span className="avatar cmn-head active-status">
-                                                <img className="avatar-img max-un" src={user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ width: "50px", height: "50px" }} />
+                                                <img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" style={{ width: "50px", height: "50px" }} />
                                             </span>
                                         </div>
                                         {isPopupOpen && (
@@ -301,7 +301,7 @@ function Header() {
                                                 <div className="head-area">
                                                     <div className="d-flex gap-3 align-items-center">
                                                         <div className="avatar-item">
-                                                            <img className="avatar-img max-un" src={user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" />
+                                                            <img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" />
                                                         </div>
                                                         <div className="text-area">
                                                             <h6 className="m-0 mb-1">{user.userName}</h6>

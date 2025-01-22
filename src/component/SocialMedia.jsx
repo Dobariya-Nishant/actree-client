@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import EmojiPicker from "emoji-picker-react";
 
 function SocialMedia(post) {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ function SocialMedia(post) {
     const [isFollowing, setIsFollowing] = useState(false);
     const [followedPosts, setFollowedPosts] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
+
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -94,7 +96,7 @@ function SocialMedia(post) {
         });
         //setIsModalOpen(true);
         try {
-            const response = await networkRequest("post", API_ENDPOINTS.POST_CREATE, formData);
+            const response = await networkRequest("POST", API_ENDPOINTS.POST_CREATE, formData);
             if (response.statusCode === 201) {
                 toast.success("Post created successfully!");
                 setPostContent("");
@@ -406,6 +408,12 @@ function SocialMedia(post) {
         }
     };
 
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const handleEmojiClick = (emojiObject) => {
+        setPostContent((prevContent) => prevContent + emojiObject.emoji);
+        setShowEmojiPicker(false);
+    };
+
     return (
         <>
             <main className="main-content">
@@ -416,7 +424,7 @@ function SocialMedia(post) {
                             <Slider {...sliderSettings} className="story-carousel">
                                 <div className="single-item">
                                     <div className="single-slide">
-                                        <a href="/socialMedia" className="position-relative d-center">
+                                        <Link to="/socialMedia" className="position-relative d-center">
                                             <img className="bg-img" src="assets/images/story-slider-owner.png" alt="icon" />
                                             <div className="abs-area d-grid p-3 position-absolute bottom-0">
                                                 <div className="icon-box m-auto d-center mb-3">
@@ -424,17 +432,17 @@ function SocialMedia(post) {
                                                 </div>
                                                 <span className="mdtxt">Create A Story</span>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className="single-item">
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
                                             <img className="bg-img" src="assets/images/story-slider-1.png" alt="image" />
-                                            <a href="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
+                                            <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
                                                 <img src="assets/images/Billy_Williams.png" alt="image" />
                                                 <span className="mdtxt">Alen Lio</span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -442,10 +450,10 @@ function SocialMedia(post) {
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
                                             <img className="bg-img" src="assets/images/story-slider-2.png" alt="image" />
-                                            <a href="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
+                                            <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
                                                 <img src="assets/images/Justus_Everett.png" alt="image" />
                                                 <span className="mdtxt">Josep</span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -453,10 +461,10 @@ function SocialMedia(post) {
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
                                             <img className="bg-img" src="assets/images/story-slider-3.png" alt="image" />
-                                            <a href="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
+                                            <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
                                                 <img src="assets/images/Julie Bates.png" alt="image" />
                                                 <span className="mdtxt">Jessica</span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -464,10 +472,10 @@ function SocialMedia(post) {
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
                                             <img className="bg-img" src="assets/images/story-slider-4.png" alt="image" />
-                                            <a href="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
+                                            <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
                                                 <img src="assets/images/avatar-4.png" alt="image" />
                                                 <span className="mdtxt">Alen</span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -475,19 +483,19 @@ function SocialMedia(post) {
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
                                             <img className="bg-img" src="assets/images/story-slider-4.png" alt="image" />
-                                            <a href="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
+                                            <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
                                                 <img src="assets/images/avatar-5.png" alt="image" />
                                                 <span className="mdtxt">Jacob Jones</span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
                             </Slider>
                             <div className="share-post d-flex gap-3 gap-sm-5 p-3 p-sm-5">
                                 <div className="profile-box">
-                                    <a href="#"><img className="avatar-img max-un" src={user.profilePicture || "assets/images/navbar/picture.png"} alt="icon"
+                                    <Link to="/profile"><img className="avatar-img max-un" src={user.profilePicture || "assets/images/navbar/picture.png"} alt="icon"
                                         style={{ borderRadius: "50px", width: "40px" }} />
-                                    </a>
+                                    </Link>
                                 </div>
                                 <form action="#" className="w-100 position-relative">
                                     <input
@@ -508,7 +516,7 @@ function SocialMedia(post) {
                                             <img src="assets/images/socialsidebar/galleryicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                                             <span style={{ color: "#1565c0" }}>Photo/Video</span>
                                         </li>
-                                        <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
+                                        <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityModEmoji">
                                             <img src="assets/images/socialsidebar/emojiicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                                             <span style={{ color: "#1565c0" }}>GIF/Emoji</span>
                                         </li>
@@ -522,6 +530,22 @@ function SocialMedia(post) {
                                     </ul>
                                 </form>
                             </div>
+                            <style>
+                                {`
+                                    .post-media-container {
+                                        width: 100%;
+                                        height: 315px;
+                                        overflow: hidden;
+                                        position: relative;
+                                    }
+                                    .post-media-container img,
+                                    .post-media-container video {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                    }`
+                                }
+                            </style>
                             <div className="post-item d-flex flex-column gap-5 gap-md-7" id="news-feed">
                                 {posts.map((post) => (
                                     <div key={post._id} className="post-single-box p-3 p-sm-5">
@@ -529,10 +553,22 @@ function SocialMedia(post) {
                                             <div className="profile-area d-center justify-content-between">
                                                 <div className="avatar-item d-flex gap-3 align-items-center">
                                                     <div className="position-relative">
-                                                        <img className="avatar-img max-un" src={post.user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
+                                                        <Link
+                                                            to={post.user._id === user._id ? "/profile" : `/accountProfile/${post.user.userName}`}
+                                                        >
+                                                            <img className="avatar-img max-un"
+                                                                src={post.user.profilePicture || "assets/images/navbar/picture.png"}
+                                                                alt="avatar"
+                                                                style={{ borderRadius: "50px", width: "40px", height: "40px" }}
+                                                            />
+                                                        </Link>
                                                     </div>
                                                     <div className="info-area">
-                                                        <h6 className="m-0"><a href="public-profile-post.html">{post.user.userName}</a></h6>
+                                                        <h6 className="m-0">
+                                                            <Link to={post.user._id === user._id ? "/profile" : `/accountProfile/${post.user.userName}`}>
+                                                                {post.user.userName}
+                                                            </Link>
+                                                        </h6>
                                                         <span className="mdtxt status">{post.createdAt &&
                                                             new Date(post.createdAt).toLocaleDateString("en-US", {
                                                                 month: "short",
@@ -627,6 +663,46 @@ function SocialMedia(post) {
                                                 <p className="description">{post.content}</p>
                                             </div>
                                             {post.media && post.media[0] && (
+                                                <div
+                                                    className="post-media-container"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "315px",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        //background: "#f0f0f0",
+                                                        overflow: "hidden",
+                                                    }}
+                                                >
+                                                    {post.media[0].type === "photos" && (
+                                                        <img
+                                                            src={post.media[0].url}
+                                                            alt="image"
+                                                            style={{
+                                                                maxWidth: "100%",
+                                                                maxHeight: "100%",
+                                                                objectFit: "contain",
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {post.media[0].type === "video" && (
+                                                        <video
+                                                            controls
+                                                            style={{
+                                                                maxWidth: "100%",
+                                                                maxHeight: "100%",
+                                                                objectFit: "contain",
+                                                            }}
+                                                        >
+                                                            <source src={post.media[0].url} type="video/mp4" />
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {/* {post.media && post.media[0] && (
                                                 <div className="post-img">
                                                     {post.media && post.media[0] && post.media[0].type === "photos" && (
                                                         <img src={post.media[0].url} className="w-100" alt="image" style={{ width: "100%", height: "315px" }} />
@@ -644,7 +720,7 @@ function SocialMedia(post) {
                                                         </div>
                                                     )}
                                                 </div>
-                                            )}
+                                            )} */}
                                         </div>
                                         <div className="like-comment-share py-2 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
                                             <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post._id, post.isLiked)}>
@@ -671,6 +747,10 @@ function SocialMedia(post) {
                                                 onClick={() => handleOpenModal(post._id)} >
                                                 <i className="material-symbols-outlined mat-icon"> chat </i>
                                                 Comment {post.commentCount}
+                                            </button>
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt">
+                                                <i className="material-symbols-outlined mat-icon"> repeat </i>
+                                                Repost {post.repostCount}
                                             </button>
                                             <button className="d-center gap-1 gap-sm-2 mdtxt">
                                                 <i className="material-symbols-outlined mat-icon"> share </i>
@@ -1592,7 +1672,7 @@ function SocialMedia(post) {
 
 
 
-            <div className="go-live-popup">
+            <div div className="go-live-popup">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-8">
@@ -1702,7 +1782,98 @@ function SocialMedia(post) {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="go-live-popup">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="modal cmn-modal fade" id="activityModEmoji">
+                                <div className="modal-dialog modal-dialog-centered">
+                                    <div className="modal-content p-5">
+                                        <div className="modal-header justify-content-center">
+                                            <button
+                                                type="button"
+                                                className="btn-close"
+                                                onClick={closeModal}
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"
+                                            >
+                                                <i className="material-symbols-outlined mat-icon xxltxt">close</i>
+                                            </button>
+                                        </div>
+                                        <div className="top-content pb-5">
+                                            <h5>Add Post Filling/Emoji</h5>
+                                            <hr />
+                                        </div>
+                                        <div className="mid-area">
+                                            <div className="d-flex mb-5 gap-3">
+                                                <div className="profile-box">
+                                                    <a href="#">
+                                                        <img
+                                                            src={user.profilePicture || "assets/images/add-post-avatar.png"}
+                                                            className="max-un"
+                                                            alt="icon"
+                                                            style={{ width: "40px", borderRadius: "30px" }}
+                                                        />
+                                                    </a>
+                                                </div>
+                                                <textarea
+                                                    cols="10"
+                                                    rows="1"
+                                                    placeholder={`Whats your mood ${user.userName || "user"}...`}
+                                                    value={postContent}
+                                                    onChange={(e) => setPostContent(e.target.value)}
+                                                    style={{
+                                                        borderRadius: "50px",
+                                                        height: "100%",
+                                                    }}
+                                                ></textarea>
+                                            </div>
+                                            <div className="emoji-picker-container">
+                                                <div className="emoji-picker-modal">
+                                                    < EmojiPicker onEmojiClick={handleEmojiClick} style={{
+                                                        height: "450px",
+                                                        width: "510px",
+                                                    }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="footer-area pt-5">
+                                            <div className="btn-area d-flex justify-content-end gap-2">
+                                                <button
+                                                    type="button"
+                                                    className="cmn-btn alt"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                    style={{ borderRadius: "50px" }}
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    className="cmn-btn"
+                                                    onClick={handlePostSubmit}
+                                                    style={{ borderRadius: "50px" }}
+                                                >
+                                                    Post
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div >
             </div >
+
+
+
+            {/* {showEmojiPicker && (
+                <div className="emoji-picker-modal">
+                    <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+            )} */}
 
             {/* <div className="go-live-popup">
                 <div className="container">

@@ -224,6 +224,15 @@ const InterestSignup = () => {
         }
     };
 
+    const isValidUrl = (url) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
     const handleSubmit = async () => {
         setIsLoading(true);
         try {
@@ -241,10 +250,31 @@ const InterestSignup = () => {
                 };
             }).filter((item) => item.interests.length > 0);
 
+            // const payload = {
+            //     ...signUpData,
+            //     interests: JSON.stringify(selectedInterests),
+            // };
             const payload = {
                 ...signUpData,
-                interests: JSON.stringify(selectedInterests),
+                ...(selectedInterests.length > 0 && { interests: JSON.stringify(selectedInterests) }), // Only include if there are interests
             };
+
+
+            // if (signUpData.socialLinks && Array.isArray(signUpData.socialLinks)) {
+            //     const validSocialLinks = signUpData.socialLinks.filter((link) => link.url && link.url.trim() !== "" && isValidUrl(link.url));
+            //     if (validSocialLinks.length > 0) {
+            //         payload.socialLinks = validSocialLinks; // Only include if there are valid links
+            //     }
+            // }
+
+            if (signUpData.socialLinks && Array.isArray(signUpData.socialLinks)) {
+                const validSocialLinks = signUpData.socialLinks.filter(
+                    (link) => link.url && link.url.trim() !== "" && isValidUrl(link.url)
+                );
+                if (validSocialLinks.length > 0) {
+                    payload.socialLinks = validSocialLinks;
+                }
+            }
 
             // if (signUpData.type === 'individual') {
             //     payload.gender = signUpData.gender;
@@ -256,6 +286,10 @@ const InterestSignup = () => {
                 payload["userId"] = user._id;
                 console.log("payload", payload);
                 Object.keys(payload).forEach((key) => {
+                    //debugger;
+                    //console.log("key", key, "value", payload[key])
+                    //if (Array.isArray(!payload[key]) && !payload[key].length) return
+                    if (Array.isArray(payload[key]) && !payload[key].length) return;
                     if (!payload[key]) return
                     finalData[`${key}`] = payload[key];
                 });
@@ -263,7 +297,7 @@ const InterestSignup = () => {
                 if (response.statusCode === 201) {
                     const updatedUser = response.data;
                     localStorage.setItem("user", JSON.stringify(updatedUser));
-                    toast.success("Profile Updated Successfully!")
+                    toast.success("Profile Updated Successfully!");
                     navigate("/profile");
                 } else {
                     console.error("Signup failed:", response);

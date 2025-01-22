@@ -1,9 +1,13 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 function SocialSidebar() {
     const location = useLocation();
+    const { userName } = useParams();
     const user = JSON.parse(localStorage.getItem("user"));
+    const isProfilePage = location.pathname === "/profile";
+    //const isAccountProfilePage = location.pathname === "/accountProfile/:userName";
+    const isAccountProfilePage = location.pathname.startsWith("/accountProfile/");
 
     return (
         <>
@@ -42,23 +46,28 @@ function SocialSidebar() {
                             <i className="material-symbols-outlined mat-icon fs-xl"> close </i>
                         </button>
                     </div>
-                    <div className="profile-pic d-flex gap-2 align-items-center">
-                        <div className="position-relative1">
-                            <img className="avatar-img max-un" src={user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ width: "40px" }} />
-                        </div>
-                        <div className="text-area">
-                            <h6 className="m-0 mb-1"><Link to="/socialMedia">{user.userName}</Link></h6>
-                            <p className="mdtxt">@{user.userName}</p>
-                        </div>
-                    </div>
 
-                    <ul className="profile-link mt-7 mb-7 pb-7">
+                    {!isProfilePage && !isAccountProfilePage && (
+                        <div className="profile-pic d-flex gap-2 align-items-center">
+                            <div className="position-relative1">
+                                <Link to="/profile"><img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" style={{ width: "40px" }} /></Link>
+                            </div>
+                            <div className="text-area">
+                                <h6 className="m-0 mb-1"><Link to="/profile">{user.userName}</Link></h6>
+                                <p className="mdtxt">@{user.userName}</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* <ul className="profile-link mt-7 mb-7 pb-7"> */}
+                    <ul className={`profile-link mt-7 mb-7 pb-7 ${isProfilePage ? '' : ''}`}
+                        style={isProfilePage ? { borderTop: 'none' } : {}}>
                         <li
                             className={location.pathname === "/monetize" ? "active-link" : ""}
                         >
                             <Link to="/monetize" className="d-flex gap-4">
                                 <img
-                                    src="assets/images/socialsidebar/monetize.png"
+                                    src="../assets/images/socialsidebar/monetize.png"
                                     alt="icon"
                                     style={{ width: "25px" }}
                                 />
@@ -74,7 +83,7 @@ function SocialSidebar() {
                         >
                             <Link to="/activapost" className="d-flex gap-4">
                                 <img
-                                    src="assets/images/socialsidebar/icon (20).png"
+                                    src="../assets/images/socialsidebar/icon (20).png"
                                     alt="icon"
                                     style={{ width: "7%", marginLeft: "2%" }}
                                 />
@@ -85,7 +94,7 @@ function SocialSidebar() {
                         {[
 
                             { path: "/video", label: "Video/Vlog", icon: "video.png" },
-                            { path: "/friendsrequest", label: "Friends Request", icon: "friendsrequest.png" },
+                            { path: "/friendsrequest", label: "Follow Request", icon: "friendsrequest.png" },
                             { path: "/following", label: "Following", icon: "follwing.png" },
                             { path: "/followers", label: "Followers", icon: "followers.png" },
                             { path: "/bookmark", label: "Bookmarks", icon: "bookmark.png" },
@@ -101,15 +110,15 @@ function SocialSidebar() {
                             >
                                 <Link to={link.path} className="d-flex gap-4">
                                     {/* <img
-                                        src={`assets/images/socialsidebar/${link.icon}`}
+                                        src={`../assets/images/socialsidebar/${link.icon}`}
                                         alt="icon"
                                         style={{ width: "25px" }}
                                     /> */}
                                     <img
                                         src={
                                             location.pathname === link.path
-                                                ? `assets/images/socialsidebar/${link.icon.replace(".png", "-active.png")}`
-                                                : `assets/images/socialsidebar/${link.icon}`
+                                                ? `../assets/images/socialsidebar/${link.icon.replace(".png", "-active.png")}`
+                                                : `../assets/images/socialsidebar/${link.icon}`
                                         }
                                         alt="icon"
                                         style={{ width: "25px" }}
@@ -197,7 +206,7 @@ function SocialSidebar() {
                         </li>
                     </ul> */}
                 </div>
-            </div>
+            </div >
         </>
 
     );

@@ -43,14 +43,9 @@ const Login = () => {
   const [generalError, setGeneralError] = useState("");
 
   useEffect(() => {
-    // Get the logout message from localStorage
     const message = localStorage.getItem("logoutMessage");
-
     if (message) {
-      // Show the toast message
       toast.success(message);
-
-      // Clear the message from localStorage after it's shown
       localStorage.removeItem("logoutMessage");
     }
   }, []);

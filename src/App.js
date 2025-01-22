@@ -26,6 +26,7 @@ import MarketPlace from "./component/MarketPlace";
 import DiscussionForum from "./component/DiscussionForum";
 import OAuthCallback from "./component/OauthCallback";
 import Profile from "./component/Profile";
+import AccountProfile from "./component/AccountProfile";
 import Monetize from "./component/Monetize";
 import ActivaPost from "./component/ActivaPost";
 import Video from "./component/Video";
@@ -216,7 +217,6 @@ function App() {
           <Route path="/whats-new" element={<Whatsnew />} />
           <Route path="/privacy-policy" element={<Privacypolicy />} />
           <Route path="/terms-of-service" element={<Termsofservice />} />
-
           <Route
             path="/login"
             element={
@@ -236,7 +236,6 @@ function App() {
           <Route path="/individualsignup" element={<IndividualSignUp />} />
           <Route path="/connectSocials" element={<ConnectSocials />} />
           <Route path="/interestSignup" element={<InterestSignup />} />
-
           {/* Protected Routes */}
           {/* <Route
             path="/"
@@ -254,6 +253,15 @@ function App() {
               </ProtectedRoute>
             }
           /> */}
+
+          <Route
+            path="/accountProfile/:userName"
+            element={
+              <ProtectedRoute>
+                <AccountProfile />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/profile"
             element={
@@ -262,7 +270,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/socialMedia"
             element={
@@ -287,7 +294,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/monetize"
             element={
@@ -360,9 +366,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route path="/auth/callback" element={<OAuthCallback />} />
-
           {/* Catch-all Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>

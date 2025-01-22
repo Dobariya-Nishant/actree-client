@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSignUpContext } from "../context/SignUpContext";
 import { useNavigate } from "react-router-dom";
 import { Box, TextField, InputAdornment, IconButton, Button, Typography, Select, MenuItem, FormControl, Checkbox, FormControlLabel, InputLabel, CircularProgress, } from "@mui/material";
@@ -9,6 +9,8 @@ import AppleIcon from "@mui/icons-material/Apple";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
+import { AuthTypeEnum } from "../enums/oauth";
+import { env } from "../config/env";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -28,6 +30,52 @@ const SignUp = () => {
     const [otp, setOtp] = useState(["", "", "", ""]);
     const [otpVerified, setOtpVerified] = useState(false);
 
+    function googleOauthURL(userType) {
+        const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+
+        const options = {
+            redirect_uri:
+                env.GOOGLE_REDIRECT_URL || "http://localhost:3000/auth/callback",
+            client_id:
+                env.GOOGLE_CLIENT_ID ||
+                "274136206982-naj76ba4l49nqieh60ce0o4lkep704n3.apps.googleusercontent.com",
+            response_type: "code",
+            state: JSON.stringify({
+                type: type,
+                authType: AuthTypeEnum.GOOGLE,
+            }),
+            scope: [
+                "https://www.googleapis.com/auth/userinfo.profile",
+                "https://www.googleapis.com/auth/userinfo.email",
+            ].join(" "),
+        };
+
+        const qs = new URLSearchParams(options);
+
+        const url = `${rootUrl}?${qs.toString()}`;
+
+        window.location.href = url;
+    }
+
+    const handleOauth = async (authType) => {
+        try {
+            if (authType === AuthTypeEnum.LOCAL) {
+                throw new Error("Auth type is not valid");
+            }
+            const data = await networkRequest(
+                "GET",
+                API_ENDPOINTS.GOOGLE_OAUTH,
+                {},
+                {},
+                { authType, type: type },
+                {},
+                "no-cors"
+            );
+        } catch (error) {
+            console.log("Oauth Error", error);
+        }
+    };
+
     const handleClickShowPassword = () => {
         setShowPassword((prev) => !prev);
     };
@@ -36,7 +84,6 @@ const SignUp = () => {
         setSelectedOption(event.target.value);
         setErrors({});
     };
-
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -216,12 +263,14 @@ const SignUp = () => {
                         <>
                             <Button
                                 variant="outlined"
+                                onClick={() => googleOauthURL(AuthTypeEnum.GOOGLE)}
                                 startIcon={
                                     <img
                                         src="assets/images/navbar/icon_google.png"
                                         alt="Google Logo"
                                     />
                                 }
+                                //disabled={!type}
                                 sx={{
                                     commonStyles,
                                     mb: 2,
@@ -379,12 +428,14 @@ const SignUp = () => {
                         <>
                             <Button
                                 variant="outlined"
+                                onClick={() => googleOauthURL(AuthTypeEnum.GOOGLE)}
                                 startIcon={
                                     <img
                                         src="assets/images/navbar/icon_google.png"
                                         alt="Google Logo"
                                     />
                                 }
+                                //disabled={!selectedOption}
                                 sx={{
                                     mb: 2,
                                     width: "100%",

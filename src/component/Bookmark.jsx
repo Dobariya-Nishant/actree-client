@@ -61,6 +61,8 @@ function Bookmark() {
             if (response.statusCode === 200) {
                 console.log("Bookmark saved successfully!", response);
                 setBookmarks(response.data.commentList || []);
+                console.log("commentList", response.data.commentList);
+
             }
         } catch (error) {
             console.error("Error fetching suggestions:", error);
@@ -279,9 +281,24 @@ function Bookmark() {
                                     <h6>Bookmarks</h6>
                                 </div>
                             </div>
+                            <style>
+                                {`
+                                    .post-media-container {
+                                        width: 100%;
+                                        height: 315px;
+                                        overflow: hidden;
+                                        position: relative;
+                                    }
+                                    .post-media-container img,
+                                    .post-media-container video {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                    }`
+                                }
+                            </style>
                             <div className="post-item d-flex flex-column gap-5 gap-md-7" id="news-feed">
                                 {bookmarks.map((bookmark) => (
-
                                     <div div key={bookmark._id} className="post-single-box p-3 p-sm-5" >
                                         <div className="top-area pb-5">
                                             <div className="profile-area d-center justify-content-between">
@@ -367,21 +384,40 @@ function Bookmark() {
                                             <div className="py-4">
                                                 <p className="description">{bookmark.postId.content}</p>
                                             </div>
-                                            <div className="post-img">
+                                            <div
+                                                className="post-media-container"
+                                                style={{
+                                                    width: "100%",
+                                                    height: "315px",
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    overflow: "hidden",
+                                                }}
+                                            >
                                                 {bookmark.postId.media && bookmark.postId.media[0]?.type === "photos" && (
-                                                    <img src={bookmark.postId.media[0].url} className="w-100" alt="image" style={{ width: "100%", height: "315px" }} />
+                                                    <img
+                                                        src={bookmark.postId.media[0].url}
+                                                        alt="image"
+                                                        style={{
+                                                            maxWidth: "100%",
+                                                            maxHeight: "100%",
+                                                            objectFit: "contain",
+                                                        }}
+                                                    />
                                                 )}
                                                 {bookmark.postId.media && bookmark.postId.media[0]?.type === "video" && (
-                                                    <div className="post-img video-item">
-                                                        <video
-                                                            controls
-                                                            width="100%"
-                                                            height="315"
-                                                        >
-                                                            <source src={bookmark.postId.media[0].url} type="video/mp4" />
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>
+                                                    <video
+                                                        controls
+                                                        style={{
+                                                            maxWidth: "100%",
+                                                            maxHeight: "100%",
+                                                            objectFit: "contain",
+                                                        }}
+                                                    >
+                                                        <source src={bookmark.postId.media[0].url} type="video/mp4" />
+                                                        Your browser does not support the video tag.
+                                                    </video>
                                                 )}
                                             </div>
                                         </div>
