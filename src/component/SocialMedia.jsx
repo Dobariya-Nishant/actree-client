@@ -76,7 +76,6 @@ function SocialMedia(post) {
     };
 
     const handleTextChange = (e) => { };
-
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         setUploadedFiles(files);
@@ -1865,7 +1864,7 @@ function SocialMedia(post) {
                         </div>
                     </div>
                 </div >
-            </div >
+            </div>
 
 
 

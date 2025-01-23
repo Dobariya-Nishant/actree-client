@@ -96,14 +96,23 @@ const Whatsnew = () => {
                                 </Box>
                             </div>
                             <div className="col-lg-6">
-                                <Box sx={{ display: 'flex', justifyContent: 'center', gap: '1rem', }}>
+                                <Box sx={{
+                                    display: 'flex', justifyContent: 'center', gap: '1rem', flexDirection: { xs: 'column', sm: 'row' },
+                                    alignItems: 'center',
+                                }}>
                                     <TextField
                                         variant="outlined"
                                         placeholder="Your email"
-
+                                        // sx={{
+                                        //     mb: 2,
+                                        //     '& .MuiOutlinedInput-root': { borderRadius: '50px', width: '300px', padding: '1px 14px' }
+                                        // }}
                                         sx={{
-                                            mb: 2,
-                                            '& .MuiOutlinedInput-root': { borderRadius: '50px', width: '300px', padding: '1px 14px' }
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: '50px',
+                                                width: { xs: '100%', sm: '300px' }, // Full width on small screens
+                                                padding: '1px 14px',
+                                            },
                                         }}
                                     />
                                     <Button variant="contained" sx={{ height: '47px', borderRadius: '30px', fontFamily: 'poppins', fontWeight: '600', fontSize: '14px', background: 'linear-gradient(90deg, #9A00A9 34%, #580097 77%, #29008B 100%)', textTransform: 'none' }}>
@@ -139,7 +148,7 @@ const Whatsnew = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "200px",
+                            maxWidth: "280px",
                             height: "auto",
                             marginLeft: "20px",
                         }}

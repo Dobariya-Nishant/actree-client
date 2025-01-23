@@ -24,7 +24,6 @@
 .about-summury img {
   width: 9%;
   position: relative;
-  left: 165px;
   top: -20px;
 }
 .about-summury h1 {
@@ -168,7 +167,7 @@
   font-family: "Poppins, SemiBold" sans-serif;
   font-weight: 300;
 }
-.community {
+/* .community {
   border-radius: 10px;
   background-image: url("../images/img/community.png");
   display: flex;
@@ -264,5 +263,124 @@
   }
   .about-summury p {
     font-size: 0.9rem;
+  }
+} */
+
+.community {
+  border-radius: 10px;
+  background-image: url("../images/img/community.png");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  padding: 40px 20px; /* Add padding for smaller screens */
+  box-sizing: border-box; /* Include padding in the total width */
+  width: 100%; /* Ensure it spans the container width */
+  max-width: 1200px; /* Restrict the maximum width */
+  margin: 0 auto; /* Center the section */
+}
+
+.community h2 {
+  font-size: 2.5rem; /* Scalable font size */
+  font-family: "Poppins, Bold", sans-serif;
+  font-weight: 700;
+  color: #9a00a9;
+  max-width: 100%; /* Prevent text overflow */
+  width: 90%; /* Reduce width on smaller screens */
+  margin-bottom: 20px; /* Add space below */
+}
+
+.community p {
+  font-size: 1.25rem; /* Scalable font size */
+  font-family: "Poppins, SemiBold", sans-serif;
+  font-weight: 600;
+  color: #9a00a9;
+  max-width: 100%; /* Prevent text overflow */
+  width: 90%; /* Adjust width for smaller screens */
+  line-height: 1.6; /* Improve readability */
+  margin-bottom: 20px; /* Add space below */
+}
+
+.community h4 {
+  font-size: 1.5rem; /* Scalable font size */
+  font-family: "Poppins, SemiBold", sans-serif;
+  font-weight: 700;
+  color: #9a00a9;
+  max-width: 100%; /* Prevent text overflow */
+  width: 90%; /* Adjust width for smaller screens */
+  margin-bottom: 30px; /* Add space below */
+}
+
+.flowers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px; /* Add space above */
+  flex-wrap: wrap; /* Allow images to stack if needed */
+  width: 100%;
+}
+
+.community .flowerleft,
+.community .flowerright {
+  width: 15%; /* Adjust size for responsive design */
+  max-width: 100px; /* Restrict maximum width */
+  height: auto; /* Maintain aspect ratio */
+  position: static; /* Remove positioning for simpler layout */
+}
+
+/* Tablet (1024px and below) */
+@media (max-width: 1024px) {
+  .community h2 {
+    font-size: 2rem; /* Reduce font size for tablets */
+  }
+  .community p {
+    font-size: 1.1rem; /* Adjust paragraph size */
+  }
+  .community h4 {
+    font-size: 1.25rem; /* Adjust heading size */
+  }
+  .community .flowerleft,
+  .community .flowerright {
+    width: 20%; /* Adjust image size for tablets */
+  }
+}
+
+/* Mobile (768px and below) */
+@media (max-width: 768px) {
+  .community h2 {
+    font-size: 1.75rem; /* Reduce font size for smaller screens */
+  }
+  .community p {
+    font-size: 1rem; /* Adjust paragraph size */
+  }
+  .community h4 {
+    font-size: 1.15rem; /* Adjust heading size */
+  }
+  .flowers {
+    flex-direction: column; /* Stack flowers vertically */
+  }
+  .community .flowerleft,
+  .community .flowerright {
+    width: 30%; /* Adjust image size for smaller screens */
+    margin: 10px 0; /* Add space between stacked images */
+  }
+}
+
+/* Extra Small Screens (480px and below) */
+@media (max-width: 480px) {
+  .community h2 {
+    font-size: 1.5rem; /* Further reduce font size */
+  }
+  .community p {
+    font-size: 0.9rem; /* Adjust paragraph size */
+  }
+  .community h4 {
+    font-size: 1rem; /* Adjust heading size */
+  }
+  .community .flowerleft,
+  .community .flowerright {
+    width: 40%; /* Adjust image size for mobile */
   }
 }

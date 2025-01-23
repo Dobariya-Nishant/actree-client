@@ -71,7 +71,7 @@ const Blog = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "200px",
+                            maxWidth: "280px",
                             height: "auto",
                             marginLeft: "20px",
                         }}

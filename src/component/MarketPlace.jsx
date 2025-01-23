@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Typography, Link } from "@mui/material";
-
+import { Box, Typography } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 const MarketPlace = () => {
   return (
@@ -98,7 +98,7 @@ const MarketPlace = () => {
             src="assets/images/navbar/activa tree logo (2).png"
             alt="Tree Design"
             style={{
-              maxWidth: "200px",
+              maxWidth: "280px",
               height: "auto",
               marginLeft: "20px",
             }}

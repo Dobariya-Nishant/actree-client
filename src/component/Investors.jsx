@@ -25,7 +25,7 @@ const Investors = () => {
                         <p>Discover the opportunity to invest in Activatree, a pioneering social media platform reshaping the way people connect, collaborate, and create. Our mission is to foster innovation in social networking with features that empower users and businesses alike.</p>
                     </div>
                     <div className="invest mt-5">
-                        <div className="invest-activatree" style={{ width: '620px' }}>
+                        <div className="invest-activatree">
                             <h1>Why Invest in <span style={{ fontSize: '45px', fontFamily: 'Poppins, Mixed', fontWeight: 400, color: '#9F00AA' }}>Activatree</span></h1>
                             <p>Activatree empowers creators and professionals to collaborate, monetize, and grow their networks seamlessly. With cutting-edge tools and AI-driven personalization, it's the platform where creativity meets opportunity.</p>
                         </div>
@@ -66,7 +66,7 @@ const Investors = () => {
                         </div>
                     </div>
                     <div className="invest-engage">
-                        <div className="invest" style={{ width: '620px' }}>
+                        <div className="invest">
                             <h1>Investor <span style={{ fontSize: '45px', fontFamily: 'Poppins, Mixed', fontWeight: 400, color: '#9F00AA' }}>Engagement</span></h1>
                             <p>At Activatree, we offer strategic investment opportunities in a growing social media platform that blends cutting-edge technology with a sustainable vision. Partner with us to help shape the future of digital networking and innovation.</p>
                         </div>
@@ -156,7 +156,7 @@ const Investors = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "200px",
+                            maxWidth: "280px",
                             height: "auto",
                             marginLeft: "20px",
                         }}

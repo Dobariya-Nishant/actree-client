@@ -17,22 +17,22 @@ const Termsofservice = () => {
         <>
             <main className="main-content">
                 <div className="container">
-                    <div className="title-terms">
+                    <div className="title-terms mt-4">
                         <p>Home</p><img src="assets/images/img/titlearrow.png" alt="Title Arrow" /><p>Terms Of Service Agreement</p>
                     </div>
-                    <div className="terms-summury">
+                    <div className="terms-summury mt-4">
                         <h1>Terms of Service Agreement</h1>
                         <img src="assets/images/img/aboutline.png" alt="About Line" />
                     </div>
 
                     <div className="activatree-details">
-                        <p><span>Effective Date:</span> Monday, Oct 28, 2024</p>
-                        <p><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
-                        <p><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
-                        <p><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
+                        <p className="mt-2"><span>Effective Date:</span> Monday, Oct 28, 2024</p>
+                        <p className="mt-2"><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
+                        <p className="mt-2"><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
+                        <p className="mt-2"><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
                     </div>
 
-                    <div className="welcome-activatree mb-3">
+                    <div className="welcome-activatree mb-3 mt-2">
                         <p>Welcome to Activatree <b>(“ we ”, “us”, “ our ”, or “ the Company ”).</b> These Terms of Service (“Terms”) govern your access to and use of our platform, websites, applications, and services (collectively, the “Service”). By accessing or using the Service, you agree to these Terms. If you do not agree, you may not use the Service. Please read them carefully.</p>
                     </div>
 
@@ -81,10 +81,10 @@ const Termsofservice = () => {
 
                         <ul>
 
-                            <li><img src="assets/images/img/point.png" alt="Point" /><span>Abuse:</span> You may not harass, abuse, threaten, or otherwise violate the legal rights of others.</li>
-                            <li><img src="assets/images/img/point.png" alt="Point" /><span>Infringement:</span> You may not post or share content that infringes on the intellectual property or privacy rights of others.</li>
-                            <li><img src="assets/images/img/point.png" alt="Point" /><span>Misrepresentation:</span> You may not impersonate another person, misrepresent your identity, or falsely associate with any entity.</li>
-                            <li><img src="assets/images/img/point.png" alt="Point" /><span>Malicious Activity:</span> You may not upload viruses, malware, or engage in activities that compromise the security or functionality of the Service.</li>
+                            <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Abuse:</span> You may not harass, abuse, threaten, or otherwise violate the legal rights of others.</li>
+                            <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Infringement:</span> You may not post or share content that infringes on the intellectual property or privacy rights of others.</li>
+                            <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Misrepresentation:</span> You may not impersonate another person, misrepresent your identity, or falsely associate with any entity.</li>
+                            <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Malicious Activity:</span> You may not upload viruses, malware, or engage in activities that compromise the security or functionality of the Service.</li>
                         </ul>
                         <p>Activatree reserves the right to take appropriate legal action against users who violate these Terms, including terminating their accounts.</p>
                     </div>
@@ -211,7 +211,7 @@ const Termsofservice = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "200px",
+                            maxWidth: "280px",
                             height: "auto",
                             marginLeft: "20px",
                         }}

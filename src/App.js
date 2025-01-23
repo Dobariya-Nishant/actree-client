@@ -34,7 +34,7 @@ import FrindRequest from "./component/FrindRequest";
 import Following from "./component/Following";
 import Followers from "./component/Followers";
 import Bookmark from "./component/Bookmark";
-import Group from "./component/Group";
+import Groups from "./component/Groups";
 import Livestream from "./component/Livestream";
 import NotFound from "./component/NotFound";
 
@@ -354,7 +354,7 @@ function App() {
             path="/group"
             element={
               <ProtectedRoute>
-                <Group />
+                <Groups />
               </ProtectedRoute>
             }
           />

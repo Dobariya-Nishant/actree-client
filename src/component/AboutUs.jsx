@@ -80,8 +80,8 @@ const AboutUs = () => {
 
                     <div className="mission mt-5 mb-5">
                         <div className="row">
-                            <div className="col-lg-6">
-                                <div className="ourmission">
+                            <div className="col-lg-6 mt-4">
+                                <div className="ourmission ">
                                     <h2>Our <span style={{ fontWeight: '300', color: '#9F00AA' }}>Mission</span></h2>
                                     <h6>Our mission is simple yet profound: Empowering Growth, Shaping Tomorrow. Activatree aims to empower a global community of passionate youth with a dynamic space to cultivate their dreams, connect with others, and build their future through meaningful relationships. We are creating a platform where people can truly plant their Activatree — a tree of activities, passions, and interests — and watch it grow, branch out, and thrive in a supportive environment!</h6>
                                     <p>We don’t just build connections; we grow possibilities. Whether you’re a budding entrepreneur or teenpreneur, an experienced professional, or someone who wants to explore new avenues, Activatree provides the tools to root your ideas and nurture them into success. Our focus is on raising the next generation of entrepreneurs — those who will grow from teenpreneurs to leading innovators, and beyond!</p>
@@ -132,7 +132,7 @@ const AboutUs = () => {
                     <div className="sets mt-5">
                         <div className="row">
                             <div className="col-lg-8">
-                                <h2 className="mt-4">What Sets <span style={{ fontWeight: '300', color: '#9F00AA' }}>Us Apart</span></h2>
+                                <h2 className="mt-4">What Sets <span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}>Us Apart</span></h2>
                                 <p className="mt-4">Activatree isn't just a social media platform — it's an all-in-one ecosystem and global community designed to empower growth, innovation, and collaboration. While most platforms focus on connecting users through content, we go beyond by providing a comprehensive suite of features tailored to help users build, manage, and showcase their personal or business journey in a unique and meaningful way.</p>
                             </div>
                         </div>
@@ -211,16 +211,100 @@ const AboutUs = () => {
                                 </div>
                             </div>
                             <div className="col-lg-6">
-                                <div className="futures">
-                                    <h2>Looking Ahead & Our<span style={{ fontWeight: '300', color: '#9F00AA' }}> Vision for the Future</span></h2>
-                                    <h6>Looking forward, our vision is to make Activatree the leading platform where innovation, creativity, and collaboration thrive. We are committed to expanding our features and services, creating more value for our users, and positioning Activatree as the go-to network for professionals, businesses, and aspiring entrepreneurs. We are constantly working to introduce new features and enhancements that put our users at the forefront of innovation. From enhanced communication tools to advanced analytics for businesses, and exciting upcoming features like live streaming, VR/AR content, and collaborative tools, Activatree is more than just a social media platform—it's a hub for digital growth and interaction, the Teenpreneur Hub.</h6>
+                                <div className="futures mt-4">
+                                    <h2>Looking Ahead & Our<span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}> Vision for the Future</span></h2>
+                                    <h6 className="mt-4">Looking forward, our vision is to make Activatree the leading platform where innovation, creativity, and collaboration thrive. We are committed to expanding our features and services, creating more value for our users, and positioning Activatree as the go-to network for professionals, businesses, and aspiring entrepreneurs. We are constantly working to introduce new features and enhancements that put our users at the forefront of innovation. From enhanced communication tools to advanced analytics for businesses, and exciting upcoming features like live streaming, VR/AR content, and collaborative tools, Activatree is more than just a social media platform—it's a hub for digital growth and interaction, the Teenpreneur Hub.</h6>
                                     <p>We are excited to grow alongside our users, building a platform where creativity flourishes, connections are strengthened, and communities can achieve their fullest potential. We envision a future where Activatree becomes a catalyst for change—helping users from all walks of life turn their ideas into realities, grow their influence, and leave a lasting impact on their communities and beyond.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <style>
+                        {`
+                            /* Community Section */
+.community {
+  text-align: center;
+  padding: 0 5%; /* Horizontal padding for smaller screens */
+  max-width: 1200px; /* Limit width to prevent content stretching */
+  margin: 0 auto; /* Center the container */
+  box-sizing: border-box;
+}
 
-                    <div className="community mt-5 py-5 mb-5">
+.community h2,
+.community p,
+.community h4 {
+  margin-bottom: 20px;
+  word-wrap: break-word; /* Ensure text doesn't overflow */
+}
+
+.community h2 {
+  font-size: 28px;
+}
+
+.community p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.community h4 {
+  font-size: 20px;
+}
+
+.flowers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap; /* Allow images to stack */
+}
+
+.flowers img {
+  width: 20%;
+  max-width: 100px; /* Ensure images stay within bounds */
+  height: auto;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .community h2 {
+    font-size: 24px; /* Smaller font for smaller screens */
+  }
+
+  .community p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .community h4 {
+    font-size: 18px;
+  }
+
+  .flowers img {
+    width: 30%; /* Adjust image size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .community h2 {
+    font-size: 20px; /* Further reduce font size */
+  }
+
+  .community p {
+    font-size: 14px;
+  }
+
+  .community h4 {
+    font-size: 16px;
+  }
+
+  .flowers img {
+    width: 40%; /* Further adjust image size for mobile screens */
+  }
+}
+
+                        `}
+                    </style>
+                    {/* <div className="community mt-5 py-5 mb-5">
                         <h2 className='mt-5' style={{ fontSize: "28px" }}>Join the Activatree Community</h2>
                         <p className='mt-5' style={{ fontSize: "18px" }}>Join us today and be part of a new wave of social media that goes beyond the ordinary. Together, we’re growing, evolving, and creating a platform that’s not just about following trends — but about setting them.</p>
                         <h4 className='mt-5' style={{ fontSize: "20px" }}>Let’s grow together, so choose your branch and build your Activatree!</h4>
@@ -228,7 +312,85 @@ const AboutUs = () => {
                             <img src="assets/images/img/flowerleft.png" alt="Flower Left" className='flowerleft' />
                             <img src="assets/images/img/flowerright.png" alt="Flower Right" className='flowerright' />
                         </div>
+                    </div> */}
+
+                    <div
+                        className="community mt-5 py-5 mb-5"
+                    // style={{
+                    //     textAlign: "center",
+                    //     padding: "0 5%", // Add horizontal padding for all screen sizes
+                    //     boxSizing: "border-box", // Ensure padding is included in width
+                    //     maxWidth: "1200px", // Limit the container's width
+                    //     margin: "0 auto", // Center the container horizontally
+                    // }}
+                    >
+                        <h2
+                            className="mt-5"
+                            style={{
+                                fontSize: "28px",
+                                fontWeight: "bold",
+                                marginBottom: "20px",
+                            }}
+                        >
+                            Join the Activatree Community
+                        </h2>
+                        <p
+                            className="mt-5"
+                            style={{
+                                fontSize: "18px",
+                                marginBottom: "20px",
+                                lineHeight: "1.6",
+                            }}
+                        >
+                            Join us today and be part of a new wave of social media that goes beyond the
+                            ordinary. Together, we’re growing, evolving, and creating a platform that’s
+                            not just about following trends — but about setting them.
+                        </p>
+                        <h4
+                            className="mt-5"
+                            style={{
+                                fontSize: "20px",
+                                marginBottom: "30px",
+                            }}
+                        >
+                            Let’s grow together, so choose your branch and build your Activatree!
+                        </h4>
+                        <div
+                            className="flowers"
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginTop: "20px",
+                                flexWrap: "wrap", // Allow images to stack if needed
+                            }}
+                        >
+                            <img
+                                src="assets/images/img/flowerleft.png"
+                                alt="Flower Left"
+                                className="flowerleft"
+                                style={{
+                                    maxWidth: "100px",
+                                    width: "20%",
+                                    height: "auto",
+                                }}
+                            />
+                            <img
+                                src="assets/images/img/flowerright.png"
+                                alt="Flower Right"
+                                className="flowerright"
+                                style={{
+                                    maxWidth: "100px",
+                                    width: "20%",
+                                    height: "auto",
+                                }}
+                            />
+                        </div>
                     </div>
+
+
+
+
                 </div>
             </main>
             <footer
@@ -255,7 +417,7 @@ const AboutUs = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "200px",
+                            maxWidth: "280px",
                             height: "auto",
                             marginLeft: "20px",
                         }}
