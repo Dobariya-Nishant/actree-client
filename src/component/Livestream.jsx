@@ -86,7 +86,7 @@ const Livestream = () => {
                 style={{
                     background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
                     color: "white",
-                    padding: "40px 20px",
+                    padding: "40px 5%",
                     marginTop: "40px",
                 }}
             >
@@ -94,8 +94,10 @@ const Livestream = () => {
                     sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        padding: "0px 17% 0px 10%",
-                        marginBottom: "10px",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        padding: "0 5%",
+                        marginBottom: "20px",
                         borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
                         paddingBottom: "20px",
                     }}
@@ -104,65 +106,73 @@ const Livestream = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "20%",
+                            maxWidth: "200px",
                             height: "auto",
-                            marginLeft: "11%",
+                            marginLeft: "20px",
                         }}
                     />
                     <Box
                         sx={{
                             display: "flex",
-                            gap: "20px",
-                            marginLeft: "8%",
+                            gap: "15px",
+                            flexWrap: "wrap",
+                            justifyContent: "center",
                             borderLeft: "1px solid rgba(255, 255, 255, 0.3)",
                             borderRight: "1px solid rgba(255, 255, 255, 0.3)",
-                            paddingLeft: "1%",
-                            paddingRight: "1%",
-                            height: "45px",
+                            padding: "10px 20px",
+                            margin: "20px 0",
                         }}
                     >
-                        {[
-                            "instagram",
-                            "facebook",
-                            "x",
-                            "linkdin",
-                            "tiktok",
-                            "youtube",
-                            "uo",
-                        ].map((icon, index) => (
-                            <Link href="#" key={index} sx={{ color: "white" }}>
-                                <img
-                                    src={`assets/images/footer/${icon}.png`}
-                                    alt={icon}
-                                    style={{ width: "24px" }}
-                                />
-                            </Link>
-                        ))}
+                        {["instagram", "facebook", "x", "linkdin", "tiktok", "youtube", "uo"].map(
+                            (icon, index) => (
+                                <a
+                                    href="#"
+                                    key={index}
+                                    style={{ color: "white", textDecoration: "none" }}
+                                >
+                                    <img
+                                        src={`assets/images/footer/${icon}.png`}
+                                        alt={icon}
+                                        style={{ width: "24px" }}
+                                    />
+                                </a>
+                            )
+                        )}
                     </Box>
                 </Box>
                 <Box
                     sx={{
                         display: "flex",
                         flexWrap: "wrap",
+                        justifyContent: "space-around",
                         rowGap: "20px",
-                        columnGap: "50px",
-                        maxWidth: "1200px",
-                        marginLeft: "auto",
-                        marginRight: "auto",
+                        columnGap: "30px",
+                        margin: "0 auto",
+                        padding: "0 10%",
                     }}
                 >
                     {[
                         {
                             title: "Company",
-                            links: ["About Us", "Blog", "For Investors"],
+                            links: [
+                                { label: "About Us", to: "/about-us" },
+                                { label: "Blog", to: "/blog" },
+                                { label: "For Investors", to: "/investors" },
+                            ],
                         },
                         {
                             title: "Support",
-                            links: ["Help Center", "What's New"],
+                            links: [
+                                { label: "Help Center", to: "/help-center" },
+                                { label: "What's New", to: "/whats-new" },
+                            ],
                         },
                         {
                             title: "Legal",
-                            links: ["Privacy Policy", "Terms of Service"],
+                            links: [
+                                { label: "Privacy Policy", to: "/privacy-policy" },
+                                { label: "Terms of Service", to: "/terms-of-service" },
+                            ],
                         },
                         {
                             title: "Contact Us",
@@ -181,8 +191,9 @@ const Livestream = () => {
                         <Box
                             key={index}
                             sx={{
-                                flex: "1 1 calc(25% - 50px)",
+                                flex: "1 1 calc(50% - 30px)",
                                 minWidth: "200px",
+                                maxWidth: "300px",
                             }}
                         >
                             <Typography
@@ -196,49 +207,48 @@ const Livestream = () => {
                             >
                                 {section.title}
                             </Typography>
-                            {section.links ? (
+                            {section.links && (
                                 <ul style={{ listStyle: "none", padding: 0 }}>
                                     {section.links.map((link, i) => (
                                         <li key={i}>
                                             <Link
-                                                href="#"
-                                                sx={{
+                                                to={link.to}
+                                                style={{
                                                     color: "white",
                                                     textDecoration: "none",
                                                     fontSize: "14px",
                                                     lineHeight: "24px",
                                                 }}
                                             >
-                                                {link}
+                                                {link.label}
                                             </Link>
                                         </li>
                                     ))}
                                 </ul>
-                            ) : (
-                                section.details?.map((detail, i) => (
-                                    <Typography
-                                        key={i}
-                                        sx={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            color: "white",
-                                            fontSize: "14px",
-                                            lineHeight: "24px",
-                                            marginTop: "10px",
-                                        }}
-                                    >
-                                        <img
-                                            src={`assets/images/footer/${detail.icon}.png`}
-                                            alt={detail.icon}
-                                            style={{
-                                                width: "20px",
-                                                marginRight: "10px",
-                                            }}
-                                        />
-                                        {detail.text}
-                                    </Typography>
-                                ))
                             )}
+                            {section.details?.map((detail, i) => (
+                                <Typography
+                                    key={i}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        color: "white",
+                                        fontSize: "14px",
+                                        lineHeight: "24px",
+                                        marginTop: "10px",
+                                    }}
+                                >
+                                    <img
+                                        src={`assets/images/footer/${detail.icon}.png`}
+                                        alt={detail.icon}
+                                        style={{
+                                            width: "20px",
+                                            marginRight: "10px",
+                                        }}
+                                    />
+                                    {detail.text}
+                                </Typography>
+                            ))}
                         </Box>
                     ))}
                 </Box>
@@ -247,9 +257,7 @@ const Livestream = () => {
                         textAlign: "center",
                         marginTop: "30px",
                         borderTop: "1px solid rgba(255, 255, 255, 0.3)",
-                        paddingTop: "15px",
-                        marginLeft: "18%",
-                        marginRight: "18%",
+                        padding: "15px 5%",
                     }}
                 >
                     <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>

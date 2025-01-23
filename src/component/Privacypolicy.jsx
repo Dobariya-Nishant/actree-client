@@ -197,7 +197,7 @@ const Privacypolicy = () => {
                 style={{
                     background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
                     color: "white",
-                    padding: "40px 20px",
+                    padding: "40px 5%",
                     marginTop: "40px",
                 }}
             >
@@ -205,8 +205,10 @@ const Privacypolicy = () => {
                     sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        padding: "0px 17% 0px 10%",
-                        marginBottom: "10px",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        padding: "0 5%",
+                        marginBottom: "20px",
                         borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
                         paddingBottom: "20px",
                     }}
@@ -215,21 +217,21 @@ const Privacypolicy = () => {
                         src="assets/images/navbar/activa tree logo (2).png"
                         alt="Tree Design"
                         style={{
-                            maxWidth: "20%",
+                            maxWidth: "200px",
                             height: "auto",
-                            marginLeft: "11%",
+                            marginLeft: "20px",
                         }}
                     />
                     <Box
                         sx={{
                             display: "flex",
-                            gap: "20px",
-                            marginLeft: "8%",
+                            gap: "15px",
+                            flexWrap: "wrap",
+                            justifyContent: "center",
                             borderLeft: "1px solid rgba(255, 255, 255, 0.3)",
                             borderRight: "1px solid rgba(255, 255, 255, 0.3)",
-                            paddingLeft: "1%",
-                            paddingRight: "1%",
-                            height: "45px",
+                            padding: "10px 20px",
+                            margin: "20px 0",
                         }}
                     >
                         {["instagram", "facebook", "x", "linkdin", "tiktok", "youtube", "uo"].map(
@@ -253,11 +255,11 @@ const Privacypolicy = () => {
                     sx={{
                         display: "flex",
                         flexWrap: "wrap",
+                        justifyContent: "space-around",
                         rowGap: "20px",
-                        columnGap: "50px",
-                        maxWidth: "1200px",
-                        marginLeft: "auto",
-                        marginRight: "auto",
+                        columnGap: "30px",
+                        margin: "0 auto",
+                        padding: "0 10%",
                     }}
                 >
                     {[
@@ -300,8 +302,9 @@ const Privacypolicy = () => {
                         <Box
                             key={index}
                             sx={{
-                                flex: "1 1 calc(25% - 50px)",
+                                flex: "1 1 calc(50% - 30px)",
                                 minWidth: "200px",
+                                maxWidth: "300px",
                             }}
                         >
                             <Typography
@@ -365,9 +368,7 @@ const Privacypolicy = () => {
                         textAlign: "center",
                         marginTop: "30px",
                         borderTop: "1px solid rgba(255, 255, 255, 0.3)",
-                        paddingTop: "15px",
-                        marginLeft: "18%",
-                        marginRight: "18%",
+                        padding: "15px 5%",
                     }}
                 >
                     <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
