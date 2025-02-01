@@ -372,8 +372,8 @@ function SocialMedia(post) {
         try {
             const payload = {
                 postId,
-                content,
-                media,
+                ...(content && { content }),
+                ...(media && { media }),
             };
             const response = await networkRequest("POST", API_ENDPOINTS.POST_COMMNET, payload);
             if (response.statusCode === 201) {
@@ -1808,11 +1808,11 @@ function SocialMedia(post) {
                                                                             }}
                                                                         >
                                                                             {expandedComments[comment._id]
-                                                                                ? comment.content
-                                                                                : comment.content.split(" ").slice(0, 50).join(" ")}
+                                                                                ? comment?.content
+                                                                                : comment?.content?.split(" ").slice(0, 50).join(" ")}
 
                                                                         </p>
-                                                                        {comment.content.split(" ").length > 50 && (
+                                                                        {comment?.content?.split(" ").length > 50 && (
                                                                             <span
                                                                                 onClick={() => handleToggleExpand(comment._id)}
                                                                                 style={{
