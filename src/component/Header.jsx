@@ -92,9 +92,7 @@ function Header() {
                         .atlogo {
                             display: none;
                         } 
-
-                        
-                   
+                
                         @media (min-width: 768px) and (max-width: 1024px) {
                             .activatreelogo {
                                 display: none;
@@ -106,20 +104,7 @@ function Header() {
                                 max-width: 120px;
                                 max-height: 40px;
                             }
-                            // .navbar-nav {
-                            //     margin: 100%;
-                            // }
-                            // .profile-content {
-                            //     position: absolute;                                
-                            //     transform: translateX(-50%);
-                            //     z-index: 10;
-                            // }
-                            // .header-menu .single-item.active .main-area {
-                            //     opacity: 1;
-                            //     visibility: visible;
-                            //     transform: translateY(0px);
-                            // } 
-                        }                                                 
+                        }
                         @media (max-width: 768px) {
                             .activatreelogo {
                                 display: none;
@@ -140,28 +125,6 @@ function Header() {
                                 height: auto;
                                 margin: 
                             }
-                            // .navbar-nav {
-                            //     margin-left: 20%;
-                            // }
-                            // .navbar-nav {
-                            //     flex-wrap: nowrap;
-                            //     overflow-x: auto;
-                            // }
-                            // .navbar-nav {
-                            //     justify-content: center;
-                            // }
-                            // .navbar-nav li {
-                            //     display: flex;
-                            //     margin-left: 5px;
-                            // }
-                            // .profile-content {
-                            //     position: absolute;
-                            //     transform: translateX(-50%);
-                            //     z-index: 10;
-                            // }
-                                // .profile-pic {
-                                //     margin-bottom: -250px;
-                                // }
 
                             .profile-content {
                                 top: auto;
@@ -171,11 +134,43 @@ function Header() {
                                 overflow-y: auto;
                             }
                         }
-                        // @media (max-width: 480px) {
-                        // .profile-content {
-                        //     bottom: 110%;
-                        //     margin-bottom: -250px;
+
+                        @media (max-width: 480px) {
+                            .auth-buttons a {
+                                max-width: 30px;
+                            }
+                        }
+                        @media (max-width: 375px) {
+                            .auth-buttons a {
+                                max-width: 30px;
+                            }
+                        }
+                        // @media (max-width: 325px) {
+                        //     .auth-buttons a {
+                        //         max-width: 5px;
+                        //     }
+                        // }                    
+                        // @media (max-width: 320px) {
+                        //     .auth-buttons a {
+                        //         max-width: 15px;
+                        //     }
                         // }
+
+                        @media (max-width: 325px) {
+                            .auth-buttons {
+                                flex-direction: inherit;
+                                //margin-top: -100px;
+                            }
+                            .navbar-nav {
+                                display: contents;
+                            }
+                            .auth-buttons a {
+                                font-size: 10px;
+                                padding: 3px 6px;
+                                width: 70px;
+                            }
+                        }
+
                     }
                 `}
                 </style>

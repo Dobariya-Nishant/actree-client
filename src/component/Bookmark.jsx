@@ -612,7 +612,6 @@ function Bookmark(post) {
                                                     </ul>
                                                 </div>
                                             </button> */}
-
                                             <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(bookmark.postId._id, bookmark.postId.isLiked)}>
                                                 <i className="material-symbols-outlined mat-icon">favorite</i>
                                                 {bookmark.isLiked?.userId === user._id ? "Liked" : "Like"} {bookmark.postId.likeCount}
