@@ -88,165 +88,133 @@ function Groups() {
                                 </div>
                             </div>
                             <div className="post-item d-flex flex-column gap-5 gap-md-7" id="news-feed">
-                                <div class="row cus-mar friend-request">
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                <div className="row cus-mar friend-request">
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row cus-mar friend-request">
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row cus-mar friend-request">
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row cus-mar friend-request">
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
+                                    <div className="col-xl-4 col-sm-6 col-8">
+                                        <div className="single-box p-1">
+                                            <div className="avatar-box position-relative">
+                                                <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
-                                                <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
-                                            </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
-                                                <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-sm-6 col-8">
-                                        <div class="single-box p-1">
-                                            <div class="avatar-box position-relative">
-                                                <img class="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
-                                            </div>
-                                            <a href="group-details.html"><h6 class="">Science & Facts</h6></a>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
-                                            <p class=""><img class="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
-                                            <div class="d-center btn-border pt-1">
+                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
+                                            <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
+                                            <div className="d-center btn-border pt-1">
                                                 <button className="cmn-btn" style={{ borderRadius: "40px" }}>Join Group</button>
                                             </div>
                                         </div>
@@ -296,7 +264,7 @@ function Groups() {
                                                                 <div className="avatar-item">
                                                                     <img
                                                                         className="avatar-img max-un"
-                                                                        src={suggestedUser.profilePicture || "assets/images/avatar-14.png"}
+                                                                        src={suggestedUser.profilePicture || "../assets/images/avatar-14.png"}
                                                                         alt="avatar"
                                                                         style={{ borderRadius: "50px", width: "40px" }}
                                                                     />

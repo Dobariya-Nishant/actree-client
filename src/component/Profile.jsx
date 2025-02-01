@@ -13,6 +13,24 @@ const Profile = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
   const [suggestList, setSuggestList] = useState([]);
   const [followedUsers, setFollowedUsers] = useState([]);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const dropdownRef = useRef(null);
+
+  const handleDropdownToggle = (postId, event) => {
+    event.stopPropagation();
+    setOpenDropdown(openDropdown === postId ? null : postId);
+  };
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenDropdown(null);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     getAllSuggest();
@@ -100,9 +118,6 @@ const Profile = () => {
 
   const [posts, setPosts] = useState([]);
   const [followedPosts, setFollowedPosts] = useState([]);
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const dropdownRef = useRef(null);
-
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const handleEmojiClick = (emojiObject) => {
     setPostContent((prevContent) => prevContent + emojiObject.emoji);
@@ -115,7 +130,6 @@ const Profile = () => {
     //     toast.error("Please add some content or upload a file.");
     //     return;
     // }
-
     const formData = new FormData();
     formData.append("content", postContent);
     uploadedFiles.forEach((file) => {
@@ -140,11 +154,37 @@ const Profile = () => {
     }
   };
 
+  // const getAllPost = async () => {
+  //   try {
+  //     const response = await networkRequest("GET", API_ENDPOINTS.GET_POSTLIST, {}, {}, { userId: user._id });
+  //     if (response.statusCode === 200) {
+  //       console.log("response", response)
+  //       const postsData = response.data.postList;
+  //       const updatedPosts = postsData.map((post) => ({
+  //         ...post,
+  //         user: {
+  //           ...post?.user,
+  //           isFollowed: post?.user.isFollowed || false,
+  //         },
+  //         likeCount: post?.likeCount || 0,
+  //         isLiked: post?.isLiked || false,
+  //       }));
+  //       setPosts(updatedPosts);
+  //       const followedUserIds = updatedPosts
+  //         .filter(post => post?.user.isFollowed)
+  //         .map(post => post?.user._id);
+  //       setFollowedPosts(followedUserIds);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching posts:", error);
+  //   }
+  // };
+
   const getAllPost = async () => {
     try {
-      const response = await networkRequest("GET", API_ENDPOINTS.GET_POSTLIST, {}, {});
+      const response = await networkRequest("GET", API_ENDPOINTS.GET_POSTLIST, {}, {}, { userId: user._id });
       if (response.statusCode === 200) {
-        console.log("response", response)
+        console.log("response", response);
         const postsData = response.data.postList;
         const updatedPosts = postsData.map((post) => ({
           ...post,
@@ -155,8 +195,11 @@ const Profile = () => {
           likeCount: post?.likeCount || 0,
           isLiked: post?.isLiked || false,
         }));
-        setPosts(updatedPosts);
-        const followedUserIds = updatedPosts
+        const uniquePosts = Array.from(
+          new Set(updatedPosts.map((post) => post._id))
+        ).map((id) => updatedPosts.find((post) => post._id === id));
+        setPosts(uniquePosts);
+        const followedUserIds = uniquePosts
           .filter(post => post?.user.isFollowed)
           .map(post => post?.user._id);
         setFollowedPosts(followedUserIds);
@@ -166,9 +209,9 @@ const Profile = () => {
     }
   };
 
-  const handleDropdownToggle = (postId) => {
-    setOpenDropdown((prev) => (prev === postId ? null : postId));
-  };
+  // const handleDropdownToggle = (postId) => {
+  //   setOpenDropdown((prev) => (prev === postId ? null : postId));
+  // };
 
   const handlePostFollowToggle = async (postId) => {
     const updatedPosts = posts.map((post) => {
@@ -222,7 +265,6 @@ const Profile = () => {
       console.error("Error unfollowing user:", error);
     }
   };
-
   const handleFollowToggle1 = async (userId) => {
     try {
       if (followedUsers.includes(userId)) {
@@ -248,7 +290,6 @@ const Profile = () => {
       console.error("Error in follow/unfollow operation:", error);
     }
   };
-
   const handleBookmarkRemove = async (postId) => {
     try {
       const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_BOOKMARK, { postId });
@@ -262,7 +303,6 @@ const Profile = () => {
       console.error("Error in bookmark operation:", error);
     }
   };
-
   const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
   const handleBookmark = async (postId) => {
     try {
@@ -278,7 +318,6 @@ const Profile = () => {
       console.error("Error in bookmark operation:", error);
     }
   };
-
   const handleDeletePost = async (postId) => {
     try {
       const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_POST, { postId });
@@ -292,22 +331,19 @@ const Profile = () => {
       console.error("Error in delete post operation:", error);
     }
   };
-
-
-
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [likedBy, setLikedBy] = useState([]);
-
   const handleLikeToggle = async (postId, isLiked) => {
     try {
       if (isLiked) {
         const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_LIKE, { postId });
-        if (response.statusCode === 200) {
+        if (response.statusCode === 201) {
           console.log("Disliked successfully!");
           setIsLiked(false);
           setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
           setLikedBy((prevList) => prevList.slice(0, -1));
+          getAllPost();
         } else {
           console.error("Failed to dislike");
         }
@@ -319,16 +355,24 @@ const Profile = () => {
           setIsLiked(true);
           setLikeCount((prevCount) => prevCount + 1);
           setLikedBy((prevList) => [...prevList, response.data.user]);
+          getAllPost();
         }
       }
     } catch (error) {
       console.error("Error toggling like:", error);
     }
   };
-
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [activePostId, setActivePostId] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedContent, setEditedContent] = useState("");
+  const [showEmojiPickerAdd, setShowEmojiPickerAdd] = useState(false);
+
+  const handleEditComment = (commentId, currentContent) => {
+    setEditingCommentId(commentId);
+    setEditedContent(currentContent);
+  };
   const handleOpenModal = (postId) => {
     setActivePostId(postId);
     fetchComments(postId);
@@ -338,7 +382,7 @@ const Profile = () => {
     handleComment(postId, content, media);
   };
 
-  const handleComment = async (postId, content, media = null) => {
+  const handleComment = async (postId, content, media) => {
     try {
       const payload = {
         postId,
@@ -370,6 +414,61 @@ const Profile = () => {
     }
   };
 
+  const updateComment = async (commentId, content, media = null) => {
+    try {
+      // const payload = {
+      //     commentId,
+      //     content,
+      //     media,
+      // };
+      let payload;
+      if (media instanceof File) {
+        payload = new FormData();
+        payload.append("commentId", commentId);
+        payload.append("content", content);
+        payload.append("media", media);
+      } else {
+        payload = {
+          commentId,
+          content,
+          media,
+        };
+      }
+      const response = await networkRequest("PATCH", API_ENDPOINTS.UPDATE_COMMENT, payload);
+      if (response.statusCode === 201) {
+        console.log("Comment updated successfully!");
+        fetchComments(activePostId);
+        setEditingCommentId(null);
+      } else {
+        console.error("Failed to update commnet");
+      }
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_COMMENT, { commentId });
+      if (response.statusCode === 201) {
+        console.log("Comment deleted successfully!");
+        fetchComments(activePostId);
+      } else {
+        console.error("Failed to delete comment");
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const [expandedComments, setExpandedComments] = useState({});
+  const handleToggleExpand = (commentId) => {
+    setExpandedComments((prevState) => ({
+      ...prevState,
+      [commentId]: !prevState[commentId],
+    }));
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postContent, setPostContent] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -387,14 +486,12 @@ const Profile = () => {
   const handlePostUpdate = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    //formData.append("_id", selectedPost._id);
     formData.append("postId", selectedPost._id);
     formData.append("content", postContent);
     uploadedFiles.forEach((file) => {
       formData.append("media", file);
     });
     try {
-      //const response = await networkRequest("PATCH", API_ENDPOINTS.UPDATE_POST, postId, formData);
       const response = await networkRequest("PATCH", `${API_ENDPOINTS.UPDATE_POST}`, formData);
       if (response.statusCode === 201) {
         //toast.success("post updated successfully!");
@@ -424,7 +521,6 @@ const Profile = () => {
     const newValue = !isPrivate;
     setIsPrivate(newValue);
     try {
-      //const updatedUser = { ...user, isPrivate: newValue, type: user.type };
       const updatedUser = {
         userId: user._id,
         isPrivate: newValue,
@@ -444,6 +540,47 @@ const Profile = () => {
       console.error("Error update post:", error);
     }
   };
+
+  const [pinError, setPinError] = useState("");
+  const handlePinToggle = async (postId, isPinned) => {
+    try {
+      setPinError("");
+      if (isPinned) {
+        const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_UNPIN, { postId });
+        if (response.statusCode === 201) {
+          console.log("Unpin successful!");
+          getAllPost();
+        } else {
+          console.error("Failed to unpin");
+        }
+      } else {
+        const response = await networkRequest("POST", API_ENDPOINTS.POST_PIN, { postId });
+        if (response.statusCode === 201) {
+          console.log("Pin post created successfully!");
+          getAllPost();
+        } else if (response.statusCode === 409) {
+          setPinError("You can only pin up to 3 posts.");
+        } else {
+          console.error("Failed to pin post");
+        }
+      }
+    } catch (error) {
+      if (error.statusCode === 409) {
+        setPinError("You can only pin up to 3 posts.");
+      } else {
+        console.error("Error in pin/unpin operation:", error);
+      }
+    }
+  };
+
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const toggleDropdown = (commentId) => {
+    setActiveDropdown((prev) => (prev === commentId ? null : commentId));
+  };
+
+  const [editedMedia, setEditedMedia] = useState(null);
+  const [mediaPreview, setMediaPreview] = useState(null);
+  const [mediaPreviewAdd, setMediaPreviewAdd] = useState(null);
 
   return (
     <>
@@ -471,22 +608,7 @@ const Profile = () => {
                 object-fit: cover;
                 border-radius: 8px;
                 display: block;
-            }
-            // .avatar-img1 {
-            //     position: absolute;
-            //     margin-top: -7%;
-            //     object-fit: cover;
-            //     border-radius: 50px;
-            //     height: 100px;
-            //     width: 100px;
-            // }
-            // .cemeraphoto {
-            //     position: absolute;
-            //     margin-top: -50px;
-            //     margin-left: 70px;
-            //     z-index: 5;
-            //     object-fit: cover;
-            // }            
+            }           
             .avatar-item {
                 position: relative;
             }
@@ -520,6 +642,9 @@ const Profile = () => {
                     top: 80%;
                     left: 80%;
                 }
+                .textremove span {
+                  display: none;
+                }
             }
             @media (max-width: 480px) {
                 .avatar-img1 {
@@ -532,6 +657,28 @@ const Profile = () => {
                     margin-top: -50px;
                     margin-left: 100px;
                 }
+            }
+            .dropdown-menu {
+              position: absolute;
+              right: 10px;
+              transform: translateY(0);
+              z-index: 1000;
+            }
+            .change-cover-photo {
+              display: inline-flex;
+            }
+            .cover-photo-text {
+              display: inline;
+            }
+            @media (max-width: 320px) {
+              .cover-photo-text {
+                display: none;
+              }
+            }
+            @media (max-width: 375px) {
+              .cover-photo-text {
+                display: none;
+              }
             }
         `}
         </style>
@@ -554,9 +701,9 @@ const Profile = () => {
                             onChange={handleCoverPhotoChange}
                             style={{ display: "none" }}
                           />
-                          <span className="cmn-btn d-center gap-1" >
+                          <span className="cmn-btn d-center gap-1 change-cover-photo">
                             <i className="material-symbols-outlined mat-icon fs-2"> edit_note </i>
-                            Change Cover Photo
+                            <span className="cover-photo-text">Change Cover Photo</span>
                           </span>
                         </label>
                       </div>
@@ -587,12 +734,12 @@ const Profile = () => {
                         {user.type === 'individual' ? (
                           <Link to="/individualsignup" className="cmn-btn d-center gap-1">
                             <i className="material-symbols-outlined mat-icon fs-4"> person_add </i>
-                            Edit Profile
+                            <span className="cover-photo-text">Edit Profile</span>
                           </Link>
                         ) : (
                           <Link to="/individualsignup" className="cmn-btn d-center gap-1">
                             <i className="material-symbols-outlined mat-icon fs-4"> person_add </i>
-                            Edit Profile
+                            <span className="cover-photo-text">Edit Profile</span>
                           </Link>
                         )}
                       </div>
@@ -791,8 +938,12 @@ const Profile = () => {
                 </div>
                 <div className="share-post d-flex gap-3 gap-sm-5 p-3 p-sm-5">
                   <div className="profile-box">
-                    <Link to="/profile"><img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="icon"
-                      style={{ borderRadius: "50px", width: "40px" }} />
+                    <Link to="/profile">
+                      <img
+                        className="avatar-img max-un"
+                        src={user.profilePicture || "../assets/images/navbar/picture.png"}
+                        alt="icon"
+                        style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                     </Link>
                   </div>
                   <form action="#" className="w-100 position-relative">
@@ -809,7 +960,7 @@ const Profile = () => {
                         height: "40px",
                       }}
                     ></input>
-                    <ul className="d-flex justify-content-between flex-wrap">
+                    <ul className="d-flex justify-content-between flex-wrap textremove">
                       <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#photoVideoMod">
                         <img src="../assets/images/socialsidebar/galleryicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                         <span style={{ color: "#1565c0" }}>Photo/Video</span>
@@ -834,7 +985,11 @@ const Profile = () => {
                       <div className="profile-area d-center justify-content-between">
                         <div className="avatar-item d-flex gap-3 align-items-center">
                           <div className="position-relative">
-                            <img className="avatar-img max-un" src={post?.user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
+                            <img
+                              className="avatar-img max-un"
+                              src={post?.user.profilePicture || "../assets/images/navbar/picture.png"}
+                              alt="avatar"
+                              style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                           </div>
                           <div className="info-area">
                             <h6 className="m-0"><a href="public-profile-post?.html">{post?.user?.userName}</a></h6>
@@ -844,9 +999,10 @@ const Profile = () => {
                                 day: "numeric",
                                 year: "numeric",
                               })}</span>
+
                           </div>
                         </div>
-                        <div className="btn-group cus-dropdown">
+                        <div className="btn-group cus-dropdown" ref={dropdownRef}>
                           {post?.user._id !== user._id && (
                             <button
                               className="cmn-btn me-3"
@@ -870,11 +1026,18 @@ const Profile = () => {
                               {post?.user.isFollowed ? "Following" : "Follow"}
                             </button>
                           )}
+                          <span className="mdtxt status">
+                            {post?.isPinned && (
+                              <i className="material-symbols-outlined mat-icon">push_pin</i>
+                            )}
+                          </span>
                           <button
                             type="button"
                             className="dropdown-btn"
-                            onClick={() => handleDropdownToggle(post?._id)}
-                            aria-expanded={openDropdown === post?._id}
+                            // onClick={() => handleDropdownToggle(post?._id)}
+                            // aria-expanded={openDropdown === post?._id}
+                            onClick={(e) => handleDropdownToggle(post._id, e)}
+                            aria-expanded={openDropdown === post._id}
                           >
                             <i className="material-symbols-outlined fs-xxl m-0"> more_horiz </i>
                           </button>
@@ -886,14 +1049,18 @@ const Profile = () => {
                           >
                             {post?.isBookMarked ? (
                               <li>
-                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(post?._id)}>
+                                <a className="droplist d-flex align-items-center gap-2"
+                                  onClick={() => handleBookmarkRemove(post?._id)}
+                                >
                                   <i className="material-symbols-outlined mat-icon">delete</i>
-                                  <span>Remove Post</span>
+                                  <span>Unsave Post</span>
                                 </a>
                               </li>
                             ) : (
                               <li>
-                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmark(post?._id)}>
+                                <a className="droplist d-flex align-items-center gap-2"
+                                  onClick={() => handleBookmark(post?._id)}
+                                >
                                   <i className="material-symbols-outlined mat-icon">bookmark_add</i>
                                   <span>Save Post</span>
                                 </a>
@@ -901,16 +1068,38 @@ const Profile = () => {
                             )}
                             {post?.user._id === user._id && (
                               <li>
-                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleDeletePost(post?._id)}>
+                                <a className="droplist d-flex align-items-center gap-2"
+                                  onClick={() => handleDeletePost(post?._id)}
+                                >
                                   <i className="material-symbols-outlined mat-icon">delete</i>
                                   <span>Delete Post</span>
                                 </a>
                               </li>
                             )}
                             <li>
-                              <a className="droplist d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#photoVideoModEdit" onClick={() => handleEditPost(post?._id, post)}>
+                              <a className="droplist d-flex align-items-center gap-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#photoVideoModEdit"
+                                //onClick={() => handleEditPost(post?._id, post)}
+                                onClick={() => {
+                                  handleEditPost(post?._id, post);
+                                  setOpenDropdown(null);
+                                }}
+                              >
                                 <i className="material-symbols-outlined mat-icon">edit</i>
                                 <span>Edit Post</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a className="droplist d-flex align-items-center gap-2"
+                                //onClick={() => handlePinToggle(post?._id, post?.isPinned)}
+                                onClick={() => {
+                                  handlePinToggle(post?._id, post?.isPinned);
+                                  setOpenDropdown(null);
+                                }}
+                              >
+                                <i className="material-symbols-outlined mat-icon">  {post.isPinned ? "push_pin" : "push_pin"} </i>
+                                <span>{post.isPinned ? "Unpin Post" : "Pin Post"}</span>
                               </a>
                             </li>
                             <li>
@@ -937,7 +1126,22 @@ const Profile = () => {
                       <div className="py-2">
                         <p className="description">{post?.content}</p>
                       </div>
-                      {post?.media && post?.media[0] && (
+                      <style>
+                        {`
+                          .post-img {
+                              display: grid;
+                              gap: 10px;
+                          }
+                          .single img,
+                          .single video {
+                              width: 100%;
+                              height: 100%;
+                              object-fit: cover;
+                              border-radius: 5px;
+                          }
+                      `}
+                      </style>
+                      {/* {post?.media && post?.media[0] && (
                         <div
                           className="post-media-container"
                           style={{
@@ -973,7 +1177,271 @@ const Profile = () => {
                             </video>
                           )}
                         </div>
+                      )} */}
+                      {post?.media && post?.media?.length > 0 && (
+                        <div className="post-media-container" style={{ width: "100%", height: "auto", overflow: "hidden", }}>
+                          {post.media.length === 1 && (
+                            <div className="post-img">
+                              {post.media[0].type === "photos" ? (
+                                <img src={post.media[0].url} className="w-100" alt="image" />
+                              ) : (
+                                <video controls className="w-100">
+                                  <source src={post.media[0].url} type="video/mp4" />
+                                  Your browser does not support the video tag.
+                                </video>
+                              )}
+                            </div>
+                          )}
+                          {post.media.length === 2 && (
+                            <div className="post-img d-flex justify-content-between">
+                              {post.media.map((media, index) => (
+                                <div key={index} className="single" style={{ width: "49%" }}>
+                                  {media.type === "photos" ? (
+                                    <img src={media.url} className="w-100" alt="image" />
+                                  ) : (
+                                    <video controls className="w-100">
+                                      <source src={media.url} type="video/mp4" />
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          {post.media.length === 3 && (
+                            <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
+                              <div className="single" style={{ width: "50%" }}>
+                                {post.media[0].type === "photos" ? (
+                                  <img src={post.media[0].url} className="w-100" alt="image" />
+                                ) : (
+                                  <video controls className="w-100">
+                                    <source src={post.media[0].url} type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                  </video>
+                                )}
+                              </div>
+                              <div className="single d-grid gap-2" style={{ width: "50%" }}>
+                                {post.media.slice(1).map((media, index) => (
+                                  <div key={index}>
+                                    {media.type === "photos" ? (
+                                      <img src={media.url} className="w-100" alt="image" />
+                                    ) : (
+                                      <video controls className="w-100">
+                                        <source src={media.url} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                      </video>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {post.media.length === 4 && (
+                            <div className="post-img d-grid gap-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: "10px" }}>
+                              {post.media.map((media, index) => (
+                                <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
+                                  {media.type === "photos" ? (
+                                    <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                  ) : (
+                                    <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
+                                      <source src={media.url} type="video/mp4" />
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       )}
+
+                      {/* {post.orignalPostId && (
+                        <div className="orignal-post-container p-3" style={{ border: "1px solid #ddd", borderRadius: "8px", marginTop: "15px" }}>
+                          <div className="d-flex gap-3 align-items-center">
+                            <div className="position-relative">
+                              <Link
+                                to={post.orignalPostId.user?._id === user._id ? "/profile" : `/accountProfile/${post.orignalPostId.user?.userName}`}
+                              >
+                                <img
+                                  className="avatar-img max-un"
+                                  src={post.orignalPostId.user?.profilePicture || "../assets/images/navbar/picture.png"}
+                                  alt="avatar"
+                                  style={{ borderRadius: "50px", width: "40px", height: "40px" }}
+                                />
+                              </Link>
+                            </div>
+                            <div className="info-area">
+                              <h6 className="m-0">
+                                <Link
+                                  to={post.orignalPostId.user?._id === user._id ? "/profile" : `/accountProfile/${post.orignalPostId.user?.userName}`}
+                                >
+                                  {post.orignalPostId.user?.userName}
+                                </Link>
+                              </h6>
+                              <span className="mdtxt status">
+                                {post.orignalPostId.createdAt &&
+                                  new Date(post.orignalPostId.createdAt).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  })}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="py-2">
+                            <p className="description">{post.orignalPostId.content}</p>
+                          </div>
+                          {post.orignalPostId.media && post.orignalPostId.media[0] && (
+                            <div
+                              className="post-media-container"
+                              style={{
+                                width: "100%",
+                                height: "315px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                overflow: "hidden",
+                              }}
+                            >
+                              {post.orignalPostId.media[0].type === "photos" && (
+                                <img
+                                  src={post.orignalPostId.media[0].url}
+                                  alt="image"
+                                  style={{
+                                    maxWidth: "100%",
+                                    maxHeight: "100%",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                              )}
+                              {post.orignalPostId.media[0].type === "video" && (
+                                <video
+                                  controls
+                                  style={{
+                                    maxWidth: "100%",
+                                    maxHeight: "100%",
+                                    objectFit: "contain",
+                                  }}
+                                >
+                                  <source src={post.orignalPostId.media[0].url} type="video/mp4" />
+                                  Your browser does not support the video tag.
+                                </video>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )} */}
+                      {post?.orignalPostId?.media && post?.orignalPostId?.media.length > 0 && (
+                        <div className="orignal-post-container p-3" style={{ width: "100%", height: "auto", overflow: "hidden", border: "1px solid #ddd", borderRadius: "8px", marginTop: "15px" }}>
+                          <div className="d-flex gap-3 align-items-center">
+                            <div className="position-relative">
+                              <Link
+                                to={post.orignalPostId.user?._id === user._id ? "/profile" : `/accountProfile/${post.orignalPostId.user?.userName}`}
+                              >
+                                <img
+                                  className="avatar-img max-un"
+                                  src={post.orignalPostId.user?.profilePicture || "../assets/images/navbar/picture.png"}
+                                  alt="avatar"
+                                  style={{ borderRadius: "50px", width: "40px", height: "40px" }}
+                                />
+                              </Link>
+                            </div>
+                            <div className="info-area">
+                              <h6 className="m-0">
+                                <Link
+                                  to={post.orignalPostId.user?._id === user._id ? "/profile" : `/accountProfile/${post.orignalPostId.user?.userName}`}
+                                >
+                                  {post.orignalPostId.user?.userName || "Unknown"}
+                                </Link>
+                              </h6>
+                              <span className="mdtxt status">
+                                {post.orignalPostId.createdAt &&
+                                  new Date(post.orignalPostId.createdAt).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  })}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="py-2">
+                            <p className="description">{post.orignalPostId.content}</p>
+                          </div>
+                          {post.orignalPostId.media.length === 1 && (
+                            <div className="post-img">
+                              {post.orignalPostId.media[0].type === "photos" ? (
+                                <img src={post.orignalPostId.media[0].url} className="w-100" alt="image" />
+                              ) : (
+                                <video controls className="w-100">
+                                  <source src={post.orignalPostId.media[0].url} type="video/mp4" />
+                                  Your browser does not support the video tag.
+                                </video>
+                              )}
+                            </div>
+                          )}
+                          {post.orignalPostId.media.length === 2 && (
+                            <div className="post-img d-flex justify-content-between">
+                              {post.orignalPostId.media.map((media, index) => (
+                                <div key={index} className="single" style={{ width: "49%" }}>
+                                  {media.type === "photos" ? (
+                                    <img src={media.url} className="w-100" alt="image" />
+                                  ) : (
+                                    <video controls className="w-100">
+                                      <source src={media.url} type="video/mp4" />
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          {post.orignalPostId.media.length === 3 && (
+                            <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
+                              <div className="single" style={{ width: "50%" }}>
+                                {post.orignalPostId.media[0].type === "photos" ? (
+                                  <img src={post.orignalPostId.media[0].url} className="w-100" alt="image" />
+                                ) : (
+                                  <video controls className="w-100">
+                                    <source src={post.orignalPostId.media[0].url} type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                  </video>
+                                )}
+                              </div>
+                              <div className="single d-grid gap-2" style={{ width: "50%" }}>
+                                {post.orignalPostId.media.slice(1).map((media, index) => (
+                                  <div key={index}>
+                                    {media.type === "photos" ? (
+                                      <img src={media.url} className="w-100" alt="image" />
+                                    ) : (
+                                      <video controls className="w-100">
+                                        <source src={media.url} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                      </video>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {post.orignalPostId.media.length === 4 && (
+                            <div className="post-img d-grid gap-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: "10px" }}>
+                              {post.orignalPostId.media.map((media, index) => (
+                                <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
+                                  {media.type === "photos" ? (
+                                    <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                  ) : (
+                                    <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
+                                      <source src={media.url} type="video/mp4" />
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                     </div>
                     <div className="like-comment-share py-2 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
                       <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post?._id, post?.isLiked)}>
@@ -986,7 +1454,7 @@ const Profile = () => {
                             {post?.isLiked && post?.isLiked.userId && (
                               <li key={post?.isLiked.userId}>
                                 <img
-                                  src={post?.user.profilePicture || "assets/images/navbar/picture.png"}
+                                  src={post?.user.profilePicture || "../assets/images/navbar/picture.png"}
                                   alt="User Avatar"
                                   style={{ borderRadius: "50%", width: "30px", height: "30px" }}
                                 />
@@ -996,6 +1464,30 @@ const Profile = () => {
                           </ul>
                         </div>
                       </button>
+                      {/* <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post._id, post.isLiked)}>
+                        <i className="material-symbols-outlined mat-icon">
+                          {post.likes?.some((like) => like.userId === user._id) ? "favorite" : "favorite_border"}
+                        </i>
+                        {post.likes?.some((like) => like.userId === user._id) ? "Liked" : "Like"} {post.likeCount}
+                        <div className="friends-list d-flex gap-3 align-items-center text-center">
+                          <ul className="d-flex align-items-center justify-content-center">
+                            {post.likes?.slice(0, 3).map((like) => (
+                              <li key={like.userId}>
+                                <img
+                                  src={like.user?.profilePicture || "../assets/images/navbar/picture.png"}
+                                  alt="User Avatar"
+                                  style={{ borderRadius: "50%", width: "30px", height: "30px" }}
+                                />
+                              </li>
+                            ))}
+                            {post.likes?.length > 3 && (
+                              <li>
+                                <span className="mdtxt d-center">+{post.likes.length - 3}</span>
+                              </li>
+                            )}
+                          </ul>
+                        </div>
+                      </button> */}
                       <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModComment"
                         onClick={() => handleOpenModal(post?._id)} >
                         <i className="material-symbols-outlined mat-icon"> chat </i>
@@ -1008,11 +1500,8 @@ const Profile = () => {
                     </div>
                   </div>
                 ))}
-
               </div>
-
             </div>
-
             <div className="col-xxl-3 col-xl-4 col-lg-5">
               <div className="sidebar-wrapper d-flex al-item justify-content-end justify-content-xl-center flex-column flex-md-row flex-xl-column flex gap-6">
                 <div className="sidebar-area p-5">
@@ -1027,9 +1516,9 @@ const Profile = () => {
                             <div className="avatar-item">
                               <img
                                 className="avatar-img max-un"
-                                src={suggestedUser.profilePicture || "assets/images/avatar-14.png"}
+                                src={suggestedUser.profilePicture || "../assets/images/avatar-14.png"}
                                 alt="avatar"
-                                style={{ borderRadius: "50px", width: "40px" }}
+                                style={{ borderRadius: "50px", width: "40px", height: "40px" }}
                               />
                             </div>
                             <div className="info-area">
@@ -1070,57 +1559,324 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </main>
-
+      <style>
+        {`
+          @media (max-width: 425px) {
+              .dropdown-menu {
+                  position: absolute !important;
+                  right: 10px !important;
+                  left: auto !important;
+                  min-width: 100px !important;
+                  max-width: 85vw !important;
+                  white-space: nowrap;
+                  z-index: 9999;
+              }
+              .dropdown-btn {
+                  margin-left: 0 !important;
+              }
+          }
+          @media (max-width: 425px) {
+              .modal-content {
+                  width: 95vw !important;
+                  max-width: 95vw !important;
+                  padding: 10px !important;
+              }
+              .comments-list {
+                  max-width: 95vw !important;
+                  padding-right: 0 !important;
+              }
+              .info-item {
+                  max-width: 100% !important;
+                  overflow-wrap: break-word;
+                  word-wrap: break-word;
+                  white-space: normal;
+              }
+              textarea {
+                  width: 100% !important;
+                  max-width: 95vw !important;
+              }
+          }
+          @media (max-width: 768px) {
+              imgcomment, video {
+                  max-width: 90% !important;
+                  height: auto !important;
+                  display: block;
+                  margin: auto;
+                  border-radius: 5px;
+              }
+              textarea {
+                  width: 100% !important;
+                  max-width: 95vw !important;
+              }
+          }
+          @media (max-width: 425px) {
+              imgcomment, video {
+                  max-width: 100% !important;
+                  height: auto !important;
+                  display: block;
+                  margin: auto;
+                  border-radius: 5px;
+              }
+          }
+          @media (max-width: 768px) {
+              .emoji-pickeredit {
+                  width: 100% !important;
+                  max-width: 500px !important;
+              }
+          }
+          @media (max-width: 425px) {
+              .emoji-pickeredit {
+                  width: 100% !important;
+                  max-width: 300px !important;
+              }
+          }
+          @media (max-width: 375px) {
+              .emoji-pickeredit {
+                  width: 100% !important;
+                  max-width: 200px !important;
+              }
+          }
+          @media (max-width: 320px) {
+              .emoji-pickeredit {
+                  width: 100% !important;
+                  max-width: 200px !important;
+              }
+          }
+      `}
+      </style>
       <div className="go-live-popup">
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
               <div className="modal cmn-modal fade" id="activityModComment">
-                <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "800px" }}>
                   <div className="modal-content p-5">
                     <div className="modal-header justify-content-center">
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <i className="material-symbols-outlined mat-icon xxltxt"> close </i>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i className="material-symbols-outlined mat-icon xxltxt">close</i>
                       </button>
                     </div>
                     <div className="top-content">
-                      <h6>Comment</h6>
-                      <hr />
-                      <div className="comments-list" style={{
-                        maxHeight: '600px',
-                        overflowY: 'auto',
-                        paddingRight: '10px'
-                      }}>
-                        {comments.filter(comment => comment.postId === activePostId).map((comment) => (
+                      <h6>Comments</h6><hr />
+                      <div className="comments-list">
+                        {comments.filter((comment) => comment.postId === activePostId).map((comment) => (
                           <div key={comment._id} className="comments-area">
                             <div className="single-comment-area ms-1">
-                              <div className="parent-comment d-flex gap-2 gap-sm-4">
-                                <div className="d-center align-items-baseline">
-                                  <img
-                                    className="avatar-img max-un"
-                                    src={comment.user.profilePicture || "assets/images/navbar/picture.png"}
-                                    alt="avatar"
-                                    style={{ borderRadius: "50px", width: "40px" }}
-                                  />
-                                </div>
-                                <div className="info-item active">
-                                  <div className="top-area px-4 py-3 d-flex gap-3 align-items-start justify-content-between">
+                              <div className="parent-comment d-flex gap-3">
+                                <img
+                                  className="avatar-img"
+                                  src={comment.user.profilePicture || "../assets/images/navbar/picture.png"}
+                                  alt="avatar"
+                                  style={{ borderRadius: "50%", width: "40px", marginTop: "10px", height: "40px", }}
+                                />
+                                <div className="info-item">
+                                  <div className="top-area px-4 py-3 d-flex justify-content-between">
                                     <div className="title-area">
-                                      <h6 className="m-0 mb-3">
-                                        <a href="public-profile-post?.html">{comment.user.userName}</a>
+                                      <h6 className="m-0 mb-2 comment-user-name">
+                                        <a href="#">{comment.user.userName}</a>
                                       </h6>
-                                      <p className="mdtxt">{comment.content}</p>
+                                    </div>
+                                    <div className="info-area" style={{ marginTop: "-10px", marginLeft: "10px" }}>
+                                      <span className="m-0">{comment.updatedAt &&
+                                        new Date(comment.updatedAt).toLocaleDateString("en-US", {
+                                          month: "short",
+                                          day: "numeric",
+                                        })}</span>
+                                    </div>
+                                    <div className="btn-group cus-dropdown">
+                                      <button
+                                        onClick={() => toggleDropdown(comment._id)}
+                                        type="button"
+                                        className="dropdown-btn"
+                                        style={{ marginLeft: "450px", marginTop: "-20px" }}
+                                      >
+                                        <i className="material-symbols-outlined fs-xxl m-0">more_horiz</i>
+                                      </button>
+                                      <ul
+                                        className={`dropdown-menu ${activeDropdown === comment._id ? "show" : ""}`}
+                                        style={{ marginLeft: "350px", marginTop: "10px" }}
+                                      >
+                                        <li>
+                                          <a
+                                            className="droplist d-flex align-items-center gap-2"
+                                            onClick={() => {
+                                              handleEditComment(comment._id, comment.content, comment.media);
+                                              setActiveDropdown(null);
+                                            }}
+                                          >
+                                            <i className="material-symbols-outlined mat-icon">edit</i>
+                                            <span>Edit</span>
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            className="droplist d-flex align-items-center gap-2"
+                                            onClick={() => handleDeleteComment(comment._id)}
+                                          >
+                                            <i className="material-symbols-outlined mat-icon">delete</i>
+                                            <span>Delete</span>
+                                          </a>
+                                        </li>
+                                      </ul>
                                     </div>
                                   </div>
+                                  <div className="py-2">
+                                    <p
+                                      className="mdtxt"
+                                      style={{
+                                        display: "block",
+                                        marginBottom: 0,
+                                      }}
+                                    >
+                                      {expandedComments[comment._id]
+                                        ? comment.content
+                                        : comment.content.split(" ").slice(0, 50).join(" ")}
+
+                                    </p>
+                                    {comment.content.split(" ").length > 50 && (
+                                      <span
+                                        onClick={() => handleToggleExpand(comment._id)}
+                                        style={{
+                                          color: "#131010",
+                                          cursor: "pointer",
+                                          fontWeight: "bold",
+                                          marginTop: "-5px",
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        {expandedComments[comment._id] ? "Less" : "... More"}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {comment.media[0]?.type === "photos" && (
+                                    <img
+                                      className="imgcomment"
+                                      src={comment.media[0]?.url}
+                                      alt="media"
+                                      style={{
+                                        maxWidth: "100%",
+                                        maxHeight: "400px",
+                                        objectFit: "contain",
+                                        borderRadius: "8px",
+                                      }}
+                                    />
+                                  )}
+                                  {comment.media[0]?.type === "video" && (
+                                    <video
+                                      controls
+                                      style={{
+                                        maxWidth: "100%",
+                                        maxHeight: "100%",
+                                        objectFit: "contain",
+                                      }}
+                                    >
+                                      <source src={comment.media[0]?.url} type="video/mp4" />
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  )}
+                                  {editingCommentId === comment._id && (
+                                    <form
+                                      onSubmit={(e) => {
+                                        e.preventDefault();
+                                        updateComment(comment._id, editedContent, editedMedia);
+                                        setCommentInput("");
+                                        setEditedMedia(null);
+                                        setMediaPreview(null);
+                                      }}
+                                    >
+                                      <textarea
+                                        value={editedContent}
+                                        onChange={(e) => setEditedContent(e.target.value)}
+                                        placeholder="Edit your comment"
+                                        className="form-control mb-2 mt-4"
+                                        rows="2"
+                                        style={{ width: "700px" }}
+                                      ></textarea>
+                                      {mediaPreview && (
+                                        <div className="media-preview mb-2">
+                                          {mediaPreview.type === "image" ? (
+                                            <img
+                                              src={mediaPreview.preview}
+                                              alt="Uploaded preview"
+                                              style={{
+                                                maxWidth: "100%",
+                                                height: "auto",
+                                                borderRadius: "8px",
+                                              }}
+                                            />
+                                          ) : (
+                                            <video
+                                              controls
+                                              style={{
+                                                maxWidth: "100%",
+                                                height: "auto",
+                                                borderRadius: "8px",
+                                                marginTop: "10px",
+                                              }}
+                                            >
+                                              <source src={mediaPreview.preview} />
+                                              Your browser does not support the video tag.
+                                            </video>
+                                          )}
+                                        </div>
+                                      )}
+                                      <button
+                                        type="button"
+                                        className="btn btn-light mb-2 me-2"
+                                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                      >
+                                        😊
+                                      </button>
+                                      <label className="btn btn-light m-0 me-2">
+                                        <i className="material-symbols-outlined mat-icon"> perm_media </i>
+                                        <input
+                                          type="file"
+                                          accept="image/*,video/*"
+                                          style={{ display: "none" }}
+                                          onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                              setEditedMedia(file);
+                                              const fileType = file.type.split('/')[0];
+                                              const reader = new FileReader();
+                                              reader.onload = (event) => {
+                                                setMediaPreview({
+                                                  type: fileType,
+                                                  preview: event.target.result,
+                                                });
+                                              };
+                                              reader.readAsDataURL(file);
+                                            }
+                                          }}
+                                        />
+                                      </label>
+                                      <button
+                                        type="submit"
+                                        className="cmn-btn success"
+                                        style={{ borderRadius: "50px", marginTop: "-40px", marginLeft: "120px", }}
+                                      >
+                                        Update
+                                      </button>
+                                      {showEmojiPicker && (
+                                        <div className={`emoji-pickeredit ${window.innerWidth <= 320 ? "mobile-emoji" : ""}`}>
+                                          <EmojiPicker
+                                            onEmojiClick={(emoji) =>
+                                              setEditedContent((prev) => prev + emoji.emoji)
+                                            }
+                                            style={{
+                                              height: "450px",
+                                              //width: window.innerWidth > 320 ? "300px" : "100%",
+                                              width: "100%",
+                                              marginTop: "10px",
+                                            }}
+                                          />
+                                        </div>
+                                      )}
+                                    </form>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -1129,38 +1885,137 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="mid-area">
-                      <form onSubmit={(e) => {
-                        e.preventDefault();
-                        const content = e.target.elements.commentInput.value;
-                        const media = null;
-                        submitComment(activePostId, content, media);
-                        setCommentInput('');
-                      }} >
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          const media = editedMedia;
+                          submitComment(activePostId, commentInput, media);
+                          setCommentInput("");
+                          setEditedMedia(null);
+                          setMediaPreviewAdd(null);
+                        }}
+                      >
                         <div className="d-flex mt-5 gap-3">
-                          <div className="profile-box d-none d-xxl-block">
-                            <a href="#">
+                          <img
+                            src={user.profilePicture || "../assets/images/navbar/picture.png"}
+                            alt="icon"
+                            style={{
+                              borderRadius: "50%",
+                              width: "40px",
+                            }}
+                          />
+                          <input
+                            placeholder="Write a comment..."
+                            name="commentInput"
+                            value={commentInput}
+                            onChange={(e) => setCommentInput(e.target.value)}
+                            className="form-control"
+                            style={{
+                              borderRadius: "50px",
+                              padding: "8px 16px",
+                            }}
+                          />
+                        </div>
+                        {mediaPreviewAdd && (
+                          <div className="media-preview mb-4" style={{ marginLeft: "8%" }}>
+                            {mediaPreviewAdd.type === "image" ? (
                               <img
-                                src={user.profilePicture || "assets/images/navbar/picture.png"}
-                                className="max-un"
-                                alt="icon"
-                                style={{ borderRadius: "50px", width: "40px" }}
+                                src={mediaPreviewAdd.preview}
+                                alt="Uploaded preview"
+                                style={{
+                                  maxWidth: "100%",
+                                  height: "auto",
+                                  borderRadius: "8px",
+                                  marginTop: "5px",
+                                }}
                               />
-                            </a>
+                            ) : (
+                              <video
+                                controls
+                                style={{
+                                  maxWidth: "100%",
+                                  height: "auto",
+                                  borderRadius: "8px",
+                                  marginTop: "10px",
+                                }}
+                              >
+                                <source src={mediaPreviewAdd.preview} />
+                                Your browser does not support the video tag.
+                              </video>
+                            )}
                           </div>
-                          <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
-                            <input
-                              placeholder="Write a comment.."
-                              name="commentInput"
-                              value={commentInput}
-                              onChange={(e) => setCommentInput(e.target.value)}
+                        )}
+                        {showEmojiPickerAdd && (
+                          <div className="emoji-pickeradd mb-4" style={{ marginLeft: "8%", marginTop: "10px", }}>
+                            <EmojiPicker
+                              onEmojiClick={(emoji) =>
+                                setCommentInput((prev) => prev + emoji.emoji)
+                              }
+                              style={{
+                                height: "450px",
+                                width: window.innerWidth > 768 ? "700px" : "100%",
+                                marginTop: "10px",
+                              }}
                             />
                           </div>
+                        )}
+                        <div className="d-flex gap-5 mt-3 ml-5" style={{ marginLeft: "8%" }}>
+                          <button
+                            type="button"
+                            className="btn btn-light"
+                            onClick={() => setShowEmojiPickerAdd(!showEmojiPickerAdd)}
+                          >
+                            😊
+                          </button>
+                          <label className="btn btn-light">
+                            <i className="material-symbols-outlined mat-icon"> perm_media </i>
+                            <input
+                              type="file"
+                              accept="image/*,video/*"
+                              style={{ display: "none" }}
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  setEditedMedia(file);
+                                  const fileType = file.type.split('/')[0];
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    setMediaPreviewAdd({
+                                      type: fileType,
+                                      preview: event.target.result,
+                                    });
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                          </label>
                         </div>
-                        <div className="footer-area pt-5">
-                          <div className="btn-area d-flex justify-content-end gap-2">
-                            <button type="button" className="cmn-btn alt" data-bs-dismiss="modal" aria-label="Close" style={{ borderRadius: "50px" }}>Cancel</button>
-                            <button className="cmn-btn" style={{ borderRadius: "50px" }}>Comment</button>
-                          </div>
+                        <div className="d-flex footer-area pt-3 text-end justify-content-end">
+                          <button
+                            type="button"
+                            className="cmn-btn alt"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                            style={{ borderRadius: "50px" }}
+                            onClick={() => {
+                              setMediaPreviewAdd(null);
+                              setMediaPreview(null);
+                              setShowEmojiPickerAdd(false);
+                              setShowEmojiPicker(false);
+                              setCommentInput("");
+                              setEditedMedia(null);
+                            }}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="cmn-btn"
+                            style={{ borderRadius: "50px" }}
+                          >
+                            Comment
+                          </button>
                         </div>
                       </form>
                     </div>
@@ -1171,7 +2026,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       <div className="go-live-popup video-popup">
         <div className="container">
           <div className="row">
@@ -1185,15 +2039,22 @@ const Profile = () => {
                       </button>
                     </div>
                     <div className="top-content pb-5">
-                      <h5>Update Post Photo/Video</h5>
-                      <hr />
+                      <h5>Update Post Photo/Video</h5><hr />
                     </div>
                     <div className="mid-area">
                       <div className="d-flex mb-5 gap-3">
                         <div className="profile-box">
-                          <a href="#"><img src={user.profilePicture || "assets/images/add-post-avatar.png"} className="max-un" alt="icon" style={{ width: "40px", borderRadius: "30px" }} /></a>
+                          <a href="#">
+                            <img
+                              src={user.profilePicture || "../assets/images/add-post-avatar.png"}
+                              className="max-un"
+                              alt="icon"
+                              style={{ width: "40px", height: "40px", borderRadius: "30px" }} />
+                          </a>
                         </div>
-                        <textarea
+                        <input
+                          className="mb-2"
+                          name="content"
                           cols="10"
                           rows="1"
                           placeholder={`Write something to ${user.userName || "user"}...`}
@@ -1201,10 +2062,10 @@ const Profile = () => {
                           onChange={(e) => setPostContent(e.target.value)}
                           style={{
                             borderRadius: "50px",
-                            height: "100%",
+                            height: "40px",
                           }}
                         >
-                        </textarea>
+                        </input>
                       </div>
                       <div className="file-upload">
                         <label>Upload attachment</label>
@@ -1247,7 +2108,24 @@ const Profile = () => {
                           </div>
                         )}
                       </div>
-
+                      {/* <div className="emoji-picker-container">
+                        <div className="emoji-picker-modal">
+                          < EmojiPicker onEmojiClick={handleEmojiClick} style={{
+                            height: "450px",
+                            width: window.innerWidth > 768 ? "510px" : "100%",
+                          }} />
+                        </div>
+                      </div> */}
+                      <div className="emoji-pickeradd mb-4" style={{ marginTop: "10px", }}>
+                        <EmojiPicker
+                          onEmojiClick={handleEmojiClick}
+                          style={{
+                            height: "450px",
+                            width: "100%",
+                            marginTop: "10px",
+                          }}
+                        />
+                      </div>
                     </div>
                     <div className="footer-area pt-5">
                       <div className="btn-area d-flex justify-content-end gap-2">
@@ -1262,7 +2140,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       <div className="go-live-popup video-popup">
         <div className="container">
           <div className="row">
@@ -1282,9 +2159,17 @@ const Profile = () => {
                     <div className="mid-area">
                       <div className="d-flex mb-5 gap-3">
                         <div className="profile-box">
-                          <a href="#"><img src={user.profilePicture || "assets/images/add-post-avatar.png"} className="max-un" alt="icon" style={{ width: "40px", borderRadius: "30px" }} /></a>
+                          <a href="#">
+                            <img
+                              src={user.profilePicture || "../assets/images/add-post-avatar.png"}
+                              className="max-un"
+                              alt="icon"
+                              style={{ width: "40px", height: "40px", borderRadius: "30px" }} />
+                          </a>
                         </div>
-                        <textarea
+                        <input
+                          className="mb-2"
+                          name="content"
                           cols="10"
                           rows="1"
                           placeholder={`Write something to ${user.userName || "user"}...`}
@@ -1292,11 +2177,10 @@ const Profile = () => {
                           onChange={(e) => setPostContent(e.target.value)}
                           style={{
                             borderRadius: "50px",
-                            height: "100%",
-                            //width: "100%",
+                            height: "40px",
                           }}
                         >
-                        </textarea>
+                        </input>
                       </div>
                       <div className="file-upload">
                         <label>Upload attachment</label>
@@ -1307,6 +2191,24 @@ const Profile = () => {
                             <span>Drag here or click to upload files.</span>
                           </span>
                         </label>
+                      </div>
+                      {/* <div className="emoji-picker-container">
+                        <div className="emoji-picker-modal">
+                          < EmojiPicker onEmojiClick={handleEmojiClick} style={{
+                            height: "450px",
+                            width: window.innerWidth > 768 ? "510px" : "100%",
+                          }} />
+                        </div>
+                      </div> */}
+                      <div className="emoji-pickeradd mb-4" style={{ marginTop: "10px", }}>
+                        <EmojiPicker
+                          onEmojiClick={handleEmojiClick}
+                          style={{
+                            height: "450px",
+                            width: "100%",
+                            marginTop: "10px",
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="footer-area pt-5">
@@ -1322,7 +2224,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       <div className="go-live-popup">
         <div className="container">
           <div className="row">
@@ -1342,22 +2243,23 @@ const Profile = () => {
                       </button>
                     </div>
                     <div className="top-content pb-5">
-                      <h5>Add Post Filling/Emoji</h5>
-                      <hr />
+                      <h5>Add Post Filling/Emoji</h5><hr />
                     </div>
                     <div className="mid-area">
                       <div className="d-flex mb-5 gap-3">
                         <div className="profile-box">
                           <a href="#">
                             <img
-                              src={user.profilePicture || "assets/images/add-post-avatar.png"}
+                              src={user.profilePicture || "../assets/images/add-post-avatar.png"}
                               className="max-un"
                               alt="icon"
-                              style={{ width: "40px", borderRadius: "30px" }}
+                              style={{ width: "40px", height: "40px", borderRadius: "30px" }}
                             />
                           </a>
                         </div>
-                        <textarea
+                        <input
+                          className="mb-2"
+                          name="content"
                           cols="10"
                           rows="1"
                           placeholder={`Whats your mood ${user.userName || "user"}...`}
@@ -1365,17 +2267,27 @@ const Profile = () => {
                           onChange={(e) => setPostContent(e.target.value)}
                           style={{
                             borderRadius: "50px",
-                            height: "100%",
+                            height: "40px",
                           }}
-                        ></textarea>
+                        ></input>
                       </div>
-                      <div className="emoji-picker-container">
+                      {/* <div className="emoji-picker-container">
                         <div className="emoji-picker-modal">
-                          < EmojiPicker onEmojiClick={handleEmojiClick} style={{
+                          <EmojiPicker onEmojiClick={handleEmojiClick} style={{
                             height: "450px",
-                            width: "510px",
+                            width: window.innerWidth > 768 ? "510px" : "100%",
                           }} />
                         </div>
+                      </div> */}
+                      <div className="emoji-pickeradd mb-4" style={{ marginTop: "10px", }}>
+                        <EmojiPicker
+                          onEmojiClick={handleEmojiClick}
+                          style={{
+                            height: "450px",
+                            width: "100%",
+                            marginTop: "10px",
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="footer-area pt-5">
@@ -1408,5 +2320,4 @@ const Profile = () => {
     </>
   );
 }
-
 export default Profile;

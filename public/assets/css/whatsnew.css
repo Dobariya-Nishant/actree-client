@@ -23,7 +23,7 @@
 }
 .whats-summury img {
   width: 9%;
-  position: relative;
+  /* position: relative; */
   left: 175px;
   top: -20px;
 }

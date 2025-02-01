@@ -1,4 +1,5 @@
-import React from "react";
+//import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 function SocialSidebar() {
@@ -8,7 +9,15 @@ function SocialSidebar() {
     const isProfilePage = location.pathname === "/profile";
     //const isAccountProfilePage = location.pathname === "/accountProfile/:userName";
     const isAccountProfilePage = location.pathname.startsWith("/accountProfile/");
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    const toggleSidebar = () => {
+        if (isSidebarOpen) {
+            setIsSidebarOpen(false);
+        } else {
+            setIsSidebarOpen(true);
+        }
+    };
     return (
         <>
             <style>
@@ -17,7 +26,7 @@ function SocialSidebar() {
                         background-color: #F5E6F6;
                         color: #9A00A9;
                         border-radius: 5px;
-                        height: 40px;                        
+                        height: 40px;
                     }
                     .active-link a span {
                         color: #9A00A9 !important;
@@ -30,19 +39,62 @@ function SocialSidebar() {
                     .profile-link li img {
                         filter: none;
                         transition: filter 0.3s ease;
+                    }                    
+                    @media (min-width: 768px) {
+                        .profile-sidebar {
+                            padding: 2rem 3rem;
+                        }
+                        .profile-link li {
+                            padding: 0;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .profile-link li a {
+                            display: flex;
+                            align-items: center;
+                            font-size: 1.1rem;
+                        }
+                        .profile-link li img {
+                            width: 25px;
+                            margin-right: 10px; /* Adjust space between icon and text */
+                        }
+                        .profile-link {
+                            padding-top: 2rem;
+                        }
+                    }
+                    /* Adjustments for mobile screens */
+                    @media (max-width: 768px) {
+                        .profile-sidebar {
+                            padding: 1rem;
+                        }
+                        .profile-link li {
+                            padding: 0;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .profile-link li a {
+                            display: flex;
+                            align-items: center;
+                            font-size: 1rem;
+                        }
+                        .profile-link li img {
+                            width: 25px;
+                            margin-right: 10px;
+                        }
                     }
                 `}
             </style>
             <div className="col-xxl-3 col-xl-3 col-lg-4 col-6 cus-z2">
                 <div className="d-inline-block d-lg-none">
-                    <button className="button profile-active mb-4 mb-lg-0 d-flex align-items-center gap-2">
+                    <button className="button profile-active mb-4 mb-lg-0 d-flex align-items-center gap-2" onClick={toggleSidebar}>
                         <i className="material-symbols-outlined mat-icon"> tune </i>
-                        <span>My profile</span>
+                        <span>Side Now</span>
                     </button>
                 </div>
-                <div className="profile-sidebar cus-scrollbar p-5">
+                {/* <div className="profile-sidebar cus-scrollbar p-5"> */}
+                <div className={`profile-sidebar cus-scrollbar p-5 ${isSidebarOpen ? "active" : ""}`}>
                     <div className="d-block d-lg-none position-absolute end-0 top-0">
-                        <button className="button profile-close">
+                        <button className="button profile-close" onClick={toggleSidebar}>
                             <i className="material-symbols-outlined mat-icon fs-xl"> close </i>
                         </button>
                     </div>
@@ -50,7 +102,10 @@ function SocialSidebar() {
                     {!isProfilePage && !isAccountProfilePage && (
                         <div className="profile-pic d-flex gap-2 align-items-center">
                             <div className="position-relative1">
-                                <Link to="/profile"><img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" style={{ width: "40px" }} /></Link>
+                                <Link to="/profile"><img className="avatar-img max-un"
+                                    src={user.profilePicture || "../assets/images/navbar/picture.png"}
+                                    alt="avatar" style={{ width: "40px", height: "40px" }} />
+                                </Link>
                             </div>
                             <div className="text-area">
                                 <h6 className="m-0 mb-1"><Link to="/profile">{user.userName}</Link></h6>
@@ -58,14 +113,13 @@ function SocialSidebar() {
                             </div>
                         </div>
                     )}
-
                     {/* <ul className="profile-link mt-7 mb-7 pb-7"> */}
                     <ul className={`profile-link mt-7 mb-7 pb-7 ${isProfilePage ? '' : ''}`}
                         style={isProfilePage ? { borderTop: 'none' } : {}}>
                         <li
                             className={location.pathname === "/monetize" ? "active-link" : ""}
                         >
-                            <Link to="/monetize" className="d-flex gap-4">
+                            <Link to="/monetize" className="d-flex gap-2">
                                 <img
                                     src="../assets/images/socialsidebar/monetize.png"
                                     alt="icon"
@@ -85,9 +139,9 @@ function SocialSidebar() {
                                 <img
                                     src="../assets/images/socialsidebar/icon (20).png"
                                     alt="icon"
-                                    style={{ width: "7%", marginLeft: "2%" }}
+                                    style={{ width: "15%", marginLeft: "2%" }}
                                 />
-                                <span style={{ marginLeft: "1%" }}>ActivaPost</span>
+                                <span style={{ marginLeft: "-10%" }}>ActivaPost</span>
                             </Link>
                         </li>
 
@@ -98,7 +152,7 @@ function SocialSidebar() {
                             { path: "/following", label: "Following", icon: "follwing.png" },
                             { path: "/followers", label: "Followers", icon: "followers.png" },
                             { path: "/bookmark", label: "Bookmarks", icon: "bookmark.png" },
-                            { path: "/group", label: "Group", icon: "group.png" },
+                            { path: "/group", label: "Groups", icon: "group.png" },
                             { path: "/livestream", label: "Live Streams", icon: "livestream.png" },
                             // { path: "/profile", label: "Profile", icon: "profile.png" },
                             // { path: "/setting", label: "Settings", icon: "setting.png" },
@@ -108,7 +162,7 @@ function SocialSidebar() {
                                 key={link.path}
                                 className={location.pathname === link.path ? "active-link" : ""}
                             >
-                                <Link to={link.path} className="d-flex gap-4">
+                                <Link to={link.path} className="d-flex gap-0">
                                     {/* <img
                                         src={`../assets/images/socialsidebar/${link.icon}`}
                                         alt="icon"
@@ -129,7 +183,7 @@ function SocialSidebar() {
                         ))}
                     </ul>
 
-                    {/* <ul className="profile-link mt-7 mb-7 pb-7">
+                    {/*<ul className="profile-link mt-7 mb-7 pb-7">
                         <li>
                             <Link to="/monetize" className="d-flex gap-4">
                                 <img src="assets/images/socialsidebar/monetize.png" alt="icon" style={{ width: "25px" }} />
@@ -206,10 +260,8 @@ function SocialSidebar() {
                         </li>
                     </ul> */}
                 </div>
-            </div >
+            </div>
         </>
-
     );
 }
-
 export default SocialSidebar;

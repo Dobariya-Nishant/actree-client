@@ -21,26 +21,22 @@ const Termsofservice = () => {
                         <p>Home</p><img src="assets/images/img/titlearrow.png" alt="Title Arrow" /><p>Terms Of Service Agreement</p>
                     </div>
                     <div className="terms-summury mt-4">
-                        <h1>Terms of Service Agreement</h1>
+                        <h2>Terms of Service Agreement</h2>
                         <img src="assets/images/img/aboutline.png" alt="About Line" />
                     </div>
-
                     <div className="activatree-details">
                         <p className="mt-2"><span>Effective Date:</span> Monday, Oct 28, 2024</p>
                         <p className="mt-2"><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
                         <p className="mt-2"><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
                         <p className="mt-2"><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
                     </div>
-
                     <div className="welcome-activatree mb-3 mt-2">
                         <p>Welcome to Activatree <b>(“ we ”, “us”, “ our ”, or “ the Company ”).</b> These Terms of Service (“Terms”) govern your access to and use of our platform, websites, applications, and services (collectively, the “Service”). By accessing or using the Service, you agree to these Terms. If you do not agree, you may not use the Service. Please read them carefully.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>1. Acceptance of Terms</h2>
                         <p>By creating an account, accessing, or using the Service, you agree to be legally bound by these Terms. If you disagree with any part of these Terms, please refrain from using the Service. You acknowledge that these Terms are a legally binding contract between you and Activatree.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>2. Description of the Service</h2>
                         <p>Activatree is a multi-functional social media and professional networking platform that incorporates features akin to LinkedIn, Upwork, Facebook, Instagram, Threads, TikTok, YouTube, Rumble, Gettr, X (formerly Twitter), SnapChat, Pinterest, Reddit, Discord, BeReal, TruthSocial, HootSuite, Buffer, Sprout Social, Loomly, SocialBee, Crowdfire, SocialPilot, Allin-One Social, and Spotify among others. Our platform allows users to:</p>
@@ -52,7 +48,6 @@ const Termsofservice = () => {
                             <li><img src="assets/images/img/point.png" alt="Point" />Engage with various communities, live-stream events, and more.</li>
                         </ul>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>3. Eligibility to Use the Service</h2>
                         <p>To use the Service, you must:</p>
@@ -65,7 +60,6 @@ const Termsofservice = () => {
                         </ul>
                         <p>If you are using the Service on behalf of a company, organization, or another legal entity, you represent that you have the authority to bind that entity to these Terms.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>4. User Accounts and Responsibilities</h2>
                         <ul>
@@ -75,12 +69,9 @@ const Termsofservice = () => {
                             </ul>
                         </ul>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>5. User Conduct</h2>
-
                         <ul>
-
                             <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Abuse:</span> You may not harass, abuse, threaten, or otherwise violate the legal rights of others.</li>
                             <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Infringement:</span> You may not post or share content that infringes on the intellectual property or privacy rights of others.</li>
                             <li><img src="assets/images/img/point.png" alt="Point" /><span className="mt-2">Misrepresentation:</span> You may not impersonate another person, misrepresent your identity, or falsely associate with any entity.</li>
@@ -88,7 +79,6 @@ const Termsofservice = () => {
                         </ul>
                         <p>Activatree reserves the right to take appropriate legal action against users who violate these Terms, including terminating their accounts.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>6. Content on the Service</h2>
                         <ul>
@@ -108,7 +98,6 @@ const Termsofservice = () => {
                             </ul>
                         </ul>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>7. Privacy and Data Collection</h2>
                         <p>Your privacy is important to us. We collect, use, and disclose your personal information in accordance with our Privacy Policy, which is incorporated into these Terms by reference. By using the Service, you consent to our collection, use, and sharing of your data as outlined in the Privacy Policy.</p>
@@ -117,7 +106,6 @@ const Termsofservice = () => {
                         <p>Although we operate in an industry where some level of data collection is unavoidable, we emphasize that our primary goal is to create a safe, productive, and positive environment for all users, especially younger audiences. We believe in safeguarding user privacy, and in any situation where more restrictive data collection could be beneficial for our users' protection, we are committed to implementing such practices to the best of our ability within the confines of legal and technical limitations.</p>
                         <p>In summary, we are committed to protecting your data and using it responsibly. We will never misuse your personal information, and data collected from minors is subject to the strictest standards of security and privacy.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>8. Payment and Subscription Services</h2>
                         <p>Certain features of the Service may require a paid subscription or one-time payment. By choosing to access such features, you agree to pay all applicable fees and charges. We reserve the right to modify pricing at any time. Subscription fees will be charged based on the billing cycle you choose (monthly, yearly, etc.)</p>
@@ -128,12 +116,10 @@ const Termsofservice = () => {
                             </ul>
                         </ul>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>9. Third-Party Services and Links</h2>
                         <p>The Service may include links to third-party websites, applications, or services (“Third-Party Services”). Activatree does not endorse, control, or assume any responsibility for the content, functionality, or practices of these Third-Party Services. You acknowledge and agree that your use of Third-Party Services is subject to their own terms and conditions.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>10. Limitation of Liability</h2>
                         <p>To the fullest extent permitted by law, Activatree and its affiliates, directors, employees, agents, subsidiaries, hierarchies, and partners shall not be liable for:</p>
@@ -144,32 +130,25 @@ const Termsofservice = () => {
                         </ul>
                         <p>In no event shall Activatree total liability exceed the amount you have paid to Activatree in the past 12 months, if any.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>11. Indemnification</h2>
                         <p>You agree to indemnify, defend, and hold harmless Activatree and its affiliates from and against any claims, liabilities, damages, losses, and expenses, including legal fees, arising out of or in any way connected with:</p>
-
                         <li><img src="assets/images/img/point.png" alt="Point" />Your use of the Service.</li>
                         <li><img src="assets/images/img/point.png" alt="Point" />Your violation of these Terms or applicable law.</li>
                         <li><img src="assets/images/img/point.png" alt="Point" />Your User Content.</li>
-
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>12. Termination</h2>
                         <p>We may terminate or suspend your account and access to the Service at any time, with or without notice, if you breach these Terms or for any other reason. Upon termination, you will cease all use of the Service and may lose access to your account, including any User Content or data stored on the platform.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>13. Modifications to the Terms</h2>
                         <p>We reserve the right to modify these Terms at any time. Any changes will be posted on our website or communicated via email. Continued use of the Service after any such changes constitutes acceptance of the new Terms.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>14. Governing Law and Jurisdiction</h2>
                         <p>These Terms are governed by and construed in accordance with the laws of the State of Wyoming, United States. Any disputes arising under these Terms will be subject to the exclusive jurisdiction of the courts located in the State of Wyoming, United States.</p>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>15. Miscellaneous</h2>
                         <ul>
@@ -178,13 +157,10 @@ const Termsofservice = () => {
                             <li><img src="assets/images/img/point.png" alt="Point" /><span>Waiver:</span>No waiver of any term or condition shall be deemed a further or continuing waiver of such term or any other term.</li>
                         </ul>
                     </div>
-
                     <div className="acceptance-terms mb-3">
                         <h2>16. Contact Us</h2>
                         <p>For any questions or concerns regarding these Terms, please contact us at:  <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a>.</p>
                     </div>
-
-                    <div><p>==== END  ====</p></div>
                 </div>
             </main>
             <footer

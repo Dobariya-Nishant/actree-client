@@ -138,7 +138,7 @@ function Followers() {
                                                                 className="avatar-img max-un"
                                                                 src={follower.followedUser.profilePicture || "assets/images/Justus_Everett.png"}
                                                                 alt="avatar"
-                                                                style={{ borderRadius: "50px", width: "40px" }}
+                                                                style={{ borderRadius: "50px", width: "40px", height: "40px" }}
                                                             />
                                                         </div>
                                                         <div className="info-area">
@@ -171,11 +171,6 @@ function Followers() {
                                 <div className="cus-scrollbar side-wrapper">
                                     <div className="sidebar-wrapper d-flex flex-column gap-6">
                                         <div className="sidebar-area p-5">
-                                            <div className=" mb-4">
-                                                <h6 className="d-inline-flex position-relative">
-                                                    Search
-                                                </h6>
-                                            </div>
                                             <div className="d-grid gap-6">
                                                 <div className="single-single">
                                                     <div className="profile-pic d-flex gap-3">
@@ -202,7 +197,7 @@ function Followers() {
                                                                         className="avatar-img max-un"
                                                                         src={suggestedUser.profilePicture || "assets/images/avatar-14.png"}
                                                                         alt="avatar"
-                                                                        style={{ borderRadius: "50px", width: "40px" }}
+                                                                        style={{ borderRadius: "50px", width: "40px", height: "40px" }}
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">

@@ -15,26 +15,23 @@ const AboutUs = () => {
         <>
             <main className="main-content">
                 <div className="container">
-                    <div className="title-aboutus">
+                    <div className="title-aboutus mb-5">
                         <p>Home</p><img src="assets/images/img/titlearrow.png" alt="Title Arrow" /><p>About Us</p>
                     </div>
-                    <div className="about-summury mb-4 dark">
-                        <h1>Become a Teenpreneur, Your Journey Starts Here</h1>
+                    <div className="about-summury mb-5 dark">
+                        <h3 className="mb-5">Become a Teenpreneur, Your Journey Starts Here</h3>
                         <img src="assets/images/img/aboutline.png" alt="About Line" />
                         <p>The Infinatree | Be A Teenpreneur | Build Your Activatree | The Teenpreneur Hub | Turning Ordinary People Into Extraordinary Entrepreneurs</p>
                     </div>
-
                     <img src="assets/images/img/aboutus.png" alt="About Us" style={{ width: '100%' }} />
-
                     <div className="about-activatree mt-5">
                         <div className="row">
                             <div className="col-lg-5">
                                 <div className="about-details">
-                                    <h2>About <span style={{ fontWeight: '300', color: '#9F00AA' }}>Activatree</span></h2>
+                                    <h3>About <span style={{ fontWeight: '300', color: '#9F00AA' }}>Activatree</span></h3>
                                     <p>Activatree empowers creators and professionals to collaborate, monetize, and grow their networks seamlessly. With cutting-edge tools and AI-driven personalization, it's the platform where creativity meets opportunity.</p>
                                 </div>
                             </div>
-
                             <div className="col-lg-7">
                                 <div className="about-details1">
                                     <p>Activatree is the culmination of a bold vision: to create a platform where creativity, innovation, and community building converge in a digital ecosystem unlike any other making entrepreneurship accessible to all young individuals, ensuring they can ideate, initiate, and innovate their dreams into successful realities no matter the case. Proudly founded in the State of Georgia, U.S.A., as a Subsidiary of Infinatree, Inc., Activatree is more than a social media network — it's a space where individuals and businesses can connect, express themselves, share their journey, and grow their Activatrees collectively!</p>
@@ -42,9 +39,8 @@ const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="history mt-5">
-                        <h2>Our Journey & <span style={{ fontWeight: '300', color: '#9F00AA' }}>History</span></h2>
+                        <h3>Our Journey & <span style={{ fontWeight: '300', color: '#9F00AA' }}>History</span></h3>
                         <p>The seeds of Activatree were planted with a simple yet profound idea: to revolutionize how people communicate and network in the digital world. Activatree began its journey in 2023 under the original name, Activitry, and was dedicated to enhancing the high school experience for teenagers across the globe. The platform connected students with a diverse range of extracurricular opportunities, bridging the gap between youth and organizations seeking passionate young individuals. From international internships to local clubs, Activitry served as a marketplace where teenagers could find unique activities to complement their academic lives and develop skills beyond the classroom.</p>
                         <p>Throughout 2023, Activitry evolved, expanding its services to empower more youth by offering tools for personal and professional growth. The idea saw early success, but it became evident that the vision extended beyond simply matching students with opportunities. The potential to not only connect teens with activities but also foster entrepreneurial thinking and leadership skills led to a bold pivot.</p>
                         <p>In 2024, the company underwent a strategic rebranding to Infinatree, Inc. to better reflect its mission of cultivating teenpreneurs and future industry pioneers. With this transformation, the company launched Activatree, a global platform designed to inspire, guide, and empower the next generation of entrepreneurs. This new direction allowed Activatree to provide more than just extracurricular activities — it gave young people the resources, network, and tools to build their own businesses and brands from the ground up. Through this rebranding, Activatree firmly positioned itself as a leader in youth innovation, focusing on developing a safe and positive community, where teens could turn their passions into lifelong ventures.</p>
@@ -55,7 +51,6 @@ const AboutUs = () => {
                         <p>As we evolved, our vision expanded beyond traditional social networking to become a platform dedicated to building people, businesses, and dreams. Our early roots were grounded in providing a place where the next generation of teenpreneurs could thrive, and today, our platform serves as fertile soil for anyone ready to nurture their ideas into reality</p>
                         <p>Today, Activatree stands at the crossroads of social media and professional networking, offering a fresh take on how people build relationships in a digital-first world. Through our platform, users can:</p>
                     </div>
-
                     <div className="row">
                         <div className="col-lg-4">
                             <div className="about-profile">
@@ -77,12 +72,11 @@ const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="mission mt-5 mb-5">
                         <div className="row">
                             <div className="col-lg-6 mt-4">
-                                <div className="ourmission ">
-                                    <h2>Our <span style={{ fontWeight: '300', color: '#9F00AA' }}>Mission</span></h2>
+                                <div className="ourmission">
+                                    <h3>Our <span style={{ fontWeight: '300', color: '#9F00AA' }}>Mission</span></h3>
                                     <h6>Our mission is simple yet profound: Empowering Growth, Shaping Tomorrow. Activatree aims to empower a global community of passionate youth with a dynamic space to cultivate their dreams, connect with others, and build their future through meaningful relationships. We are creating a platform where people can truly plant their Activatree — a tree of activities, passions, and interests — and watch it grow, branch out, and thrive in a supportive environment!</h6>
                                     <p>We don’t just build connections; we grow possibilities. Whether you’re a budding entrepreneur or teenpreneur, an experienced professional, or someone who wants to explore new avenues, Activatree provides the tools to root your ideas and nurture them into success. Our focus is on raising the next generation of entrepreneurs — those who will grow from teenpreneurs to leading innovators, and beyond!</p>
                                 </div>
@@ -95,7 +89,6 @@ const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="root mt-5">
                         <div className="row">
                             <div className="col-lg-6">
@@ -105,7 +98,7 @@ const AboutUs = () => {
                             </div>
                             <div className="col-lg-6">
                                 <div className="rooting mt-4">
-                                    <h2>Rooted in Growth: <span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}>Building Your Activatree</span></h2>
+                                    <h3>Rooted in Growth: <span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}>Building Your Activatree</span></h3>
                                     <p>At Activatree, we use the metaphor of growth to define our user experience. Just as trees grow and branch out, so do the passions and endeavors of our users. Build your Activatree by cultivating the branches of your interests — whether it's a business venture, creative pursuit, or personal goal. Every branch reflects the unique aspects of who you are and what you aim to achieve</p>
                                     <p>Our platform helps you:</p>
                                     <div className="branch mt-4 mb-5">
@@ -115,7 +108,6 @@ const AboutUs = () => {
                                             <p>Whether you're diving into entrepreneurship, learning new skills, or expanding your network, you can choose how to shape your journey.</p>
                                         </div>
                                     </div>
-
                                     <div className="branch mt-4 mb-5">
                                         <img src="assets/images/img/van.png" alt="High Growth Trajectory" style={{ width: '10%', height: '10%', position: 'relative', top: '-1pc' }} />
                                         <div className="build-branch py-3">
@@ -128,11 +120,10 @@ const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="sets mt-5">
                         <div className="row">
                             <div className="col-lg-8">
-                                <h2 className="mt-4">What Sets <span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}>Us Apart</span></h2>
+                                <h3 className="mt-4">What Sets <span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}>Us Apart</span></h3>
                                 <p className="mt-4">Activatree isn't just a social media platform — it's an all-in-one ecosystem and global community designed to empower growth, innovation, and collaboration. While most platforms focus on connecting users through content, we go beyond by providing a comprehensive suite of features tailored to help users build, manage, and showcase their personal or business journey in a unique and meaningful way.</p>
                             </div>
                         </div>
@@ -202,7 +193,6 @@ const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="future">
                         <div className="row">
                             <div className="col-lg-6">
@@ -212,7 +202,7 @@ const AboutUs = () => {
                             </div>
                             <div className="col-lg-6">
                                 <div className="futures mt-4">
-                                    <h2>Looking Ahead & Our<span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}> Vision for the Future</span></h2>
+                                    <h3>Looking Ahead & Our<span className="mt-4" style={{ fontWeight: '300', color: '#9F00AA' }}> Vision for the Future</span></h3>
                                     <h6 className="mt-4">Looking forward, our vision is to make Activatree the leading platform where innovation, creativity, and collaboration thrive. We are committed to expanding our features and services, creating more value for our users, and positioning Activatree as the go-to network for professionals, businesses, and aspiring entrepreneurs. We are constantly working to introduce new features and enhancements that put our users at the forefront of innovation. From enhanced communication tools to advanced analytics for businesses, and exciting upcoming features like live streaming, VR/AR content, and collaborative tools, Activatree is more than just a social media platform—it's a hub for digital growth and interaction, the Teenpreneur Hub.</h6>
                                     <p>We are excited to grow alongside our users, building a platform where creativity flourishes, connections are strengthened, and communities can achieve their fullest potential. We envision a future where Activatree becomes a catalyst for change—helping users from all walks of life turn their ideas into realities, grow their influence, and leave a lasting impact on their communities and beyond.</p>
                                 </div>
@@ -221,87 +211,83 @@ const AboutUs = () => {
                     </div>
                     <style>
                         {`
-                            /* Community Section */
-.community {
-  text-align: center;
-  padding: 0 5%; /* Horizontal padding for smaller screens */
-  max-width: 1200px; /* Limit width to prevent content stretching */
-  margin: 0 auto; /* Center the container */
-  box-sizing: border-box;
-}
+                            .community {
+                                text-align: center;
+                                padding: 0 5%;
+                                max-width: 1200px;
+                                margin: 0 auto;
+                                box-sizing: border-box;
+                            }
 
-.community h2,
-.community p,
-.community h4 {
-  margin-bottom: 20px;
-  word-wrap: break-word; /* Ensure text doesn't overflow */
-}
+                            .community h2,
+                            .community p,
+                            .community h4 {
+                                margin-bottom: 20px;
+                                word-wrap: break-word;
+                            }
+                            .community h2 {
+                                font-size: 28px;
+                            }
 
-.community h2 {
-  font-size: 28px;
-}
+                            .community p {
+                                font-size: 18px;
+                                line-height: 1.6;
+                            }
 
-.community p {
-  font-size: 18px;
-  line-height: 1.6;
-}
+                            .community h4 {
+                                font-size: 20px;
+                            }
 
-.community h4 {
-  font-size: 20px;
-}
+                            .flowers {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                margin-top: 20px;
+                                flex-wrap: wrap;
+                            }
 
-.flowers {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  flex-wrap: wrap; /* Allow images to stack */
-}
+                            .flowers img {
+                                width: 20%;
+                                max-width: 100px;
+                                height: auto;
+                            }
 
-.flowers img {
-  width: 20%;
-  max-width: 100px; /* Ensure images stay within bounds */
-  height: auto;
-}
+                            @media (max-width: 768px) {
+                                .community h2 {
+                                    font-size: 24px;
+                                }
 
-/* Responsive Media Queries */
-@media (max-width: 768px) {
-  .community h2 {
-    font-size: 24px; /* Smaller font for smaller screens */
-  }
+                                .community p {
+                                    font-size: 16px;
+                                    line-height: 1.5;
+                                }
 
-  .community p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
+                                .community h4 {
+                                    font-size: 18px;
+                                }
 
-  .community h4 {
-    font-size: 18px;
-  }
+                                .flowers img {
+                                    width: 30%;
+                                }
+                            }
 
-  .flowers img {
-    width: 30%; /* Adjust image size for smaller screens */
-  }
-}
+                            @media (max-width: 480px) {
+                                .community h2 {
+                                    font-size: 20px;
+                                }
 
-@media (max-width: 480px) {
-  .community h2 {
-    font-size: 20px; /* Further reduce font size */
-  }
+                                .community p {
+                                    font-size: 14px;
+                                }
 
-  .community p {
-    font-size: 14px;
-  }
+                                .community h4 {
+                                    font-size: 16px;
+                                }
 
-  .community h4 {
-    font-size: 16px;
-  }
-
-  .flowers img {
-    width: 40%; /* Further adjust image size for mobile screens */
-  }
-}
-
+                                .flowers img {
+                                    width: 40%;
+                                }
+                            }
                         `}
                     </style>
                     {/* <div className="community mt-5 py-5 mb-5">
@@ -313,9 +299,7 @@ const AboutUs = () => {
                             <img src="assets/images/img/flowerright.png" alt="Flower Right" className='flowerright' />
                         </div>
                     </div> */}
-
-                    <div
-                        className="community mt-5 py-5 mb-5"
+                    <div className="community mt-5 py-5 mb-5"
                     // style={{
                     //     textAlign: "center",
                     //     padding: "0 5%", // Add horizontal padding for all screen sizes
@@ -387,10 +371,6 @@ const AboutUs = () => {
                             />
                         </div>
                     </div>
-
-
-
-
                 </div>
             </main>
             <footer

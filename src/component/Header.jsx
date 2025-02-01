@@ -8,7 +8,6 @@ function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isNavCollapsed, setIsNavCollapsed] = useState(true); // Add state for collapse
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -41,10 +40,6 @@ function Header() {
 
     const isActive = (path) => location.pathname === path;
 
-    const toggleNavbar = () => {
-        setIsNavCollapsed(!isNavCollapsed); // Toggle the collapse state
-    };
-
     return (
         <>
             <button className="scrollToTop d-none d-lg-block">
@@ -53,184 +48,260 @@ function Header() {
             <header className="header-section header-menu">
                 <style>
                     {`
+                        .navbar-brand img {
+                            max-width: 500px;
+                            max-height: 50px;
+                            width: auto;
+                            height: auto;
+                            transition: all 0.3s ease;
+                        }
                         .header-menu {
                             background-color: #fff;
                             padding: 10px 0;
                             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                         }
-                        .navbar-brand img {
-                            max-height: 50px;
-                            transition: max-height 0.3s ease;
-                        }
                         .navbar-nav {
                             display: flex;
-                            flex-direction: column; 
+                            flex-direction: row;
                             align-items: center;
+                            justify-content: center;
                             gap: 20px;
                             padding: 0;
+                            margin: 0;
+                            margin-right: 20px;
+                            list-style: none;
                         }
-                        @media (max-width: 768px) {
-                            .navbar-nav {
-                                flex-direction: column; 
-                                gap: 15px;
-                            }
-                            .auth-buttons {
-                                flex-direction: column;
-                                gap: 10px;
-                            }
-                            .header-section .navbar .navbar-brand img {
-                                max-width: 200px;
-                            }
-                        }
-
                         .icon-container {
                             display: flex;
                             flex-direction: column;
                             align-items: center;
                             text-align: center;
                         }
-                        // .icon-container img {
-                        //     width: 40%;
-                        //     height: auto;
-                        //     margin-bottom: 5px;
-                        // }                    
+                        .icon-container img {
+                            width: 25px;
+                            height: auto;
+                            margin-bottom: 5px;
+                        }
                         .icon-container span {
-                            margin-top: 5px;
                             font-size: 14px;
                             color: #000;
                         }
-                    `}
+                        .activatreelogo {
+                            display: block;
+                        }
+                        .atlogo {
+                            display: none;
+                        } 
+
+                        
+                   
+                        @media (min-width: 768px) and (max-width: 1024px) {
+                            .activatreelogo {
+                                display: none;
+                            }
+                            .atlogo {
+                                display: block;
+                            }
+                            .navbar-brand img {
+                                max-width: 120px;
+                                max-height: 40px;
+                            }
+                            // .navbar-nav {
+                            //     margin: 100%;
+                            // }
+                            // .profile-content {
+                            //     position: absolute;                                
+                            //     transform: translateX(-50%);
+                            //     z-index: 10;
+                            // }
+                            // .header-menu .single-item.active .main-area {
+                            //     opacity: 1;
+                            //     visibility: visible;
+                            //     transform: translateY(0px);
+                            // } 
+                        }                                                 
+                        @media (max-width: 768px) {
+                            .activatreelogo {
+                                display: none;
+                            }
+                            .atlogo {
+                                display: block;
+                            }
+                            .navbar-brand img {
+                                max-width: 60px;
+                                max-height: 40px;
+                            }
+                            .icon-container span {
+                                display: none;
+                            }
+                            .icon-container img {
+                                display: inline-block;
+                                width: 20px;
+                                height: auto;
+                                margin: 
+                            }
+                            // .navbar-nav {
+                            //     margin-left: 20%;
+                            // }
+                            // .navbar-nav {
+                            //     flex-wrap: nowrap;
+                            //     overflow-x: auto;
+                            // }
+                            // .navbar-nav {
+                            //     justify-content: center;
+                            // }
+                            // .navbar-nav li {
+                            //     display: flex;
+                            //     margin-left: 5px;
+                            // }
+                            // .profile-content {
+                            //     position: absolute;
+                            //     transform: translateX(-50%);
+                            //     z-index: 10;
+                            // }
+                                // .profile-pic {
+                                //     margin-bottom: -250px;
+                                // }
+
+                            .profile-content {
+                                top: auto;
+                                bottom: 100%;
+                                margin-bottom: -250px;
+                                max-height: 80vh;
+                                overflow-y: auto;
+                            }
+                        }
+                        // @media (max-width: 480px) {
+                        // .profile-content {
+                        //     bottom: 110%;
+                        //     margin-bottom: -250px;
+                        // }
+                    }
+                `}
                 </style>
                 <nav className="navbar navbar-expand-lg p-0">
                     <div className="container">
                         <nav className="navbar w-100 navbar-expand-lg justify-content-between">
-                            <Link to="/socialMedia" className="navbar-brand">
+                            <Link to="/socialMedia" className="navbar-brand activatreelogo">
                                 <img src="../assets/images/navbar/activatreelogo.png" className="activatreelogo" alt="Activatree Logo" />
                             </Link>
-                            <button
-                                className="navbar-toggler"
-                                type="button"
-                                onClick={toggleNavbar} // Manually toggle collapse
-                                aria-expanded={!isNavCollapsed} // Dynamically set aria-expanded
-                            >
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                            <div className={`collapse navbar-collapse ${isNavCollapsed ? "" : "show"}`}> {/* Apply collapse class based on state */}
-                                <ul className="navbar-nav feed py-4 py-lg-0 m-lg-auto ms-auto ms-aut align-self-center">
-                                    <li>
-                                        <Link to="/" className="nav-icon home active">
-                                            <div className="icon-container">
-                                                <img
-                                                    src={
-                                                        isActive("/")
-                                                            ? "../assets/images/navbar/home_avtive.png"
-                                                            : "../assets/images/navbar/home_defualt.png"
-                                                    }
-                                                    className="image"
-                                                    alt="Home Icon"
-                                                    style={{ width: "25px" }}
-                                                />
-                                                <span>Home</span>
-                                            </div>
+                            <Link to="socialMedia" className="navbar-brand atlogo">
+                                <img src="../assets/images/navbar/ATlogo.png" className="atlogo" alt="AT Logo" />
+                            </Link>
+                            <ul className="navbar-nav feed py-4 py-lg-0 m-lg-auto ms-auto ms-aut align-self-center">
+                                <li>
+                                    <Link to="/" className="nav-icon home active">
+                                        <div className="icon-container">
+                                            <img
+                                                src={
+                                                    isActive("/")
+                                                        ? "../assets/images/navbar/home_avtive.png"
+                                                        : "../assets/images/navbar/home_defualt.png"
+                                                }
+                                                className="image"
+                                                alt="Home Icon"
+                                                style={{ width: "25px" }}
+                                            />
+                                            <span>Home</span>
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/socialMedia" className="nav-icon feed">
+                                        <div className="icon-container">
+                                            <img
+                                                src={
+                                                    isActive("/socialMedia")
+                                                        ? "../assets/images/navbar/Social_active.png"
+                                                        : "../assets/images/navbar/Social_defualt.png"
+                                                }
+                                                className="image"
+                                                alt="Social Media Icon"
+                                                style={{ width: "25px" }}
+                                            />
+                                            <span>Social Media</span>
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/marketPlace" className="nav-icon">
+                                        <div className="icon-container">
+                                            <img
+                                                src={
+                                                    isActive("/marketPlace")
+                                                        ? "../assets/images/navbar/marketplace_active.png"
+                                                        : "../assets/images/navbar/marketplace_defualt.png"
+                                                }
+                                                className="image"
+                                                alt="Market Place Icon"
+                                                style={{ width: "25px" }}
+                                            />
+                                            <span>Market Place</span>
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/discussionForum" className="nav-icon">
+                                        <div className="icon-container">
+                                            <img
+                                                src={
+                                                    isActive("/discussionForum")
+                                                        ? "../assets/images/navbar/discussionforum_active.png"
+                                                        : "../assets/images/navbar/discussionforum_defualt.png"
+                                                }
+                                                className="image"
+                                                alt="Discussion Forum Icon"
+                                                style={{ width: "25px" }}
+                                            />
+                                            <span>Discussion Forum</span>
+                                        </div>
+                                    </Link>
+                                </li>
+                                {!token && (
+                                    <li className="d-flex auth-buttons">
+                                        <Link
+                                            to="/login"
+                                            className="cmn-btn me-2"
+                                            style={{
+                                                border: "1px solid black",
+                                                color: "black",
+                                                borderRadius: "30px",
+                                                height: "40px",
+                                                width: "90px",
+                                                marginTop: "10px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            <span style={{ color: "#131010", fontWeight: "bold" }}>Log In</span>
+                                        </Link>
+                                        <Link
+                                            to="/signup"
+                                            className="cmn-btn"
+                                            style={{
+                                                border: "1px solid black",
+                                                color: "black",
+                                                background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
+                                                borderRadius: "30px",
+                                                height: "40px",
+                                                width: "110px",
+                                                marginTop: "10px",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            <span style={{ color: "white", fontWeight: "bold" }}>Join Now</span>
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link to="/socialMedia" className="nav-icon feed">
-                                            <div className="icon-container">
-                                                <img
-                                                    src={
-                                                        isActive("/socialMedia")
-                                                            ? "../assets/images/navbar/Social_active.png"
-                                                            : "../assets/images/navbar/Social_defualt.png"
-                                                    }
-                                                    className="image"
-                                                    alt="Social Media Icon"
-                                                    style={{ width: "25px" }}
-                                                />
-                                                <span>Social Media</span>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/marketPlace" className="nav-icon">
-                                            <div className="icon-container">
-                                                <img
-                                                    src={
-                                                        isActive("/marketPlace")
-                                                            ? "../assets/images/navbar/marketplace_active.png"
-                                                            : "../assets/images/navbar/marketplace_defualt.png"
-                                                    }
-                                                    className="image"
-                                                    alt="Market Place Icon"
-                                                    style={{ width: "25px" }}
-                                                />
-                                                <span>Market Place</span>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/discussionForum" className="nav-icon">
-                                            <div className="icon-container">
-                                                <img
-                                                    src={
-                                                        isActive("/discussionForum")
-                                                            ? "../assets/images/navbar/discussionforum_active.png"
-                                                            : "../assets/images/navbar/discussionforum_defualt.png"
-                                                    }
-                                                    className="image"
-                                                    alt="Discussion Forum Icon"
-                                                    style={{ width: "25px" }}
-                                                />
-                                                <span>Discussion Forum</span>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                    {!token && (
-                                        <li className="d-flex auth-buttons">
-                                            <Link
-                                                to="/login"
-                                                className="cmn-btn me-2"
-                                                style={{
-                                                    border: "1px solid black",
-                                                    color: "black",
-                                                    borderRadius: "30px",
-                                                    height: "40px",
-                                                    width: "90px",
-                                                    marginTop: "10px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    textDecoration: "none",
-                                                }}
-                                            >
-                                                <span style={{ color: "#131010", fontWeight: "bold" }}>Log In</span>
-                                            </Link>
-                                            <Link
-                                                to="/signup"
-                                                className="cmn-btn"
-                                                style={{
-                                                    border: "1px solid black",
-                                                    color: "black",
-                                                    background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
-                                                    borderRadius: "30px",
-                                                    height: "40px",
-                                                    width: "110px",
-                                                    marginTop: "10px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    textDecoration: "none",
-                                                }}
-                                            >
-                                                <span style={{ color: "white", fontWeight: "bold" }}>Join Now</span>
-                                            </Link>
-                                        </li>
-                                    )}
-                                </ul>
-                            </div>
+                                )}
+                            </ul>
                             {token && user && (
                                 <div className="right-area position-relative d-flex gap-3 gap-xxl-6 align-items-center">
-                                    <div className="single-item d-none d-lg-block profile-area position-relative">
+                                    <div className="single-item profile-area position-relative">
                                         <div className="profile-pic d-flex align-items-center" onClick={handleProfileClick}>
                                             <span className="avatar cmn-head active-status">
                                                 <img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" style={{ width: "50px", height: "50px" }} />
@@ -255,7 +326,7 @@ function Header() {
                                                 <ul>
                                                     <li>
                                                         <button
-                                                            className="mdtxt logout-btn"
+                                                            className="mdtxt logout-btn p-2 d-flex"
                                                             onClick={handleLogout}
                                                             style={{
                                                                 background: "none",
@@ -283,5 +354,4 @@ function Header() {
         </>
     );
 }
-
 export default Header;

@@ -32,7 +32,7 @@
   font-weight: 700;
 }
 .about-summury p {
-  font-size: 26px;
+  font-size: 18px;
   font-family: poppins;
   font-weight: 600;
   width: 94%;
@@ -49,10 +49,10 @@
   font-weight: normal;
 }
 .about-details1 p {
-  font-size: 20px;
+  font-size: 18px;
   font-family: "poppins, bold" sans-serif;
   font-weight: 600;
-  margin-top: 0px;
+  margin-top: 5px;
 }
 .history {
   margin-bottom: 20px;

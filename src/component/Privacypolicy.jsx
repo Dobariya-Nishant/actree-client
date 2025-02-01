@@ -190,7 +190,6 @@ const Privacypolicy = () => {
                         <h2>How to contact us</h2>
                         <p>If you have any general questions about the Site or the information we collect about you and how we use it, you can contact us at <a href="">info@activatree.com</a>.</p>
                     </div>
-                    <div><p>==== END  ====</p></div>
                 </div>
             </main>
             <footer

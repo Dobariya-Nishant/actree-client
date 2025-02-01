@@ -60,7 +60,7 @@ const Whatsnew = () => {
                         <p>We're excited to announce the launch of Activatree! Here's what's available for you.</p>
                     </div>
                     <Box sx={{ marginTop: '5pc' }}>
-                        <Typography variant="h4" component="h2" gutterBottom sx={{ fontSize: '45px', fontFamily: 'Poppins, Bold', fontWeight: '700' }}>
+                        <Typography variant="h4" component="h2" gutterBottom sx={{ fontFamily: 'Poppins, Bold', fontWeight: '700' }}>
                             For Social Media:
                         </Typography>
                         <List>
@@ -90,7 +90,7 @@ const Whatsnew = () => {
                         <div className="row mt-5 mb-5">
                             <div className="col-lg-6">
                                 <Box sx={{ textAlign: 'justify' }}>
-                                    <Typography variant="h6" sx={{ fontSize: '24px', fontFamily: 'Poppins, Medium', fontWeight: '500', lineHeight: '1.2' }}>
+                                    <Typography variant="h6" sx={{ fontFamily: 'Poppins, Medium', fontWeight: '500', lineHeight: '1.2' }}>
                                         Join us as we grow and continue to add exciting new features to enhance your experience!
                                     </Typography>
                                 </Box>
@@ -103,14 +103,10 @@ const Whatsnew = () => {
                                     <TextField
                                         variant="outlined"
                                         placeholder="Your email"
-                                        // sx={{
-                                        //     mb: 2,
-                                        //     '& .MuiOutlinedInput-root': { borderRadius: '50px', width: '300px', padding: '1px 14px' }
-                                        // }}
                                         sx={{
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '50px',
-                                                width: { xs: '100%', sm: '300px' }, // Full width on small screens
+                                                width: { xs: '100%', sm: '300px' },
                                                 padding: '1px 14px',
                                             },
                                         }}

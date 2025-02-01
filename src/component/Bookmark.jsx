@@ -3,8 +3,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import SocialSidebar from "./SocialSidebar";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import EmojiPicker from "emoji-picker-react";
 
-function Bookmark() {
+function Bookmark(post) {
     const navigate = useNavigate();
     const location = useLocation();
     const token = localStorage.getItem("token");
@@ -23,7 +25,8 @@ function Bookmark() {
         }
         getAllBookmark();
         getAllSuggest();
-    }, []);
+        fetchComments(post._id);
+    }, [post._id]);
 
     const handleBookmark = async (postId) => {
         try {
@@ -52,8 +55,6 @@ function Bookmark() {
             console.error("Error in bookmark operation:", error);
         }
     };
-
-
     const [bookmarks, setBookmarks] = useState([]);
     const getAllBookmark = async () => {
         try {
@@ -136,22 +137,35 @@ function Bookmark() {
     const [comments, setComments] = useState([]);
     const [commentInput, setCommentInput] = useState("");
     const [showAll, setShowAll] = useState({});
+    const [activePostId, setActivePostId] = useState(null);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editedContent, setEditedContent] = useState("");
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [editedMedia, setEditedMedia] = useState(null);
+    const [mediaPreview, setMediaPreview] = useState(null);
+    const [mediaPreviewAdd, setMediaPreviewAdd] = useState(null);
+    const [showEmojiPickerAdd, setShowEmojiPickerAdd] = useState(false);
+    const handleEditComment = (commentId, currentContent) => {
+        setEditingCommentId(commentId);
+        setEditedContent(currentContent);
+    };
+
     const handleReadMore = (postId) => {
         setShowAll((prevState) => ({
             ...prevState,
             [postId]: !prevState[postId],
         }));
     };
-    const getVisibleComments = (postId) => {
-        const postComments = comments.filter(comment => comment.postId === postId);
-        return showAll[postId] ? postComments : postComments.slice(0, 2);
-    };
+    // const getVisibleComments = (postId) => {
+    //     const postComments = comments.filter(comment => comment.postId === postId);
+    //     return showAll[postId] ? postComments : postComments.slice(0, 2);
+    // };
 
     const submitComment = (postId, content, media) => {
         handleComment(postId, content, media);
     };
 
-    const handleComment = async (postId, content, media = null) => {
+    const handleComment = async (postId, content, media) => {
         try {
             const payload = {
                 postId,
@@ -160,8 +174,8 @@ function Bookmark() {
             };
             const response = await networkRequest("POST", API_ENDPOINTS.POST_COMMNET, payload);
             if (response.statusCode === 201) {
-                console.log("Cooment successfully!");
-                fetchComments(postId)
+                console.log("Commment successfully!");
+                fetchComments(postId);
             } else {
                 console.error("Failed to commnet");
             }
@@ -175,14 +189,68 @@ function Bookmark() {
             const response = await networkRequest("GET", API_ENDPOINTS.GET_COMMENT, { postId });
             if (response.statusCode === 200) {
                 setComments(response.data.commentList);
-                console.log("comm", response);
-
+                console.log("comment", response);
             } else {
                 console.error("Failed to fetch comments:", response.message);
             }
         } catch (error) {
             console.error("Error fetching comments:", error);
         }
+    };
+
+    const updateComment = async (commentId, content, media = null) => {
+        try {
+            let payload;
+            if (media instanceof File) {
+                payload = new FormData();
+                payload.append("commentId", commentId);
+                payload.append("content", content);
+                payload.append("media", media);
+            } else {
+                payload = {
+                    commentId,
+                    content,
+                    media,
+                };
+            }
+            const response = await networkRequest("PATCH", API_ENDPOINTS.UPDATE_COMMENT, payload);
+            if (response.statusCode === 201) {
+                console.log("Comment updated successfully!");
+                fetchComments(activePostId);
+                setEditingCommentId(null);
+            } else {
+                console.error("Failed to update commnet");
+            }
+        } catch (error) {
+            console.error("Error updating comment:", error);
+        }
+    };
+
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_COMMENT, { commentId });
+            if (response.statusCode === 201) {
+                console.log("Comment deleted successfully!");
+                fetchComments(activePostId);
+            } else {
+                console.error("Failed to delete comment");
+            }
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+        }
+    };
+
+    const handleOpenModal = (postId) => {
+        setActivePostId(postId);
+        fetchComments(postId);
+    };
+
+    const [expandedComments, setExpandedComments] = useState({});
+    const handleToggleExpand = (commentId) => {
+        setExpandedComments((prevState) => ({
+            ...prevState,
+            [commentId]: !prevState[commentId],
+        }));
     };
 
     const [isLiked, setIsLiked] = useState(false);
@@ -193,11 +261,12 @@ function Bookmark() {
         try {
             if (isLiked) {
                 const response = await networkRequest("DELETE", API_ENDPOINTS.DELETE_LIKE, { postId });
-                if (response.statusCode === 200) {
+                if (response.statusCode === 201) {
                     console.log("Disliked successfully!");
                     setIsLiked(false);
                     setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
                     setLikedBy((prevList) => prevList.slice(0, -1));
+                    getAllBookmark();
                 } else {
                     console.error("Failed to dislike");
                 }
@@ -209,6 +278,7 @@ function Bookmark() {
                     setIsLiked(true);
                     setLikeCount((prevCount) => prevCount + 1);
                     setLikedBy((prevList) => [...prevList, response.data.user]);
+                    getAllBookmark();
                 }
             }
         } catch (error) {
@@ -257,7 +327,6 @@ function Bookmark() {
         }
     };
 
-
     const handleItemClick = (item) => {
         setActiveItem(item);
     };
@@ -266,9 +335,65 @@ function Bookmark() {
         navigate(-1);
     };
 
+    const [activeDropdown, setActiveDropdown] = useState(null);
+    const toggleDropdown = (commentId) => {
+        setActiveDropdown((prev) => (prev === commentId ? null : commentId));
+    };
+
+    const getAllPost = async () => {
+        try {
+            const response = await networkRequest("GET", API_ENDPOINTS.GET_POSTLIST, {}, {}, { userId: user._id });
+            if (response.statusCode === 200) {
+                console.log("response", response);
+                const postsData = response.data.postList;
+                const updatedPosts = postsData.map((post) => ({
+                    ...post,
+                    user: {
+                        ...post?.user,
+                        isFollowed: post?.user.isFollowed || false,
+                    },
+                    likeCount: post?.likeCount || 0,
+                    isLiked: post?.isLiked || false,
+                }));
+                const uniquePosts = Array.from(
+                    new Set(updatedPosts.map((post) => post._id))
+                ).map((id) => updatedPosts.find((post) => post._id === id));
+                setPosts(uniquePosts);
+                const followedUserIds = uniquePosts
+                    .filter(post => post?.user.isFollowed)
+                    .map(post => post?.user._id);
+                setFollowedPosts(followedUserIds);
+            }
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        }
+    };
+
     return (
         <>
             <main className="main-content">
+                <style>
+                    {`
+                        .dropdown-menu {
+                            position: absolute;
+                            right: 10px;
+                            transform: translateY(0);
+                            z-index: 1000;
+                        }
+                        .post-media-container {
+                            width: 100%;
+                            height: 315px;
+                            overflow: hidden;
+                            position: relative;
+                        }
+                        .post-media-container img,
+                        .post-media-container video {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }`
+                    }
+                </style>
                 <div className="container sidebar-toggler">
                     <div className="row">
                         <SocialSidebar />
@@ -281,22 +406,6 @@ function Bookmark() {
                                     <h6>Bookmarks</h6>
                                 </div>
                             </div>
-                            <style>
-                                {`
-                                    .post-media-container {
-                                        width: 100%;
-                                        height: 315px;
-                                        overflow: hidden;
-                                        position: relative;
-                                    }
-                                    .post-media-container img,
-                                    .post-media-container video {
-                                        width: 100%;
-                                        height: 100%;
-                                        object-fit: cover;
-                                    }`
-                                }
-                            </style>
                             <div className="post-item d-flex flex-column gap-5 gap-md-7" id="news-feed">
                                 {bookmarks.map((bookmark) => (
                                     <div div key={bookmark._id} className="post-single-box p-3 p-sm-5" >
@@ -304,7 +413,11 @@ function Bookmark() {
                                             <div className="profile-area d-center justify-content-between">
                                                 <div className="avatar-item d-flex gap-3 align-items-center">
                                                     <div className="position-relative">
-                                                        <img className="avatar-img max-un" src={bookmark.user?.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
+                                                        <img
+                                                            className="avatar-img max-un"
+                                                            src={bookmark.user?.profilePicture || "../assets/images/navbar/picture.png"}
+                                                            alt="avatar"
+                                                            style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                                                     </div>
                                                     <div className="info-area">
                                                         <h6 className="m-0"><a href="public-profile-post.html">{bookmark.user?.userName}</a></h6>
@@ -316,48 +429,22 @@ function Bookmark() {
                                                             })}</span>
                                                     </div>
                                                 </div>
-                                                <div className="btn-group cus-dropdown">
-                                                    {/* {bookmark.user?._id !== user._id && (
-                                                        <button
-                                                            className="cmn-btn me-3"
-                                                            style={{
-                                                                borderRadius: "50px",
-                                                                backgroundColor: bookmark.user?.isFollowed ? "#D0F0E8" : "#F5E6F6",
-                                                                color: bookmark.user?.isFollowed ? "#007B5F" : "#9A00A9",
-                                                            }}
-                                                            onClick={() => handlePostFollowToggle(bookmark._id)}
-                                                            onMouseEnter={(e) => {
-                                                                if (bookmark.isFollowed) {
-                                                                    e.target.textContent = "Unfollow";
-                                                                }
-                                                            }}
-                                                            onMouseLeave={(e) => {
-                                                                if (bookmark.isFollowed) {
-                                                                    e.target.textContent = "Following";
-                                                                }
-                                                            }}
-                                                        >
-                                                            {bookmark.user?.isFollowed ? "Following" : "Follow"}
-                                                        </button>
-                                                    )} */}
+                                                <div className="btn-group cus-dropdown" ref={dropdownRef}>
                                                     <button
                                                         type="button"
                                                         className="dropdown-btn"
-                                                        onClick={() => handleDropdownToggle(bookmark._id)}
+                                                        onClick={(e) => handleDropdownToggle(bookmark._id, e)}
                                                         aria-expanded={openDropdown === bookmark._id}
                                                     >
                                                         <i className="material-symbols-outlined fs-xxl m-0"> more_horiz </i>
                                                     </button>
                                                     <ul
                                                         className={`dropdown-menu p-4 mt-8 pt-2 ${openDropdown === bookmark._id ? "show fade-in" : ""} `}
-                                                        style={{
-                                                            display: openDropdown === bookmark._id ? "block" : "none",
-                                                        }}
                                                     >
                                                         <li>
                                                             <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(bookmark.postId._id)}>
                                                                 <i className="material-symbols-outlined mat-icon">delete</i>
-                                                                <span>Remove Post</span>
+                                                                <span>Unsave Post</span>
                                                             </a>
                                                         </li>
                                                         <li>
@@ -384,45 +471,149 @@ function Bookmark() {
                                             <div className="py-4">
                                                 <p className="description">{bookmark.postId.content}</p>
                                             </div>
-                                            <div
-                                                className="post-media-container"
-                                                style={{
-                                                    width: "100%",
-                                                    height: "315px",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    overflow: "hidden",
-                                                }}
-                                            >
-                                                {bookmark.postId.media && bookmark.postId.media[0]?.type === "photos" && (
-                                                    <img
-                                                        src={bookmark.postId.media[0].url}
-                                                        alt="image"
-                                                        style={{
-                                                            maxWidth: "100%",
-                                                            maxHeight: "100%",
-                                                            objectFit: "contain",
-                                                        }}
-                                                    />
-                                                )}
-                                                {bookmark.postId.media && bookmark.postId.media[0]?.type === "video" && (
-                                                    <video
-                                                        controls
-                                                        style={{
-                                                            maxWidth: "100%",
-                                                            maxHeight: "100%",
-                                                            objectFit: "contain",
-                                                        }}
-                                                    >
-                                                        <source src={bookmark.postId.media[0].url} type="video/mp4" />
-                                                        Your browser does not support the video tag.
-                                                    </video>
-                                                )}
-                                            </div>
+                                            {/* {bookmark.postId.media && bookmark.postId.media[0] && (
+                                                <div
+                                                    className="post-media-container"
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "315px",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        overflow: "hidden",
+                                                    }}
+                                                >
+                                                    {bookmark.postId.media && bookmark.postId.media[0]?.type === "photos" && (
+                                                        <img
+                                                            src={bookmark.postId.media[0].url}
+                                                            alt="image"
+                                                            style={{
+                                                                maxWidth: "100%",
+                                                                maxHeight: "100%",
+                                                                objectFit: "contain",
+                                                            }}
+                                                        />
+                                                    )}
+                                                    {bookmark.postId.media && bookmark.postId.media[0]?.type === "video" && (
+                                                        <video
+                                                            controls
+                                                            style={{
+                                                                maxWidth: "100%",
+                                                                maxHeight: "100%",
+                                                                objectFit: "contain",
+                                                            }}
+                                                        >
+                                                            <source src={bookmark.postId.media[0].url} type="video/mp4" />
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    )}
+                                                </div>
+                                            )} */}
+                                            {bookmark.postId.media && bookmark.postId.media.length > 0 && (
+                                                <div className="post-media-container" style={{ width: "100%", height: "auto", overflow: "hidden" }}>
+                                                    {bookmark.postId.media.length === 1 && (
+                                                        <div className="post-img">
+                                                            {bookmark.postId.media[0].type === "photos" ? (
+                                                                <img src={bookmark.postId.media[0].url} className="w-100" alt="image" />
+                                                            ) : (
+                                                                <video controls className="w-100">
+                                                                    <source src={bookmark.postId.media[0].url} type="video/mp4" />
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                    {bookmark.postId.media.length === 2 && (
+                                                        <div className="post-img d-flex justify-content-between">
+                                                            {bookmark.postId.media.map((media, index) => (
+                                                                <div key={index} className="single" style={{ width: "49%" }}>
+                                                                    {media.type === "photos" ? (
+                                                                        <img src={media.url} className="w-100" alt="image" />
+                                                                    ) : (
+                                                                        <video controls className="w-100">
+                                                                            <source src={media.url} type="video/mp4" />
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                    {bookmark.postId.media.length === 3 && (
+                                                        <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
+                                                            <div className="single" style={{ width: "50%" }}>
+                                                                {bookmark.postId.media[0].type === "photos" ? (
+                                                                    <img src={bookmark.postId.media[0].url} className="w-100" alt="image" />
+                                                                ) : (
+                                                                    <video controls className="w-100">
+                                                                        <source src={bookmark.postId.media[0].url} type="video/mp4" />
+                                                                        Your browser does not support the video tag.
+                                                                    </video>
+                                                                )}
+                                                            </div>
+                                                            <div className="single d-grid gap-2" style={{ width: "50%" }}>
+                                                                {bookmark.postId.media.slice(1).map((media, index) => (
+                                                                    <div key={index}>
+                                                                        {media.type === "photos" ? (
+                                                                            <img src={media.url} className="w-100" alt="image" />
+                                                                        ) : (
+                                                                            <video controls className="w-100">
+                                                                                <source src={media.url} type="video/mp4" />
+                                                                                Your browser does not support the video tag.
+                                                                            </video>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {bookmark.postId.media.length === 4 && (
+                                                        <div className="post-img d-grid gap-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: "10px" }}>
+                                                            {bookmark.postId.media.map((media, index) => (
+                                                                <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
+                                                                    {media.type === "photos" ? (
+                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                                                    ) : (
+                                                                        <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
+                                                                            <source src={media.url} type="video/mp4" />
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="like-comment-share py-5 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(bookmark._id, bookmark.postId.isLiked)}>
+                                            {/* <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(bookmark?.postId._id, bookmark?.postId.isLiked)}>
+                                                <i className="material-symbols-outlined mat-icon">
+                                                    {bookmark?.postId?.likes?.some((like) => like.userId === user._id) ? "favorite" : "favorite_border"}
+                                                </i>
+                                                {bookmark?.postId?.likes?.some((like) => like.userId === user._id) ? "Liked" : "Like"} {bookmark?.postId?.likeCount}
+
+                                                <div className="friends-list d-flex gap-3 align-items-center text-center">
+                                                    <ul className="d-flex align-items-center justify-content-center">
+                                                        {bookmark?.postId?.likes?.slice(0, 3).map((like) => (
+                                                            <li key={like.userId}>
+                                                                <img
+                                                                    src={like.user?.profilePicture || "../assets/images/navbar/picture.png"}
+                                                                    alt="User Avatar"
+                                                                    style={{ borderRadius: "50%", width: "30px", height: "30px" }}
+                                                                />
+                                                            </li>
+                                                        ))}
+                                                        {bookmark?.postId?.likes?.length > 3 && (
+                                                            <li>
+                                                                <span className="mdtxt d-center">+{bookmark?.postId?.likes?.length - 3}</span>
+                                                            </li>
+                                                        )}
+                                                    </ul>
+                                                </div>
+                                            </button> */}
+
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(bookmark.postId._id, bookmark.postId.isLiked)}>
                                                 <i className="material-symbols-outlined mat-icon">favorite</i>
                                                 {bookmark.isLiked?.userId === user._id ? "Liked" : "Like"} {bookmark.postId.likeCount}
                                                 <div className="friends-list d-flex gap-3 align-items-center text-center">
@@ -431,7 +622,8 @@ function Bookmark() {
                                                     </ul>
                                                 </div>
                                             </button>
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt">
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModComment"
+                                                onClick={() => handleOpenModal(bookmark.postId._id)}>
                                                 <i className="material-symbols-outlined mat-icon"> chat </i>
                                                 Comment {bookmark.postId.commentCount}
                                             </button>
@@ -440,343 +632,8 @@ function Bookmark() {
                                                 Share {bookmark.postId.repostCount}
                                             </button>
                                         </div>
-                                        <form onSubmit={(e) => {
-                                            e.preventDefault();
-                                            const content = e.target.elements.commentInput.value;
-                                            const media = null;
-                                            submitComment(bookmark._id, content, media);
-                                            setCommentInput('')
-                                        }} >
-                                            <div className="d-flex mt-5 gap-3">
-                                                <div className="profile-box d-none d-xxl-block">
-                                                    <a href="#"><img src={user.profilePicture || "assets/images/navbar/picture.png"} className="max-un" alt="icon" style={{ borderRadius: "50px", width: "40px" }} /></a>
-                                                </div>
-                                                <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100" style={{
-                                                    borderRadius: "50px",
-                                                    height: "40px",
-                                                    width: "100%",
-                                                    padding: "10px",
-                                                    resize: "none",
-                                                    border: "1px solid #ccc",
-                                                    textAlign: "left",
-                                                }}>
-                                                    <input placeholder="Write a comment.."
-                                                        name="commentInput"
-                                                        value={commentInput}
-                                                        onChange={(e) => setCommentInput(e.target.value)}
-                                                    />
-                                                    <div className="file-input d-flex gap-1 gap-md-2">
-                                                        <div className="file-upload">
-                                                            <label className="file">
-                                                                <input type="file" />
-                                                                <span className="file-custom border-0 d-grid text-center">
-                                                                    <span className="material-symbols-outlined mat-icon m-0 xxltxt"> gif_box </span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                        <div className="file-upload">
-                                                            <label className="file">
-                                                                <input type="file" />
-                                                                <span className="file-custom border-0 d-grid text-center">
-                                                                    <span className="material-symbols-outlined mat-icon m-0 xxltxt"> perm_media </span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                        <span className="mood-area">
-                                                            <span className="material-symbols-outlined mat-icon m-0 xxltxt"> mood </span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className="btn-area d-flex">
-                                                    <button type="submit" className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "38px" }}>
-                                                        <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        {getVisibleComments(bookmark._id).map((comment) => (
-                                            <div div key={comment._id} className="comments-area mt-5" >
-                                                <div className="single-comment-area ms-1 ms-xxl-15">
-                                                    <div className="parent-comment d-flex gap-2 gap-sm-4">
-                                                        <div className=" d-center align-items-baseline">
-                                                            <img className="avatar-img max-un" src={comment.user.profilePicture || "assets/images/navbar/picture.png"} alt="avatar" style={{ borderRadius: "50px", width: "40px" }} />
-                                                        </div>
-                                                        <div className="info-item active">
-                                                            <div className="top-area px-4 py-3 d-flex gap-3 align-items-start justify-content-between">
-                                                                <div className="title-area">
-                                                                    <h6 className="m-0 mb-3"><a href="public-profile-post.html">{comment.user.userName}</a></h6>
-                                                                    <p className="mdtxt">{comment.content}</p>
-                                                                </div>
-                                                            </div>
-                                                            <form action="#" className="comment-form">
-                                                                <div className="d-flex gap-3">
-                                                                    <input placeholder="Write a comment.." className="py-3" />
-                                                                    <button className="cmn-btn px-2 px-sm-5 px-lg-6" >
-                                                                        <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {bookmark.commentCount > 2 && (
-                                            <div className="read-more-area mt-3 text-center">
-                                                <button className="cmn-btn" onClick={() => handleReadMore(bookmark._id)} style={{ borderRadius: "50px" }}>
-                                                    {showAll[bookmark._id] ? "Show Less" : "Show More"}
-                                                </button>
-                                            </div>
-                                        )}
                                     </div>
                                 ))}
-                                {/* <div className="post-single-box p-3 p-sm-5">
-                                    <div className="top-area pb-5">
-                                        <div className="profile-area d-center justify-content-between">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className="avatar position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/avatar-1.png" alt="avatar" />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="public-profile-post.html">Lori Cortez</a></h6>
-                                                    <span className="mdtxt status">Now 19, 2024</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button type="button" className="dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i className="material-symbols-outlined fs-xxl m-0"> more_horiz </i>
-                                                </button>
-                                                <ul className="dropdown-menu p-4 pt-2">
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> bookmark_add </i>
-                                                            <span>Saved Post</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> person_remove </i>
-                                                            <span>Unfollow</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> hide_source </i>
-                                                            <span>Hide Post</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> lock </i>
-                                                            <span>Block</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> flag </i>
-                                                            <span>Report Post</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div className="py-4">
-                                            <p className="description">I created Roughly plugin to sketch crafted hand-drawn elements.</p>
-                                        </div>
-                                        <div className="post-img">
-                                            <img src="assets/images/post-img-1.png" className="w-100" alt="image" />
-                                        </div>
-                                    </div>
-                                    <div className="total-react-share pb-4 d-center gap-2 flex-wrap justify-content-between">
-                                        <div className="friends-list d-flex gap-3 align-items-center text-center">
-                                            <ul className="d-flex align-items-center justify-content-center">
-                                                <li><img src="assets/images/avatar-2.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-3.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-4.png" alt="image" /></li>
-                                                <li><span className="mdtxt d-center">8+</span></li>
-                                            </ul>
-                                        </div>
-                                        <button className="mdtxt"> Comments</button>
-                                        <button className="mdtxt"> Shares</button>
-                                    </div>
-                                    <div className="like-comment-share py-5 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
-                                        <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                            <i className="material-symbols-outlined mat-icon"> favorite </i>
-                                            Like
-                                        </button>
-                                        <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                            <i className="material-symbols-outlined mat-icon"> chat </i>
-                                            Comment
-                                        </button>
-                                        <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                            <i className="material-symbols-outlined mat-icon"> share </i>
-                                            Share
-                                        </button>
-                                    </div>
-                                    <form action="#">
-                                        <div className="d-flex mt-5 gap-3">
-                                            <div className="profile-box d-none d-xxl-block">
-                                                <a href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
-                                            </div>
-                                            <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
-                                                <input placeholder="Write a comment.." />
-                                                <div className="file-input d-flex gap-1 gap-md-2">
-                                                    <div className="file-upload">
-                                                        <label className="file">
-                                                            <input type="file" />
-                                                            <span className="file-custom border-0 d-grid text-center">
-                                                                <span className="material-symbols-outlined mat-icon m-0 xxltxt"> gif_box </span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <div className="file-upload">
-                                                        <label className="file">
-                                                            <input type="file" />
-                                                            <span className="file-custom border-0 d-grid text-center">
-                                                                <span className="material-symbols-outlined mat-icon m-0 xxltxt"> perm_media </span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <span className="mood-area">
-                                                        <span className="material-symbols-outlined mat-icon m-0 xxltxt"> mood </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-area d-flex">
-                                                <button className="cmn-btn px-2 px-sm-5 px-lg-6">
-                                                    <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="post-single-box p-3 p-sm-5">
-                                    <div className="top-area pb-5">
-                                        <div className="profile-area d-center justify-content-between">
-                                            <div className="avatar-item d-flex gap-3 align-items-center">
-                                                <div className=" position-relative">
-                                                    <img className="avatar-img max-un" src="assets/images/avatar-1.png" alt="avatar" />
-                                                </div>
-                                                <div className="info-area">
-                                                    <h6 className="m-0"><a href="public-profile-post.html">Lori Cortez</a></h6>
-                                                    <span className="mdtxt status">Now 22, 2024</span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-group cus-dropdown">
-                                                <button type="button" className="dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i className="material-symbols-outlined fs-xxl m-0"> more_horiz </i>
-                                                </button>
-                                                <ul className="dropdown-menu p-4 pt-2">
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> bookmark_add </i>
-                                                            <span>Saved Post</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> person_remove </i>
-                                                            <span>Unfollow</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> hide_source </i>
-                                                            <span>Hide Post</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> lock </i>
-                                                            <span>Block</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
-                                                            <i className="material-symbols-outlined mat-icon"> flag </i>
-                                                            <span>Report Post</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div className="py-4">
-                                            <p className="description">I created Roughly plugin to sketch crafted hand-drawn elements which can be used to any usage (diagrams/flows/decoration/etc)</p>
-                                        </div>
-                                        <div className="post-img  d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
-                                            <div className="single">
-                                                <img src="assets/images/post-img-2.png" alt="image" />
-                                            </div>
-                                            <div className="single d-grid gap-3">
-                                                <img src="assets/images/post-img-3.png" alt="image" />
-                                                <img src="assets/images/post-img-4.png" alt="image" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="total-react-share pb-4 d-center gap-2 flex-wrap justify-content-between">
-                                        <div className="friends-list d-flex gap-3 align-items-center text-center">
-                                            <ul className="d-flex align-items-center justify-content-center">
-                                                <li><img src="assets/images/avatar-2.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-3.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-4.png" alt="image" /></li>
-                                                <li><span className="mdtxt d-center">8+</span></li>
-                                            </ul>
-                                        </div>
-                                        <button className="mdtxt"> Comments</button>
-                                        <button className="mdtxt"> Shares</button>
-                                    </div>
-                                    <div className="like-comment-share py-5 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
-                                        <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                            <i className="material-symbols-outlined mat-icon"> favorite </i>
-                                            Like
-                                        </button>
-                                        <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                            <i className="material-symbols-outlined mat-icon"> chat </i>
-                                            Comment
-                                        </button>
-                                        <button className="d-center gap-1 gap-sm-2 mdtxt">
-                                            <i className="material-symbols-outlined mat-icon"> share </i>
-                                            Share
-                                        </button>
-                                    </div>
-                                    <form action="#">
-                                        <div className="d-flex mt-5 gap-3">
-                                            <div className="profile-box d-none d-xxl-block">
-                                                <a href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
-                                            </div>
-                                            <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
-                                                <input placeholder="Write a comment.." />
-                                                <div className="file-input d-flex gap-1 gap-md-2">
-                                                    <div className="file-upload">
-                                                        <label className="file">
-                                                            <input type="file" />
-                                                            <span className="file-custom border-0 d-grid text-center">
-                                                                <span className="material-symbols-outlined mat-icon m-0 xxltxt"> gif_box </span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <div className="file-upload">
-                                                        <label className="file">
-                                                            <input type="file" />
-                                                            <span className="file-custom border-0 d-grid text-center">
-                                                                <span className="material-symbols-outlined mat-icon m-0 xxltxt"> perm_media </span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <span className="mood-area">
-                                                        <span className="material-symbols-outlined mat-icon m-0 xxltxt"> mood </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="btn-area d-flex">
-                                                <button className="cmn-btn px-2 px-sm-5 px-lg-6">
-                                                    <i className="material-symbols-outlined mat-icon m-0 fs-xxl"> near_me </i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div> */}
                             </div>
                         </div>
                         <div className="col-xxl-3 col-xl-4 col-lg-4 col-6 mt-5 mt-xl-0">
@@ -792,11 +649,6 @@ function Bookmark() {
                                 <div className="cus-scrollbar side-wrapper">
                                     <div className="sidebar-wrapper d-flex flex-column gap-6">
                                         <div className="sidebar-area p-5">
-                                            <div className=" mb-4">
-                                                <h6 className="d-inline-flex position-relative">
-                                                    Search
-                                                </h6>
-                                            </div>
                                             <div className="d-grid gap-6">
                                                 <div className="single-single">
                                                     <div className="profile-pic d-flex gap-3">
@@ -823,7 +675,7 @@ function Bookmark() {
                                                                         className="avatar-img max-un"
                                                                         src={suggestedUser.profilePicture || "assets/images/avatar-14.png"}
                                                                         alt="avatar"
-                                                                        style={{ borderRadius: "50px", width: "40px" }}
+                                                                        style={{ borderRadius: "50px", width: "40px", height: "40px", }}
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
@@ -839,7 +691,6 @@ function Bookmark() {
                                                                 >
                                                                     {followedUsers.includes(suggestedUser._id) ? "Following" : "Follow"}
                                                                 </button> */}
-
                                                                 <button
                                                                     className="cmn-btn"
                                                                     style={{
@@ -875,10 +726,386 @@ function Bookmark() {
                         </div>
                     </div>
                 </div>
-            </main >
-        </>
+            </main>
+            <div className="go-live-popup">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="modal cmn-modal fade" id="activityModComment">
+                                <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "800px" }}>
+                                    <div className="modal-content p-5">
+                                        <div className="modal-header justify-content-center">
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i className="material-symbols-outlined mat-icon xxltxt">close</i>
+                                            </button>
+                                        </div>
+                                        <div className="top-content">
+                                            <h6>Comments</h6><hr />
+                                            <div className="comments-list">
+                                                {comments.map((comment) => (
+                                                    <div key={comment._id} className="comments-area">
+                                                        <div className="single-comment-area ms-1">
+                                                            <div className="parent-comment d-flex gap-3">
+                                                                <img
+                                                                    className="avatar-img"
+                                                                    src={comment.user.profilePicture || "../assets/images/navbar/picture.png"}
+                                                                    alt="avatar"
+                                                                    style={{ borderRadius: "50%", width: "40px", height: "40px", marginTop: "10px" }}
+                                                                />
+                                                                <div className="info-item">
+                                                                    <div className="top-area px-4 py-3 d-flex justify-content-between">
+                                                                        <div className="title-area">
+                                                                            <h6 className="m-0 mb-2 comment-user-name">
+                                                                                <a href="#">{comment.user.userName}</a>
+                                                                            </h6>
+                                                                        </div>
+                                                                        <div className="info-area" style={{ marginTop: "-10px", marginLeft: "10px" }}>
+                                                                            <span className="m-0">{comment.updatedAt &&
+                                                                                new Date(comment.updatedAt).toLocaleDateString("en-US", {
+                                                                                    month: "short",
+                                                                                    day: "numeric",
+                                                                                })}</span>
+                                                                        </div>
+                                                                        <div className="btn-group cus-dropdown">
+                                                                            <button
+                                                                                onClick={() => toggleDropdown(comment._id)}
+                                                                                type="button"
+                                                                                className="dropdown-btn"
+                                                                                style={{ marginLeft: "450px", marginTop: "-20px" }}
+                                                                            >
+                                                                                <i className="material-symbols-outlined fs-xxl m-0">more_horiz</i>
+                                                                            </button>
+                                                                            <ul
+                                                                                className={`dropdown-menu ${activeDropdown === comment._id ? "show" : ""}`}
+                                                                                style={{ marginLeft: "350px", marginTop: "10px" }}
+                                                                            >
+                                                                                <li>
+                                                                                    <a
+                                                                                        className="droplist d-flex align-items-center gap-2"
+                                                                                        onClick={() => {
+                                                                                            handleEditComment(comment._id, comment.content, comment.media);
+                                                                                            setActiveDropdown(null);
+                                                                                        }}
+                                                                                    >
+                                                                                        <i className="material-symbols-outlined mat-icon">edit</i>
+                                                                                        <span>Edit</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a
+                                                                                        className="droplist d-flex align-items-center gap-2"
+                                                                                        onClick={() => handleDeleteComment(comment._id)}
+                                                                                    >
+                                                                                        <i className="material-symbols-outlined mat-icon">delete</i>
+                                                                                        <span>Delete</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="py-2">
+                                                                        <p
+                                                                            className="mdtxt"
+                                                                            style={{
+                                                                                display: "block",
+                                                                                marginBottom: 0,
+                                                                            }}
+                                                                        >
+                                                                            {expandedComments[comment._id]
+                                                                                ? comment.content
+                                                                                : comment.content.split(" ").slice(0, 50).join(" ")}
 
+                                                                        </p>
+                                                                        {comment.content.split(" ").length > 50 && (
+                                                                            <span
+                                                                                onClick={() => handleToggleExpand(comment._id)}
+                                                                                style={{
+                                                                                    color: "#131010",
+                                                                                    cursor: "pointer",
+                                                                                    fontWeight: "bold",
+                                                                                    marginTop: "-5px",
+                                                                                    fontSize: "14px",
+                                                                                }}
+                                                                            >
+                                                                                {expandedComments[comment._id] ? "Less" : "... More"}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                    {comment.media[0]?.type === "photos" && (
+                                                                        <img
+                                                                            src={comment.media[0]?.url}
+                                                                            alt="media"
+                                                                            style={{
+                                                                                maxWidth: "100%",
+                                                                                maxHeight: "400px",
+                                                                                objectFit: "contain",
+                                                                                borderRadius: "8px",
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                    {comment.media[0]?.type === "video" && (
+                                                                        <video
+                                                                            controls
+                                                                            style={{
+                                                                                maxWidth: "100%",
+                                                                                maxHeight: "100%",
+                                                                                objectFit: "contain",
+                                                                            }}
+                                                                        >
+                                                                            <source src={comment.media[0]?.url} type="video/mp4" />
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    )}
+                                                                    {editingCommentId === comment._id && (
+                                                                        <form
+                                                                            onSubmit={(e) => {
+                                                                                e.preventDefault();
+                                                                                updateComment(comment._id, editedContent, editedMedia);
+                                                                                setCommentInput("");
+                                                                                setEditedMedia(null);
+                                                                                setMediaPreview(null);
+                                                                            }}
+                                                                        >
+                                                                            <textarea
+                                                                                value={editedContent}
+                                                                                onChange={(e) => setEditedContent(e.target.value)}
+                                                                                placeholder="Edit your comment"
+                                                                                className="form-control mb-2 mt-4"
+                                                                                rows="2"
+                                                                                style={{ width: "700px" }}
+                                                                            ></textarea>
+                                                                            {mediaPreview && (
+                                                                                <div className="media-preview mb-2">
+                                                                                    {mediaPreview.type === "image" ? (
+                                                                                        <img
+                                                                                            src={mediaPreview.preview}
+                                                                                            alt="Uploaded preview"
+                                                                                            style={{
+                                                                                                maxWidth: "100%",
+                                                                                                height: "auto",
+                                                                                                borderRadius: "8px",
+                                                                                            }}
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <video
+                                                                                            controls
+                                                                                            style={{
+                                                                                                maxWidth: "100%",
+                                                                                                height: "auto",
+                                                                                                borderRadius: "8px",
+                                                                                                marginTop: "10px",
+                                                                                            }}
+                                                                                        >
+                                                                                            <source src={mediaPreview.preview} />
+                                                                                            Your browser does not support the video tag.
+                                                                                        </video>
+                                                                                    )}
+                                                                                </div>
+                                                                            )}
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-light mb-2 me-2"
+                                                                                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                                                            >
+                                                                                😊
+                                                                            </button>
+                                                                            <label className="btn btn-light m-0 me-2">
+                                                                                <i className="material-symbols-outlined mat-icon"> perm_media </i>
+                                                                                <input
+                                                                                    type="file"
+                                                                                    accept="image/*,video/*"
+                                                                                    style={{ display: "none" }}
+                                                                                    onChange={(e) => {
+                                                                                        const file = e.target.files[0];
+                                                                                        if (file) {
+                                                                                            setEditedMedia(file);
+                                                                                            const fileType = file.type.split('/')[0];
+                                                                                            const reader = new FileReader();
+                                                                                            reader.onload = (event) => {
+                                                                                                setMediaPreview({
+                                                                                                    type: fileType,
+                                                                                                    preview: event.target.result,
+                                                                                                });
+                                                                                            };
+                                                                                            reader.readAsDataURL(file);
+                                                                                        }
+                                                                                    }}
+                                                                                />
+                                                                            </label>
+                                                                            <button
+                                                                                type="submit"
+                                                                                className="cmn-btn success"
+                                                                                style={{ borderRadius: "50px" }}
+                                                                            >
+                                                                                Update
+                                                                            </button>
+                                                                            {showEmojiPicker && (
+                                                                                <div className={`emoji-pickeredit ${window.innerWidth <= 320 ? "mobile-emoji" : ""}`}>
+                                                                                    <EmojiPicker
+                                                                                        onEmojiClick={(emoji) =>
+                                                                                            setEditedContent((prev) => prev + emoji.emoji)
+                                                                                        }
+                                                                                        style={{
+                                                                                            height: "450px",
+                                                                                            //width: window.innerWidth > 320 ? "300px" : "100%",
+                                                                                            width: "100%",
+                                                                                            marginTop: "10px",
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            )}
+                                                                        </form>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="mid-area">
+                                            <form
+                                                onSubmit={(e) => {
+                                                    e.preventDefault();
+                                                    const media = editedMedia;
+                                                    submitComment(activePostId, commentInput, media);
+                                                    setCommentInput("");
+                                                    setEditedMedia(null);
+                                                    setMediaPreviewAdd(null);
+                                                }}
+                                            >
+                                                <div className="d-flex mt-5 gap-3">
+                                                    <img
+                                                        src={user.profilePicture || "../assets/images/navbar/picture.png"}
+                                                        alt="icon"
+                                                        style={{
+                                                            borderRadius: "50%",
+                                                            width: "40px",
+                                                        }}
+                                                    />
+                                                    <input
+                                                        placeholder="Write a comment..."
+                                                        name="commentInput"
+                                                        value={commentInput}
+                                                        onChange={(e) => setCommentInput(e.target.value)}
+                                                        className="form-control"
+                                                        style={{
+                                                            borderRadius: "50px",
+                                                            padding: "8px 16px",
+                                                        }}
+                                                    />
+                                                </div>
+                                                {mediaPreviewAdd && (
+                                                    <div className="media-preview mb-4" style={{ marginLeft: "8%" }}>
+                                                        {mediaPreviewAdd.type === "image" ? (
+                                                            <img
+                                                                src={mediaPreviewAdd.preview}
+                                                                alt="Uploaded preview"
+                                                                style={{
+                                                                    maxWidth: "100%",
+                                                                    height: "auto",
+                                                                    borderRadius: "8px",
+                                                                    marginTop: "5px",
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <video
+                                                                controls
+                                                                style={{
+                                                                    maxWidth: "100%",
+                                                                    height: "auto",
+                                                                    borderRadius: "8px",
+                                                                    marginTop: "10px",
+                                                                }}
+                                                            >
+                                                                <source src={mediaPreviewAdd.preview} />
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {showEmojiPickerAdd && (
+                                                    <div className="emoji-pickeradd mb-4" style={{ marginLeft: "8%", marginTop: "10px", }}>
+                                                        <EmojiPicker
+                                                            onEmojiClick={(emoji) =>
+                                                                setCommentInput((prev) => prev + emoji.emoji)
+                                                            }
+                                                            style={{
+                                                                height: "450px",
+                                                                width: window.innerWidth > 768 ? "700px" : "100%",
+                                                                marginTop: "10px",
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
+                                                <div className="d-flex gap-5 mt-3 ml-5" style={{ marginLeft: "8%" }}>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-light"
+                                                        onClick={() => setShowEmojiPickerAdd(!showEmojiPickerAdd)}
+                                                    >
+                                                        😊
+                                                    </button>
+                                                    <label className="btn btn-light">
+                                                        <i className="material-symbols-outlined mat-icon"> perm_media </i>
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*,video/*"
+                                                            style={{ display: "none" }}
+                                                            onChange={(e) => {
+                                                                const file = e.target.files[0];
+                                                                if (file) {
+                                                                    setEditedMedia(file);
+                                                                    const fileType = file.type.split('/')[0];
+                                                                    const reader = new FileReader();
+                                                                    reader.onload = (event) => {
+                                                                        setMediaPreviewAdd({
+                                                                            type: fileType,
+                                                                            preview: event.target.result,
+                                                                        });
+                                                                    };
+                                                                    reader.readAsDataURL(file);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </label>
+                                                </div>
+                                                <div className="footer-area pt-3 text-end">
+                                                    <button
+                                                        type="button"
+                                                        className="cmn-btn alt"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"
+                                                        style={{ borderRadius: "50px" }}
+                                                        onClick={() => {
+                                                            setMediaPreviewAdd(null);
+                                                            setMediaPreview(null);
+                                                            setShowEmojiPickerAdd(false);
+                                                            setShowEmojiPicker(false);
+                                                            setCommentInput("");
+                                                            setEditedMedia(null);
+                                                        }}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                    <button
+                                                        type="submit"
+                                                        className="cmn-btn"
+                                                        style={{ borderRadius: "50px" }}
+                                                    >
+                                                        Comment
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
+        </>
     );
 }
-
 export default Bookmark;

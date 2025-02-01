@@ -24,16 +24,25 @@ const API_ENDPOINTS = {
     GET_POSTLIST: `${POST_SERVICE_URL}/api/media/post`,
     DELETE_POST: `${POST_SERVICE_URL}/api/media/post`,
     UPDATE_POST: `${POST_SERVICE_URL}/api/media/post`,
+    RE_POST: `${POST_SERVICE_URL}/api/media/post`,
 
     POST_LIKE: `${POST_SERVICE_URL}/api/media/like`,
     DELETE_LIKE: `${POST_SERVICE_URL}/api/media/like`,
 
     POST_COMMNET: `${POST_SERVICE_URL}/api/media/comment`,
     GET_COMMENT: `${POST_SERVICE_URL}/api/media/comment`,
+    UPDATE_COMMENT: `${POST_SERVICE_URL}/api/media/comment`,
+    DELETE_COMMENT: `${POST_SERVICE_URL}/api/media/comment`,
 
     POST_BOOKMARK: `${POST_SERVICE_URL}/api/media/bookmark`,
     GET_BOOKMARK: `${POST_SERVICE_URL}/api/media/bookmark`,
     DELETE_BOOKMARK: `${POST_SERVICE_URL}/api/media/bookmark`,
+
+    POST_PIN: `${POST_SERVICE_URL}/api/media/pin`,
+    GET_PIN: `${POST_SERVICE_URL}/api/media/pin`,
+    DELETE_UNPIN: `${POST_SERVICE_URL}/api/media/pin`,
+
+
 };
 
 export default API_ENDPOINTS;
