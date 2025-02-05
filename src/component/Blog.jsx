@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { Box, Typography } from "@mui/material";
+import Footer from "./Footer";
 const Blog = () => {
 
     React.useEffect(() => {
@@ -19,7 +20,7 @@ const Blog = () => {
             <main className="main-content">
                 <div className="container">
                     <div className="title-blog">
-                        <p>Home</p><img src="assets/images/img/titlearrow.png" alt=" Title Arrow" /><p>Blog</p>
+                        <p>Home<img src="assets/images/img/titlearrow.png" alt=" Title Arrow" />Blog</p>
                     </div>
                     <div className="blog-summury">
                         <h1>Blog</h1>
@@ -47,7 +48,8 @@ const Blog = () => {
                     </div>
                 </div>
             </main>
-            <footer
+            <Footer />
+            {/* <footer
                 style={{
                     background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
                     color: "white",
@@ -229,7 +231,7 @@ const Blog = () => {
                         © 2024 Activatree, a Subsidiary of Infinatree, Inc.
                     </Typography>
                 </Box>
-            </footer>
+            </footer> */}
         </>
     )
 

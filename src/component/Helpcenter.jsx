@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 const Helpcenter = () => {
 
 
@@ -73,7 +74,8 @@ const Helpcenter = () => {
                     </div>
                 </div>
             </main>
-            <footer
+            <Footer />
+            {/* <footer
                 style={{
                     background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
                     color: "white",
@@ -255,7 +257,7 @@ const Helpcenter = () => {
                         © 2024 Activatree, a Subsidiary of Infinatree, Inc.
                     </Typography>
                 </Box>
-            </footer>
+            </footer> */}
 
         </>
     );

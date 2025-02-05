@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 const Privacypolicy = () => {
     React.useEffect(() => {
         const link = document.createElement("link");
@@ -15,24 +16,24 @@ const Privacypolicy = () => {
         <>
             <main className="main-content">
                 <div className="container">
-                    <div className="title-privacy-policy">
+                    <div className="title-privacy-policy mt-5">
                         <p>Home</p><img src="assets/images/img/titlearrow.png" alt="Title Arrow" /><p>Privacy Pollicy</p>
                     </div>
-                    <div className="privacy-summury">
+                    <div className="privacy-summury mt-5">
                         <h1>Privacy Policy</h1>
                         <img src="assets/images/img/aboutline.png" alt=" About Line" />
                     </div>
                     <div className="activatree-details mb-5">
-                        <p><span>Effective Date:</span> Monday, Oct 28, 2024</p>
-                        <p><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
-                        <p><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
-                        <p><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
+                        <p className="mt-2"><span>Effective Date:</span> Monday, Oct 28, 2024</p>
+                        <p className="mt-2"><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
+                        <p className="mt-2"><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
+                        <p className="mt-2"><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
                     </div>
-                    <div className="welcome-activatree mb-3">
+                    <div className="welcome-activatree mb-5 mt-5">
                         <h2>Introduction</h2>
                         <p>This Privacy Policy outlines Activatree <b>(“ we ”, “us”, “ our ”, or “ the Company ”)</b> practices with respect to information collected from users who access our website at <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>www.activatree.com</a> <b>(“ Site ”)</b>, or otherwise share personal information with us (collectively: <b> " Users "</b>).</p>
                     </div>
-                    <div className="welcome-activatree mb-3">
+                    <div className="welcome-activatree mb-5 mt-5">
                         <h2>Grounds for data collection </h2>
                         <p>Processing of your personal information (meaning, any information which may potentially allow your identification with reasonable means; hereinafter <b>“ Personal Information ”</b>) is necessary for the performance of our contractual obligations towards you and providing you with our services, to protect our legitimate interests and for compliance with legal and financial regulatory obligations to which we are subject.</p>
                         <ul className='mt-3'>
@@ -40,33 +41,33 @@ const Privacypolicy = () => {
                             <li><p>We encourage our Users to carefully read the Privacy Policy and use it to make informed decisions.</p></li>
                         </ul>
                     </div>
-                    <div className="welcome-activatree mb-3">
+                    <div className="welcome-activatree mb-5 mt-5">
                         <h2>What information we collect?</h2>
                         <p>We collect two types of data and information from Users.</p>
                         <p>The first type of information is un-identified and non-identifiable information pertaining to a User(s), which may be made available or gathered via your use of the Site <b>(“ Nonpersonal Information ”).</b> We are not aware of the identity of a User from which the Non-personal Information was collected. Non-personal Information which is being collected may include your aggregated usage information and technical information transmitted by your device, including certain software and hardware information (e.g. the type of browser and operating system your device uses, language preference, access time, etc.) in order to enhance the functionality of our Site. We may also collect information on your activity on the Site (e.g. pages viewed, online browsing, clicks, actions, etc.).</p>
-                        <ul className='mt-3'>
+                        <ul className="">
                             <p>The second type of information <b>Personal Information</b> which is individually identifiable information, namely information that identifies an individual or may with reasonable effort identify an individual. Such information includes:</p>
-                            <ul className='mt-3'>
+                            <ul className="m-5">
                                 <li><img src="assets/images/img/point.png" alt=" Ponit" />Device Information: We collect Personal Information from your device. Such information includes geolocation data, IP address, unique identifiers (e.g. MAC address and UUID) and other information which relates to your activity through the Site.</li>
                                 <li><img src="assets/images/img/point.png" alt=" Ponit" />This includes information such as your name, address, phone number, personal email address, location and personal social media address.</li>
                                 <li><img src="assets/images/img/point.png" alt=" Ponit" />Registration information: When you register to our Site you will be asked to provide us certain details such as: full name; e-mail or physical address, and other information.</li>
                             </ul>
                         </ul>
                     </div>
-                    <div className="welcome-activatree mb-3">
+                    <div className="welcome-activatree mb-5 mt-5">
                         <h2>How We Receive Information About You</h2>
                         <p>We receive your Personal Information from various sources:</p>
-                        <ul className='mt-3'>
+                        <ul className="m-5">
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />When you voluntarily provide us your personal details in order to register on our Site</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />When you use or access our Site in connection with your use of our services</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />From third party providers, services and public registers (for example, traffic analytics vendors).</li>
                         </ul>
                     </div>
-                    <div className="welcome-activatree mb-3">
+                    <div className="welcome-activatree mb-5 mt-5">
                         <h2>How We Use User Data</h2>
                         <p>We do not rent, sell, or share Users’ information with third parties except as described in this Privacy Policy.</p>
                         <p>We may use the information for the following:</p>
-                        <ul className='mt-3'>
+                        <ul className="m-5">
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Communicating with you – sending you notices regarding our services, providing you with technical information and responding to any customer service issue you may have</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />To communicate with you and to keep you informed of our latest updates and services</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />To serve you advertisements when you use our Site (see more under "Advertisements")</li>
@@ -75,7 +76,7 @@ const Privacypolicy = () => {
                         </ul>
                         <p>In addition to the different uses listed above, we may transfer or disclose Personal Information to our parent company, subsidiaries, affiliated companies, and subcontractors.</p>
                         <p>In addition to the purposes listed in this Privacy Policy, we may share Personal Information with our trusted third-party providers, who may be located in different jurisdictions across the world, for any of the following purposes:</p>
-                        <ul className='mt-3'>
+                        <ul className="m-5">
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Hosting and operating our Site</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Providing you with our services, including providing a personalized display of our Site</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Storing and processing such information on our behalf</li>
@@ -84,7 +85,7 @@ const Privacypolicy = () => {
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Performing research, technical diagnostics or analytics</li>
                         </ul>
                         <p>We may also disclose information if we have good faith to believe that disclosure of such information is helpful or reasonably necessary to:
-                            <ul>
+                            <ul className="m-5">
                                 <li>(i) comply with any applicable law, regulation, legal process or governmental request; </li>
                                 <li>(ii) enforce our policies (including our Agreement), including investigations of potential violations thereof; </li>
                                 <li>(iii) investigate, detect, prevent, or take action regarding illegal activities or other wrongdoing, suspected fraud or security issues; </li>
@@ -97,7 +98,7 @@ const Privacypolicy = () => {
                     <div className="welcome-activatree mb-3">
                         <h2>User Rights</h2>
                         <p>You may request to: </p>
-                        <ul className='mt-3'>
+                        <ul className="m-5">
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Receive confirmation as to whether or not personal information concerning you is being processed, and access your stored personal information, together with supplementary information.</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Receive a copy of personal information you directly volunteer to us in a structured, commonly used and machine-readable format.</li>
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Request rectification of your personal information that is in our control.</li>
@@ -120,7 +121,7 @@ const Privacypolicy = () => {
                     </div>
                     <div className="welcome-activatree mb-3">
                         <h2>The Site Uses the Following Types of Cookies</h2>
-                        <ul className='mt-3'>
+                        <ul className="m-5">
                             <li><img src="assets/images/img/point.png" alt="Ponit" /><span style={{ fontWeight: 'bold' }}>'session cookies'</span>which are stored only temporarily during a browsing session in order to allow normal use of the system and are deleted from your device when the browser is closed;</li>
                             <li><img src="assets/images/img/point.png" alt="Ponit" /><span style={{ fontWeight: 'bold' }}>'persistent cookies'</span> which are read only by the Site, saved on your computer for a fixed period and are not deleted when the browser is closed. Such cookies are used where we need to know who you are for repeat visits, for example to allow us to store your preferences for the next sign-in;</li>
                             <li><img src="assets/images/img/point.png" alt="Ponit" /><span style={{ fontWeight: 'bold' }}>'third party cookies'</span> which are set by other online services who run content on the page you are viewing, for example by third party analytics companies who monitor and analyze our web access.</li>
@@ -144,25 +145,25 @@ const Privacypolicy = () => {
                     <div className="welcome-activatree mb-3">
                         <h2>Advertisements</h2>
                         <p>Activatree prioritizes the safety, privacy, and positive experience of all our users, especially minors. Our platform is designed to foster meaningful connections while maintaining a secure environment. The following policy outlines our approach to minor accounts:</p>
-                        <ul>
+                        <ul className="m-5">
                             <h2 className='mt-2'>1. Minimum Age Requirement</h2>
-                            <ul>
+                            <ul className="m-5">
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Users must be <span style={{ fontWeight: 'bold' }}>at least 13 years old</span> to create an account on Activatree.</li>
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Activatree reserves the right to disable accounts or take necessary actions if users are found to be under the minimum age requirement.</li>
                             </ul>
                             <h2 className='mt-2'>2. Content Restrictions for Minors</h2>
-                            <ul>
+                            <ul className="m-5">
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Accounts of users under 18 are <span style={{ fontWeight: 'bold' }}>defualted to privacy-first settings</span>to restrict potentially inappropriate interactions.</li>
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Certain types of content, including but not limited to explicit, violent, or sensitive material, are automatically restricted from being shown to users under 18.</li>
                             </ul>
                             <h2 className='mt-2'>3. Privacy Protection for Minors</h2>
-                            <ul>
+                            <ul className="m-5">
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Activatree adheres to the highest standards of privacy for minors, in accordance with COPPA, GDPR, and other relevant privacy regulations.</li>
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Personal information of users under 18 will not be displayed publicly, and all accounts for users under 16 are <span style={{ fontWeight: 'bold' }}>private by default.</span></li>
                                 <li><img src="assets/images/img/point.png" alt="Ponit" />Activatree does not knowingly collect, use, or disclose personal data of minors without obtaining proper consent where required by law.</li>
                             </ul>
                             <h2 className='mt-2'>4. Reporting and Support</h2>
-                            <ul>
+                            <ul className="m-5">
                                 <li><img src="assets/images/img/point.png" alt="Ponit" /><span style={{ fontWeight: 'bold' }}>Content Reporting:</span> Users can easily report inappropriate content or interactions. Our moderation team is available to investigate and address any concerns.</li>
                                 <li><img src="assets/images/img/point.png" alt="Ponit" /><span style={{ fontWeight: 'bold' }}>Support for Minors:</span> A dedicated support team is available to minors to address any security or privacy concerns regarding account usage, features, or interactions.</li>
                             </ul>
@@ -192,189 +193,7 @@ const Privacypolicy = () => {
                     </div>
                 </div>
             </main>
-            <footer
-                style={{
-                    background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
-                    color: "white",
-                    padding: "40px 5%",
-                    marginTop: "40px",
-                }}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        flexWrap: "wrap",
-                        padding: "0 5%",
-                        marginBottom: "20px",
-                        borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
-                        paddingBottom: "20px",
-                    }}
-                >
-                    <img
-                        src="assets/images/navbar/activa tree logo (2).png"
-                        alt="Tree Design"
-                        style={{
-                            maxWidth: "280px",
-                            height: "auto",
-                            marginLeft: "20px",
-                        }}
-                    />
-                    <Box
-                        sx={{
-                            display: "flex",
-                            gap: "15px",
-                            flexWrap: "wrap",
-                            justifyContent: "center",
-                            borderLeft: "1px solid rgba(255, 255, 255, 0.3)",
-                            borderRight: "1px solid rgba(255, 255, 255, 0.3)",
-                            padding: "10px 20px",
-                            margin: "20px 0",
-                        }}
-                    >
-                        {["instagram", "facebook", "x", "linkdin", "tiktok", "youtube", "uo"].map(
-                            (icon, index) => (
-                                <a
-                                    href="#"
-                                    key={index}
-                                    style={{ color: "white", textDecoration: "none" }}
-                                >
-                                    <img
-                                        src={`assets/images/footer/${icon}.png`}
-                                        alt={icon}
-                                        style={{ width: "24px" }}
-                                    />
-                                </a>
-                            )
-                        )}
-                    </Box>
-                </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        justifyContent: "space-around",
-                        rowGap: "20px",
-                        columnGap: "30px",
-                        margin: "0 auto",
-                        padding: "0 10%",
-                    }}
-                >
-                    {[
-                        {
-                            title: "Company",
-                            links: [
-                                { label: "About Us", to: "/about-us" },
-                                { label: "Blog", to: "/blog" },
-                                { label: "For Investors", to: "/investors" },
-                            ],
-                        },
-                        {
-                            title: "Support",
-                            links: [
-                                { label: "Help Center", to: "/help-center" },
-                                { label: "What's New", to: "/whats-new" },
-                            ],
-                        },
-                        {
-                            title: "Legal",
-                            links: [
-                                { label: "Privacy Policy", to: "/privacy-policy" },
-                                { label: "Terms of Service", to: "/terms-of-service" },
-                            ],
-                        },
-                        {
-                            title: "Contact Us",
-                            details: [
-                                {
-                                    text: "info@activatree.com",
-                                    icon: "mail",
-                                },
-                                {
-                                    text: "State of Georgia, U.S.A",
-                                    icon: "location",
-                                },
-                            ],
-                        },
-                    ].map((section, index) => (
-                        <Box
-                            key={index}
-                            sx={{
-                                flex: "1 1 calc(50% - 30px)",
-                                minWidth: "200px",
-                                maxWidth: "300px",
-                            }}
-                        >
-                            <Typography
-                                variant="subtitle1"
-                                sx={{
-                                    fontWeight: "bold",
-                                    fontSize: "16px",
-                                    marginBottom: "10px",
-                                    color: "white",
-                                }}
-                            >
-                                {section.title}
-                            </Typography>
-                            {section.links && (
-                                <ul style={{ listStyle: "none", padding: 0 }}>
-                                    {section.links.map((link, i) => (
-                                        <li key={i}>
-                                            <Link
-                                                to={link.to}
-                                                style={{
-                                                    color: "white",
-                                                    textDecoration: "none",
-                                                    fontSize: "14px",
-                                                    lineHeight: "24px",
-                                                }}
-                                            >
-                                                {link.label}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            {section.details?.map((detail, i) => (
-                                <Typography
-                                    key={i}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        color: "white",
-                                        fontSize: "14px",
-                                        lineHeight: "24px",
-                                        marginTop: "10px",
-                                    }}
-                                >
-                                    <img
-                                        src={`assets/images/footer/${detail.icon}.png`}
-                                        alt={detail.icon}
-                                        style={{
-                                            width: "20px",
-                                            marginRight: "10px",
-                                        }}
-                                    />
-                                    {detail.text}
-                                </Typography>
-                            ))}
-                        </Box>
-                    ))}
-                </Box>
-                <Box
-                    sx={{
-                        textAlign: "center",
-                        marginTop: "30px",
-                        borderTop: "1px solid rgba(255, 255, 255, 0.3)",
-                        padding: "15px 5%",
-                    }}
-                >
-                    <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
-                        © 2024 Activatree, a Subsidiary of Infinatree, Inc.
-                    </Typography>
-                </Box>
-            </footer>
+            <Footer />
         </>
     );
 }

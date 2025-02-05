@@ -1,320 +1,439 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { Box, Typography } from "@mui/material";
+import Footer from "./Footer";
 const Investors = () => {
-    React.useEffect(() => {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "/assets/css/invetors.css";
-        document.head.appendChild(link);
-
-        return () => {
-            document.head.removeChild(link);
-        };
-    }, []);
     return (
         <>
+            <style>
+                {`
+                    body {
+                        font-family: "Poppins", sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        color: #333;
+                        background-color: #ffffff;
+                    }
+
+                    .container {
+                        width: 90%;
+                        max-width: 1100px;
+                        margin: auto;
+                        padding: 20px 0;
+                    }
+
+                    .breadcrumb {
+                        font-size: 25px;
+                        color: #666;
+                        margin-bottom: 10px;
+                        text-align: center;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: 20px;
+                    }
+
+                    .investor-intro {
+                        text-align: center;
+                        padding: 20px 0;
+                    }
+
+                    .investor-intro h1 {
+                        font-size: 36px;
+                        font-weight: 700;
+                    }
+
+                    .investor-engagement h2 {
+                        font-size: 36px;
+                        font-weight: 700;
+                    }
+
+                    .intro-text {
+                        font-size: 18px;
+                        max-width: 800px;
+                        margin: 10px auto;
+                        color: #555;
+                    }
+
+                    .highlight {
+                        color: #9F00AA;
+                        font-weight: bold;
+                    }
+
+                    .intro-image img {
+                        width: 60px;
+                        margin-top: 15px;
+                    }
+
+                    .why-invest {
+                        text-align: center;
+                        padding: 40px 0;
+                    }
+
+                    .why-invest h2 {
+                        font-size: 28px;
+                        font-weight: 700;
+                    }
+
+                    .invest-text {
+                        font-size: 16px;
+                        color: #666;
+                        max-width: 700px;
+                        margin: 10px auto 30px;
+                    }
+
+                    .investment-points {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+
+                    .point {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 20px;
+                        background: #f8f8f8;
+                        padding: 15px;
+                        border-radius: 8px;
+                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .number {
+                        font-size: 32px;
+                        font-weight: 600;
+                        color: #e0e0e0;
+                        min-width: 50px;
+                    }
+
+                    .point h3 {
+                        font-size: 20px;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                        text-align: start;
+                    }
+
+                    .point p {
+                        font-size: 14px;
+                        color: #666;
+                    }
+
+                    .investor-engagement {
+                        text-align: center;
+                        padding: 50px 20px;
+                    }
+
+                    .engagement-content {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        gap: 20px;
+                    }
+
+                    .investment-opportunities {
+                        background: #8400A3;
+                        color: white;
+                        padding: 20px;
+                        border-radius: 10px;
+                        flex: 1;
+                    }
+
+                    .investment-opportunities h4 {
+                        font-size: 20px;
+                    }
+
+                    .contact-form {
+                        background: white;
+                        padding: 20px;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        flex: 1;
+                    }
+
+                    .contact-form h5 {
+                        font-size: 20px;
+                        font-weight: 600;
+                        margin-bottom: 15px;
+                        text-align: center;
+                    }
+
+                    .contact-form form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+
+                    .contact-form input,
+                    .contact-form textarea {
+                        width: 100%;
+                        padding: 12px;
+                        border: 1px solid #ddd;
+                        border-radius: 30px;
+                        font-size: 14px;
+                    }
+
+                    .contact-form textarea {
+                        height: 100px;
+                        resize: none;
+                    }
+
+                    .contact-form button {
+                        background: #6D0DBE;
+                        color: white;
+                        font-size: 16px;
+                        font-weight: bold;
+                        padding: 12px;
+                        border: none;
+                        border-radius: 30px;
+                        cursor: pointer;
+                        transition: 0.3s ease;
+                    }
+
+                    .contact-form button:hover {
+                        background: #54009B;
+                    }
+
+                    .icon {
+                        width: 25px;
+                    }
+
+                    .arrow-icon {
+                        width: 27%;
+                        position: relative;
+                        top: -30px;
+                        left: 30px;
+                    }
+
+                    .money-icon {
+                        width: 23%;
+                        position: relative;
+                        left: -20px;
+                        top: 20px;
+                    }
+
+                    @media (max-width: 768px) {
+                    .investor-intro h1 {
+                        font-size: 30px;
+                    }
+
+                    .why-invest h2 {
+                        font-size: 24px;
+                    }
+
+                    .investment-points {
+                        flex-direction: column;
+                    }
+
+                    .point {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+
+                    .number {
+                        font-size: 24px;
+                    }
+
+                    .engagement-content {
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    .investment-opportunities,
+                    .contact-form {
+                        width: 100%;
+                        max-width: 500px;
+                    }
+
+                    .contact-form form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+
+                    .contact-form form {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 10px;
+                    }
+
+                    .contact-form textarea {
+                        grid-column: span 2;
+                    }
+
+                    .contact-form button {
+                        grid-column: span 2;
+                    }
+
+                    .arrow-icon {
+                            width: 20%;
+                            max-width: 80px;
+                            top: -20px;
+                            left: 20px;
+                        }
+                        
+                    }
+
+                    @media (max-width: 480px) {
+                        .investor-intro h1 {
+                            font-size: 26px;
+                        }
+
+                        .why-invest h2 {
+                            font-size: 22px;
+                        }
+
+                        .point {
+                            padding: 10px;
+                        }
+
+                        .number {
+                            font-size: 20px;
+                        }
+
+                        .point h3 {
+                            font-size: 18px;
+                        }
+                        
+                        .investment-opportunities {
+                            padding: 15px;
+                        }
+
+                        .contact-form {
+                            padding: 15px;
+                        }
+
+                        .contact-form input,
+                        .contact-form textarea {
+                            padding: 10px;
+                        }
+                            .arrow-icon {
+                            width: 18%;
+                            max-width: 60px;
+                            top: -15px;
+                            left: 10px;
+                        }
+                    }
+                `}
+            </style>
             <main className="main-content">
                 <div className="container">
-                    <div className="title-investor">
-                        <p>Home</p><img src="assets/images/img/titlearrow.png" alt="Title Arrow" /><p>Investors</p>
-                    </div>
-                    <div className="investors-summury">
+                    <nav className="breadcrumb">
+                        Home &nbsp; &gt; &nbsp; Investors
+                    </nav>
+                    <section className="investor-intro">
                         <h1>Dear Potential Investors</h1>
-                        <img src="assets/images/img/aboutline.png" alt="About Line" />
-                        <p>Discover the opportunity to invest in Activatree, a pioneering social media platform reshaping the way people connect, collaborate, and create. Our mission is to foster innovation in social networking with features that empower users and businesses alike.</p>
-                    </div>
-                    <div className="invest mt-5">
-                        <div className="invest-activatree">
-                            <h1>Why Invest in <span style={{ fontSize: '45px', fontFamily: 'Poppins, Mixed', fontWeight: 400, color: '#9F00AA' }}>Activatree</span></h1>
-                            <p>Activatree empowers creators and professionals to collaborate, monetize, and grow their networks seamlessly. With cutting-edge tools and AI-driven personalization, it's the platform where creativity meets opportunity.</p>
+                        <p className="intro-text">
+                            Discover the opportunity to invest in <span className="highlight">Activatree</span>,
+                            a pioneering social media platform reshaping the way people connect,
+                            collaborate, and create. Our mission is to foster innovation in social networking with
+                            features that empower users and businesses alike.
+                        </p>
+                        <div className="intro-image">
+                            <img src="../assets/images/img/aboutline.png" alt="Decorative" />
                         </div>
-                        <div className="innovatives mt-4 mb-5">
-                            <img src="assets/images/img/one.png" alt="Platform" />
-                            <div className="innovative py-3">
-                                <h2>Innovative Platform</h2>
-                                <p>Activatree is revolutionizing the social media landscape by combining immersive experiences, AI-driven content creation, and eco-conscious digital innovation.</p>
-                            </div>
-                        </div>
-                        <div className="innovatives mt-4 mb-5">
-                            <img src="assets/images/img/two.png" alt="High Growth Trajectory" />
-                            <div className="innovative py-3">
-                                <h2>High Growth Trajectory</h2>
-                                <p>With a fast-growing global community and a unique blend of features, Activatree is positioned to scale rapidly and attract a wide user base.</p>
-                            </div>
-                        </div>
-                        <div className="innovatives mt-4 mb-5">
-                            <img src="assets/images/img/three.png" alt="Strong Leadership" />
-                            <div className="innovative py-3">
-                                <h2>Strong Leadership</h2>
-                                <p>Led by a team with a proven track record in tech and social media development.</p>
-                            </div>
-                        </div>
-                        <div className="innovatives mt-4 mb-5">
-                            <img src="assets/images/img/four.png" alt="Tech-Driven Impact" />
-                            <div className="innovative py-3">
-                                <h2>Tech-Driven Impact</h2>
-                                <p>From blockchain integration to AI-powered tools, our platform is built on a foundation of cutting-edge technologies designed for the future.</p>
-                            </div>
-                        </div>
-                        <div className="innovatives mt-4 mb-5">
-                            <img src="assets/images/img/five.png" alt="Sustainable" />
-                            <div className="innovative py-3">
-                                <h2>Sustainable and Ethical Growth</h2>
-                                <p>We are committed to building a platform that aligns with environmental and ethical standards, promoting a sustainable digital ecosystem.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="invest-engage">
-                        <div className="invest">
-                            <h1>Investor <span style={{ fontSize: '45px', fontFamily: 'Poppins, Mixed', fontWeight: 400, color: '#9F00AA' }}>Engagement</span></h1>
-                            <p>At Activatree, we offer strategic investment opportunities in a growing social media platform that blends cutting-edge technology with a sustainable vision. Partner with us to help shape the future of digital networking and innovation.</p>
-                        </div>
-                        <div className="container my-5">
-                            <div className="row">
-                                <div className="col-lg-5 mb-4">
-                                    <div className="investment-opportunities p-4" style={{ backgroundColor: '#8400A3', borderRadius: '15px' }}>
-                                        <h2 className="text-white">Investment Opportunities</h2>
-                                        <p className="text-white">
-                                            Interested in exploring investment opportunities with Activatree?
-                                        </p>
-                                        <p className="text-white">
-                                            We offer in-depth insights into our growth strategy, financial performance, and long-term vision.
-                                        </p>
-                                        <p className="text-white">
-                                            For more information or to schedule a meeting, please reach out to our investor relations team at
-                                        </p>
-                                        <div className="email-sections">
-                                            <p className="email-section">
-                                                <img src="assets/images/img/email.png" alt=" Email Icon" style={{ width: '25px', marginRight: '10px' }} />
-                                                <span className="text-white">investors@activatree.com</span>
-                                            </p>
-                                            <div className="text-white">
-                                                <img src="assets/images/img/investarrow.png" alt=" Arrow Icon" style={{ width: '27%', position: 'relative', top: '-2pc', left: '3pc' }} />
-                                            </div>
-                                        </div>
-                                        <div className="text-white">
-                                            <img src="assets/images/img/money.png" alt="Money Icon" style={{ width: '23%', position: 'relative', left: '-2pc', top: '2pc' }} />
-                                        </div>
-                                    </div>
+                    </section>
+                    <section className="why-invest">
+                        <h2>
+                            Why Invest in <span className="highlight">Activatree</span>
+                        </h2>
+                        <p className="invest-text">
+                            Activatree empowers creators and professionals to collaborate, monetize,
+                            and grow their networks seamlessly.
+                        </p>
+
+                        <div className="investment-points">
+                            <div className="point">
+                                <span className="number">01</span>
+                                <div>
+                                    <h3>Innovative Platform</h3>
+                                    <p>
+                                        Activatree is revolutionizing the social media landscape by combining
+                                        immersive experiences, AI-driven content curation, and eco-conscious
+                                        digital innovation.
+                                    </p>
                                 </div>
-                                <div className="col-lg-7 mb-4">
-                                    <div className="contact-form p-6" style={{ backgroundColor: '#f5f5f5', borderRadius: '15px' }}>
-                                        <h5>Join us in shaping the future of social media.</h5>
-                                        <form className="mt-2">
-                                            <div className="row">
-                                                <div className="col-md-6 mb-3">
-                                                    <input type="text" className="form-control" placeholder="Your name" />
-                                                </div>
-                                                <div className="col-md-6 mb-3">
-                                                    <input type="text" className="form-control" placeholder="Your company name" />
-                                                </div>
-                                                <div className="col-md-6 mb-3">
-                                                    <input type="text" className="form-control" placeholder="Your phone number" />
-                                                </div>
-                                                <div className="col-md-6 mb-3">
-                                                    <input type="email" className="form-control" placeholder="Your email" />
-                                                </div>
-                                                <div className="col-12 mb-3">
-                                                    <textarea className="form-control" placeholder="Your message" rows="4"></textarea>
-                                                </div>
-                                                <div className="col-12 d-flex flex-row-reverse">
-                                                    <button type="submit" className="btn btn-primary" style={{ background: 'linear-gradient(90deg, #9A00A9 34%, #580097 77%, #29008B 100%)', borderWidth: '0px' }}>
-                                                        Submit
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                            </div>
+
+                            <div className="point">
+                                <span className="number">02</span>
+                                <div>
+                                    <h3>High Growth Trajectory</h3>
+                                    <p>
+                                        With a fast-growing global community and a unique blend of features,
+                                        Activatree is positioned to scale rapidly and attract a wide user base.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="point">
+                                <span className="number">03</span>
+                                <div>
+                                    <h3>Strong Leadership</h3>
+                                    <p>
+                                        Led by a team with a proven track record in tech and social media development.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="point">
+                                <span className="number">04</span>
+                                <div>
+                                    <h3>Tech-Driven Impact</h3>
+                                    <p>
+                                        From blockchain integrations to AI-powered tools, our platform is
+                                        built on a foundation of cutting-edge technologies designed for the future.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="point">
+                                <span className="number">05</span>
+                                <div>
+                                    <h3>Sustainable and Ethical Growth</h3>
+                                    <p>
+                                        We are committed to building a platform that aligns with environmental
+                                        and ethical standards, promoting a sustainable digital ecosystem.
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
+                    <section className="investor-engagement">
+                        <h2><span>Investor</span> Engagement</h2>
+                        <p className="mt-5">
+                            At Activatree, we offer strategic investment opportunities in a growing social media platform
+                            that blends cutting-edge technology with a sustainable vision. Partner with us to help shape
+                            the future of digital networking and innovation.
+                        </p>
+                        <div className="engagement-content">
+                            <div className="investment-opportunities mt-5">
+                                <h4 className="">Investment Opportunities</h4>
+                                <p className="text-white">Interested in exploring investment opportunities with Activatree?</p>
+                                <p className="text-white">We offer in-depth insights into our growth strategy, financial performance, and long-term vision.</p>
+                                <p className="text-white">For more information or to schedule a meeting, please reach out to our investor relations team at</p>
+                                <div className="contact-email">
+                                    <img src="../assets/images/img/email.png" alt="Email Icon" className="icon" />
+                                    <span className="text-white">investors@activatree.com</span>
+                                    <img src="../assets/images/img/investarrow.png" alt="Arrow Icon" className="arrow-icon" />
+                                </div>
+                                <img src="../assets/images/img/money.png" alt="Money Icon" className="money-icon" />
+                            </div>
+                            <div className="contact-form">
+                                <h5>Join us in shaping the future of social media.</h5>
+                                <form>
+                                    <input type="text" placeholder="Your name" />
+                                    <input type="text" placeholder="Your company name" />
+                                    <input type="text" placeholder="Your phone number" />
+                                    <input type="email" placeholder="Your email" />
+                                    <textarea placeholder="Your message"></textarea>
+                                    <button type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </main>
-            <footer
-                style={{
-                    background: "linear-gradient(to right, #9A00A9, #580097, #29008B)",
-                    color: "white",
-                    padding: "40px 5%",
-                    marginTop: "40px",
-                }}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        flexWrap: "wrap",
-                        padding: "0 5%",
-                        marginBottom: "20px",
-                        borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
-                        paddingBottom: "20px",
-                    }}
-                >
-                    <img
-                        src="assets/images/navbar/activa tree logo (2).png"
-                        alt="Tree Design"
-                        style={{
-                            maxWidth: "280px",
-                            height: "auto",
-                            marginLeft: "20px",
-                        }}
-                    />
-                    <Box
-                        sx={{
-                            display: "flex",
-                            gap: "15px",
-                            flexWrap: "wrap",
-                            justifyContent: "center",
-                            borderLeft: "1px solid rgba(255, 255, 255, 0.3)",
-                            borderRight: "1px solid rgba(255, 255, 255, 0.3)",
-                            padding: "10px 20px",
-                            margin: "20px 0",
-                        }}
-                    >
-                        {["instagram", "facebook", "x", "linkdin", "tiktok", "youtube", "uo"].map(
-                            (icon, index) => (
-                                <a
-                                    href="#"
-                                    key={index}
-                                    style={{ color: "white", textDecoration: "none" }}
-                                >
-                                    <img
-                                        src={`assets/images/footer/${icon}.png`}
-                                        alt={icon}
-                                        style={{ width: "24px" }}
-                                    />
-                                </a>
-                            )
-                        )}
-                    </Box>
-                </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        justifyContent: "space-around",
-                        rowGap: "20px",
-                        columnGap: "30px",
-                        margin: "0 auto",
-                        padding: "0 10%",
-                    }}
-                >
-                    {[
-                        {
-                            title: "Company",
-                            links: [
-                                { label: "About Us", to: "/about-us" },
-                                { label: "Blog", to: "/blog" },
-                                { label: "For Investors", to: "/investors" },
-                            ],
-                        },
-                        {
-                            title: "Support",
-                            links: [
-                                { label: "Help Center", to: "/help-center" },
-                                { label: "What's New", to: "/whats-new" },
-                            ],
-                        },
-                        {
-                            title: "Legal",
-                            links: [
-                                { label: "Privacy Policy", to: "/privacy-policy" },
-                                { label: "Terms of Service", to: "/terms-of-service" },
-                            ],
-                        },
-                        {
-                            title: "Contact Us",
-                            details: [
-                                {
-                                    text: "info@activatree.com",
-                                    icon: "mail",
-                                },
-                                {
-                                    text: "State of Georgia, U.S.A",
-                                    icon: "location",
-                                },
-                            ],
-                        },
-                    ].map((section, index) => (
-                        <Box
-                            key={index}
-                            sx={{
-                                flex: "1 1 calc(50% - 30px)",
-                                minWidth: "200px",
-                                maxWidth: "300px",
-                            }}
-                        >
-                            <Typography
-                                variant="subtitle1"
-                                sx={{
-                                    fontWeight: "bold",
-                                    fontSize: "16px",
-                                    marginBottom: "10px",
-                                    color: "white",
-                                }}
-                            >
-                                {section.title}
-                            </Typography>
-                            {section.links && (
-                                <ul style={{ listStyle: "none", padding: 0 }}>
-                                    {section.links.map((link, i) => (
-                                        <li key={i}>
-                                            <Link
-                                                to={link.to}
-                                                style={{
-                                                    color: "white",
-                                                    textDecoration: "none",
-                                                    fontSize: "14px",
-                                                    lineHeight: "24px",
-                                                }}
-                                            >
-                                                {link.label}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            {section.details?.map((detail, i) => (
-                                <Typography
-                                    key={i}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        color: "white",
-                                        fontSize: "14px",
-                                        lineHeight: "24px",
-                                        marginTop: "10px",
-                                    }}
-                                >
-                                    <img
-                                        src={`assets/images/footer/${detail.icon}.png`}
-                                        alt={detail.icon}
-                                        style={{
-                                            width: "20px",
-                                            marginRight: "10px",
-                                        }}
-                                    />
-                                    {detail.text}
-                                </Typography>
-                            ))}
-                        </Box>
-                    ))}
-                </Box>
-                <Box
-                    sx={{
-                        textAlign: "center",
-                        marginTop: "30px",
-                        borderTop: "1px solid rgba(255, 255, 255, 0.3)",
-                        padding: "15px 5%",
-                    }}
-                >
-                    <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
-                        © 2024 Activatree, a Subsidiary of Infinatree, Inc.
-                    </Typography>
-                </Box>
-            </footer>
+            <Footer />
         </>
     )
 }

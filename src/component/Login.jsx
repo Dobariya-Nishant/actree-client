@@ -175,18 +175,35 @@ const Login = () => {
     },
   };
 
+
   return (
     <>
+      <style>
+        {`
+          @media (max-width: 1024px) {
+            img[alt="Tree Design"] {
+                margin-left: 0 !important;
+            }
+          }
+      `}
+      </style>
       <Box
         sx={{
           py: 1,
           px: 10,
+          display: "flex",
+          justifyContent: "flex-start",
         }}
       >
         <img
           src="assets/images/navbar/activatreelogo.png"
           alt="Tree Design"
-          style={{ height: "50px", width: "auto", marginLeft: "12%" }}
+          style={{
+            height: "50px",
+            width: "auto",
+            marginLeft: "13%",
+            //marginLeft: window.innerWidth >= 1920 ? "13%" : "0px",
+          }}
         />
       </Box>
       <Box
@@ -246,11 +263,10 @@ const Login = () => {
             </Select>
           </FormControl>
           {/* {errors.accountType && (
-                        <Typography color="error" variant="body2">
-                            {errors.accountType}
-                        </Typography>
-                    )} */}
-
+                <Typography color="error" variant="body2">
+                    {errors.accountType}
+                </Typography>
+            )} */}
           <Button
             variant="outlined"
             onClick={() => googleOauthURL(AuthTypeEnum.GOOGLE)}
@@ -404,7 +420,6 @@ const Login = () => {
             </Link>
           </Typography>
         </Box>
-
         <Box
           sx={{
             flex: 1,

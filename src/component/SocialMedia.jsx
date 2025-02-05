@@ -601,7 +601,6 @@ function SocialMedia(post) {
         return (url && url.match(/\.(jpeg|jpg|gif|png)$/) != null);
     };
 
-
     return (
         <>
             <main className="main-content">
@@ -612,6 +611,9 @@ function SocialMedia(post) {
                                 display: none;
                             }
                         }
+                        // .textremove button {
+                        //     display: none;
+                        // }
                         .dropdown-menu {
                             position: absolute;
                             right: 10px;
@@ -1180,13 +1182,13 @@ function SocialMedia(post) {
                                                 </div>
                                             )}
                                         </div>
-
                                         <div className="like-comment-share py-2 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post._id, post.isLiked)}>
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt textremove" onClick={() => handleLikeToggle(post._id, post.isLiked)}>
                                                 <i className="material-symbols-outlined mat-icon">
                                                     {post.likes?.some((like) => like.userId === user._id) ? "favorite" : "favorite_border"}
                                                 </i>
-                                                {post.likes?.some((like) => like.userId === user._id) ? "Liked" : "Like"} {post.likeCount}
+                                                {/* {post.likes?.some((like) => like.userId === user._id) ? "Liked" : "Like"} */}
+                                                <span>{post.likes?.some((like) => like.userId === user._id) ? "Liked" : "Like"}</span>{post.likeCount}
                                                 <div className="friends-list d-flex gap-3 align-items-center text-center">
                                                     <ul className="d-flex align-items-center justify-content-center">
                                                         {post.likes?.slice(0, 3).map((like) => (
@@ -1230,23 +1232,23 @@ function SocialMedia(post) {
                                                     </ul>
                                                 </div>
                                             </button> */}
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModComment"
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt textremove" data-bs-toggle="modal" data-bs-target="#activityModComment"
                                                 onClick={() => handleOpenModal(post._id)}>
                                                 <i className="material-symbols-outlined mat-icon"> chat </i>
-                                                Comment {post.commentCount}
+                                                <span>Comment</span> {post.commentCount}
                                             </button>
                                             {/* {!post.isRePost && ( */}
                                             {!post.isRePost && post.user._id !== user._id && (
-                                                <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModRepost"
+                                                <button className="d-center gap-1 gap-sm-2 mdtxt textremove" data-bs-toggle="modal" data-bs-target="#activityModRepost"
                                                     onClick={() => handleRepost(post?._id, post)}
                                                 >
                                                     <i className="material-symbols-outlined mat-icon"> repeat </i>
-                                                    Repost {post.repostCount}
+                                                    <span>Repost</span> {post.repostCount}
                                                 </button>
                                             )}
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt">
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt textremove">
                                                 <i className="material-symbols-outlined mat-icon"> share </i>
-                                                Share 0
+                                                <span>Share</span> 0
                                             </button>
                                         </div>
                                     </div>

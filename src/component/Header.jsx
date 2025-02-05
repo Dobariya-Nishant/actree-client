@@ -170,7 +170,16 @@ function Header() {
                                 width: 70px;
                             }
                         }
-
+                        @media (max-width: 768px) {
+                            .authloginjoin {
+                                display: none !important;
+                            }
+                        }
+                        @media (min-width: 769px) {
+                            .authloginjoin {
+                                display: flex !important;
+                            }
+                        }
                     }
                 `}
                 </style>
@@ -253,7 +262,7 @@ function Header() {
                                     </Link>
                                 </li>
                                 {!token && (
-                                    <li className="d-flex auth-buttons">
+                                    <li className="d-flex authloginjoin">
                                         <Link
                                             to="/login"
                                             className="cmn-btn me-2"

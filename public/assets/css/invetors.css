@@ -23,19 +23,18 @@
 }
 .investors-summury img {
   width: 9%;
-  position: relative;
   left: 165px;
   top: -20px;
 }
 .investors-summury h1 {
-  font-size: 52px;
+  font-size: 40px;
   font-family: "Poppins, Bold" sans-serif;
   font-weight: 700;
 }
 .investors-summury p {
-  font-size: 26px;
+  font-size: 20px;
   font-family: poppins;
-  font-weight: 600;
+  font-weight: 500;
   width: 94%;
   text-align: center;
   margin-top: 0px;
@@ -47,7 +46,7 @@
   align-items: center;
 }
 .invest h1 {
-  font-size: 45px;
+  font-size: 40px;
   font-family: "Poppins, Mixed" sans-serif;
   font-weight: 600;
 }
@@ -66,23 +65,25 @@
   width: 9%;
   height: 75%;
   float: inline-start;
+  margin-top: 10px;
 }
 .innovative {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
 }
-.innovative h2 {
-  font-size: 34px;
+.innovative h3 {
+  font-size: 25px;
   font-family: "Poppoins, Semibold" sans-serif;
   font-weight: 600;
+  margin-left: 50px;
 }
 .innovative p {
   font-size: 14px;
   font-family: "Poppoins, Semibold" sans-serif;
   font-weight: 400;
   color: #63676a;
-  margin-top: 10px;
+  margin-left: 50px;
 }
 .invest-engage {
   display: flex;
@@ -130,7 +131,89 @@
   font-weight: 600;
 }
 
-@media (max-width: 992px) {
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+  .investors-summury h1 {
+    font-size: 36px;
+  }
+
+  .investors-summury p {
+    font-size: 18px;
+  }
+
+  .innovatives {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .innovatives img {
+    width: 15%;
+  }
+
+  .innovative h3 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-investor img {
+    width: 30px;
+  }
+
+  .investors-summury img {
+    width: 60px;
+  }
+
+  .investors-summury h1,
+  .invest h1 {
+    font-size: 30px;
+  }
+
+  .investors-summury p {
+    font-size: 16px;
+  }
+
+  .innovatives img {
+    width: 20%;
+  }
+
+  .innovative h3 {
+    font-size: 20px;
+  }
+
+  .email-sections {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 576px) {
+  .title-investor p {
+    font-size: 16px;
+  }
+
+  .investors-summury h1,
+  .invest h1 {
+    font-size: 26px;
+  }
+
+  .investors-summury p {
+    font-size: 14px;
+  }
+
+  .innovatives img {
+    width: 25%;
+  }
+
+  .innovative h3 {
+    font-size: 18px;
+  }
+
+  .innovative p {
+    font-size: 12px;
+  }
+}
+
+/* @media (max-width: 992px) {
   .title-investor {
     flex-wrap: wrap;
     gap: 10px;
@@ -151,6 +234,7 @@
   .investors-summury h1 {
     font-size: 36px;
     text-align: center;
+    margin-top: 10px;
   }
 
   .investors-summury p {
@@ -202,9 +286,9 @@
     font-size: 14px;
     padding: 8px 20px;
   }
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .investors-summury h1 {
     font-size: 28px;
   }
@@ -225,7 +309,7 @@
   }
 
   .innovatives img {
-    width: 20%;
+    width: 50px;
   }
 
   .innovative h2 {
@@ -257,9 +341,9 @@
     padding: 8px 15px;
     font-size: 12px;
   }
-}
+} */
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
   .title-investor {
     gap: 5px;
   }
@@ -281,7 +365,7 @@
   }
 
   .innovatives img {
-    width: 25%;
+    width: 10%;
   }
 
   .innovative h2 {
@@ -313,4 +397,4 @@
     padding: 6px 10px;
     font-size: 12px;
   }
-}
+} */

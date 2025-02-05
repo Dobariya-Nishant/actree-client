@@ -198,6 +198,15 @@ const SignUp = () => {
 
     return (
         <>
+            <style>
+                {`
+                    @media (max-width: 1024px) {
+                        img[alt="Tree Design"] {
+                            margin-left: 0 !important;
+                        }
+                    }
+                `}
+            </style>
             <Box
                 sx={{
                     py: 1, px: 10,
@@ -206,7 +215,11 @@ const SignUp = () => {
                 <img
                     src="assets/images/navbar/activatreelogo.png"
                     alt="Tree Design"
-                    style={{ height: "60px", width: "auto", marginLeft: "12%" }}
+                    style={{
+                        height: "60px",
+                        width: "auto",
+                        marginLeft: "13%",
+                    }}
                 />
             </Box>
             <Box

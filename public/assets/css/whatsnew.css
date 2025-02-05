@@ -122,3 +122,91 @@
     width: 8%;
   }
 }
+
+@media (max-width: 325px) {
+  .title-whatsnew {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .title-whatsnew img {
+    width: 12%;
+    text-align: center;
+  }
+
+  .whats-summury h1 {
+    font-size: 24px;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .whats-summury p {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+
+  .whats-summury img {
+    width: 25%;
+  }
+}
+
+.MuiTypography-root {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Responsive for 325px and below */
+@media (max-width: 325px) {
+  /* Typography Adjustments */
+  .MuiTypography-h4 {
+    font-size: 18px !important;
+  }
+
+  .MuiTypography-h6 {
+    font-size: 16px !important;
+  }
+
+  .MuiTypography-body1 {
+    font-size: 14px !important;
+    padding: 0 5px;
+  }
+
+  .MuiTypography-body2 {
+    font-size: 12px !important;
+  }
+
+  /* List Items */
+  .MuiListItemText-primary {
+    font-size: 14px !important;
+  }
+
+  .MuiListItemText-secondary {
+    font-size: 10px !important;
+  }
+
+  /* Text Field */
+  .MuiOutlinedInput-root {
+    width: 100% !important;
+    padding: 1px 12px;
+  }
+
+  /* Button */
+  .MuiButton-root {
+    /* width: 100% !important; */
+    height: 40px !important;
+    font-size: 12px !important;
+  }
+
+  /* Columns */
+  .row {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+
+  .col-lg-6 {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .MuiBox-root {
+    padding: 0 10px !important;
+  }
+}

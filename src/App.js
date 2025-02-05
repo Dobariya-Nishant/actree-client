@@ -15,6 +15,8 @@ import InterestSignup from "./component/InterestSignup";
 import Home from "./component/Home";
 import AboutUs from "./component/AboutUs";
 import Blog from "./component/Blog";
+import Revolutionizing from "./component/Revolutionizing";
+import Impactful from "./component/Impactful";
 import Investors from "./component/Investors";
 import Helpcenter from "./component/Helpcenter";
 import Whatsnew from "./component/Whatsnew";
@@ -23,6 +25,7 @@ import Termsofservice from "./component/Termsofservice";
 
 import SocialMedia from "./component/SocialMedia";
 import MarketPlace from "./component/MarketPlace";
+//import MarketPlace from "./marketplace/MarketPlace";
 import DiscussionForum from "./component/DiscussionForum";
 import OAuthCallback from "./component/OauthCallback";
 import Profile from "./component/Profile";
@@ -212,6 +215,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/revolutionizing" element={<Revolutionizing />} />
+          <Route path="/impactful" element={<Impactful />} />
+
           <Route path="/investors" element={<Investors />} />
           <Route path="/help-center" element={<Helpcenter />} />
           <Route path="/whats-new" element={<Whatsnew />} />

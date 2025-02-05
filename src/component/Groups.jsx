@@ -4,6 +4,7 @@ import SocialSidebar from "./SocialSidebar";
 import { Box, Typography, Link } from "@mui/material";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
+import Footer from "./Footer";
 
 function Groups() {
     const navigate = useNavigate();
@@ -311,7 +312,7 @@ function Groups() {
                     </div>
                 </div>
             </main>
-
+            <Footer />
 
             {/* <main className="main-content">
                 <div className="container">

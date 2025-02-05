@@ -391,8 +391,13 @@ function Bookmark(post) {
                             width: 100%;
                             height: 100%;
                             object-fit: cover;
-                        }`
-                    }
+                        }
+                        @media (max-width: 768px) {
+                            .textremove span {
+                                display: none;
+                            }
+                        }
+                    `}
                 </style>
                 <div className="container sidebar-toggler">
                     <div className="row">
@@ -612,23 +617,23 @@ function Bookmark(post) {
                                                     </ul>
                                                 </div>
                                             </button> */}
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(bookmark.postId._id, bookmark.postId.isLiked)}>
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt textremove" onClick={() => handleLikeToggle(bookmark.postId._id, bookmark.postId.isLiked)}>
                                                 <i className="material-symbols-outlined mat-icon">favorite</i>
-                                                {bookmark.isLiked?.userId === user._id ? "Liked" : "Like"} {bookmark.postId.likeCount}
+                                                <span>{bookmark.isLiked?.userId === user._id ? "Liked" : "Like"}</span> {bookmark.postId.likeCount}
                                                 <div className="friends-list d-flex gap-3 align-items-center text-center">
                                                     <ul className="d-flex align-items-center justify-content-center">
                                                         {bookmark.postId.likeCount > 3 && <li><span className="mdtxt d-center">{bookmark.postId.likeCount - 3}+</span></li>}
                                                     </ul>
                                                 </div>
                                             </button>
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModComment"
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt textremove" data-bs-toggle="modal" data-bs-target="#activityModComment"
                                                 onClick={() => handleOpenModal(bookmark.postId._id)}>
                                                 <i className="material-symbols-outlined mat-icon"> chat </i>
-                                                Comment {bookmark.postId.commentCount}
+                                                <span>Comment</span> {bookmark.postId.commentCount}
                                             </button>
-                                            <button className="d-center gap-1 gap-sm-2 mdtxt">
+                                            <button className="d-center gap-1 gap-sm-2 mdtxt textremove">
                                                 <i className="material-symbols-outlined mat-icon"> share </i>
-                                                Share {bookmark.postId.repostCount}
+                                                <span>Share</span> {bookmark.postId.repostCount}
                                             </button>
                                         </div>
                                     </div>
@@ -811,11 +816,11 @@ function Bookmark(post) {
                                                                             }}
                                                                         >
                                                                             {expandedComments[comment._id]
-                                                                                ? comment.content
-                                                                                : comment.content.split(" ").slice(0, 50).join(" ")}
-
+                                                                                ? comment?.content
+                                                                                //: comment?.content.split(" ").slice(0, 50).join(" ")}
+                                                                                : (comment?.content || "").split(" ").slice(0, 50).join(" ")}
                                                                         </p>
-                                                                        {comment.content.split(" ").length > 50 && (
+                                                                        {comment?.content?.split(" ").length > 50 && (
                                                                             <span
                                                                                 onClick={() => handleToggleExpand(comment._id)}
                                                                                 style={{
@@ -1103,7 +1108,7 @@ function Bookmark(post) {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 }

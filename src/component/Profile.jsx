@@ -754,12 +754,15 @@ const Profile = () => {
               <div className="single-box p-3 p-sm-5">
                 <div className="head-area text-start">
                   <h6>About Me</h6>
-                  <span className="mdtxt">{user.bio}</span>
+                  <span className="mdtxt">{user?.bio}</span>
                   <hr />
                 </div>
                 <div className="d-flex" style={{ gap: '5%' }}>
                   <div className="head-area text-start">
                     <h6>Joined</h6>
+                    <span className="mdtxt">
+                      {new Date(user?.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+                    </span>
                   </div>
                   <div className="head-area text-start">
                     <h6>Mobile No</h6>
@@ -778,10 +781,17 @@ const Profile = () => {
                   )}
                 </div>
                 <hr />
-                <div className="head-area text-start">
-                  <h6>Location</h6>
-                  <span className="mdtxt">{user?.location}</span>
-                </div>
+                {user.type === 'individual' ? (
+                  <div className="head-area text-start">
+                    <h6>Location</h6>
+                    <span className="mdtxt">{user?.location}</span>
+                  </div>
+                ) : (
+                  <div className="head-area text-start">
+                    <h6>Location</h6>
+                    <span className="mdtxt">{user?.address}</span>
+                  </div>
+                )}
                 {user?.type === 'business' && (
                   <div className="head-area mt-1 text-start">
                     <h6>Category</h6>
@@ -1441,14 +1451,13 @@ const Profile = () => {
                           )}
                         </div>
                       )}
-
                     </div>
                     <div className="like-comment-share py-2 d-center flex-wrap gap-3 gap-md-0 justify-content-between">
-                      <button className="d-center gap-1 gap-sm-2 mdtxt" onClick={() => handleLikeToggle(post?._id, post?.isLiked)}>
+                      <button className="d-center gap-1 gap-sm-2 mdtxt textremove" onClick={() => handleLikeToggle(post?._id, post?.isLiked)}>
                         <i className="material-symbols-outlined mat-icon">
                           {post?.isLiked?.userId === user._id ? "favorite" : "favorite_border"}
                         </i>
-                        {post?.isLiked?.userId === user._id ? "Liked" : "Like"} {post?.likeCount}
+                        <span>{post?.isLiked?.userId === user._id ? "Liked" : "Like"}</span> {post?.likeCount}
                         <div className="friends-list d-flex gap-3 align-items-center text-center">
                           <ul className="d-flex align-items-center justify-content-center">
                             {post?.isLiked && post?.isLiked.userId && (
@@ -1488,14 +1497,14 @@ const Profile = () => {
                           </ul>
                         </div>
                       </button> */}
-                      <button className="d-center gap-1 gap-sm-2 mdtxt" data-bs-toggle="modal" data-bs-target="#activityModComment"
+                      <button className="d-center gap-1 gap-sm-2 mdtxt textremove" data-bs-toggle="modal" data-bs-target="#activityModComment"
                         onClick={() => handleOpenModal(post?._id)} >
                         <i className="material-symbols-outlined mat-icon"> chat </i>
-                        Comment {post?.commentCount}
+                        <span>Comment</span>{post?.commentCount}
                       </button>
-                      <button className="d-center gap-1 gap-sm-2 mdtxt">
+                      <button className="d-center gap-1 gap-sm-2 mdtxt textremove">
                         <i className="material-symbols-outlined mat-icon"> share </i>
-                        Share {post?.repostCount}
+                        <span>Share</span> {post?.repostCount}
                       </button>
                     </div>
                   </div>
