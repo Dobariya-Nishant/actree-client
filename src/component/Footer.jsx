@@ -146,12 +146,12 @@ const Footer = () => {
                             <img src="assets/images/navbar/activa tree logo (2).png" alt="Logo" />
                         </h2>
                         <div className="social-icons">
-                            <a href="#"><img src="../assets/images/footer/instagram.png" /></a>
-                            <a href="#"><img src="../assets/images/footer/facebook.png" /></a>
-                            <a href="#"><img src="../assets/images/footer/x.png" /></a>
-                            <a href="#"><img src="../assets/images/footer/linkdin.png" /></a>
-                            <a href="#"><img src="../assets/images/footer/tiktok.png" /></a>
-                            <a href="#"><img src="../assets/images/footer/youtube.png" /></a>
+                            <Link href="#"><img src="../assets/images/footer/instagram.png" alt="" /></Link>
+                            <Link href="#"><img src="../assets/images/footer/facebook.png" alt="" /></Link>
+                            <Link href="#"><img src="../assets/images/footer/x.png" alt="" /></Link>
+                            <Link href="#"><img src="../assets/images/footer/linkdin.png" alt="" /></Link>
+                            <Link href="#"><img src="../assets/images/footer/tiktok.png" alt="" /></Link>
+                            <Link href="#"><img src="../assets/images/footer/youtube.png" alt="" /></Link>
                         </div>
                     </div>
                     <hr />
@@ -174,8 +174,8 @@ const Footer = () => {
                         </div>
                         <div className="footer-column">
                             <h3>Contact Us</h3>
-                            <a href="#"><img src="../assets/images/footer/mail.png" /> info@activatree.com</a>
-                            <a href="#"><img src="../assets/images/footer/location.png" /> State of Georgia, U.S.A</a>
+                            <Link href="#"><img src="../assets/images/footer/mail.png" alt="" /> info@activatree.com</Link>
+                            <Link href="#"><img src="../assets/images/footer/location.png" alt="" /> State of Georgia, U.S.A</Link>
                         </div>
                     </div>
                     <div className="footer-bottom">

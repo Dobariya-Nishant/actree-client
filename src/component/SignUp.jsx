@@ -212,15 +212,17 @@ const SignUp = () => {
                     py: 1, px: 10,
                 }}
             >
-                <img
-                    src="assets/images/navbar/activatreelogo.png"
-                    alt="Tree Design"
-                    style={{
-                        height: "60px",
-                        width: "auto",
-                        marginLeft: "13%",
-                    }}
-                />
+                <Link to="/">
+                    <img
+                        src="assets/images/navbar/activatreelogo.png"
+                        alt="Tree Design"
+                        style={{
+                            height: "60px",
+                            width: "auto",
+                            marginLeft: "50%",
+                        }}
+                    />
+                </Link>
             </Box>
             <Box
                 sx={{
@@ -279,7 +281,7 @@ const SignUp = () => {
                                 onClick={() => googleOauthURL(AuthTypeEnum.GOOGLE)}
                                 startIcon={
                                     <img
-                                        src="assets/images/navbar/icon_google.png"
+                                        src="assets/images/navbar/icon_google.svg"
                                         alt="Google Logo"
                                     />
                                 }
@@ -296,7 +298,7 @@ const SignUp = () => {
                             >
                                 Continue with Google
                             </Button>
-                            <Button
+                            {/* <Button
                                 variant="outlined"
                                 startIcon={<AppleIcon sx={{ color: "#000000" }} />}
                                 sx={{
@@ -323,7 +325,7 @@ const SignUp = () => {
                                 }}
                             >
                                 Continue with Facebook
-                            </Button>
+                            </Button> */}
                             <TextField
                                 label="Full Name"
                                 name="fullName"
@@ -444,7 +446,7 @@ const SignUp = () => {
                                 onClick={() => googleOauthURL(AuthTypeEnum.GOOGLE)}
                                 startIcon={
                                     <img
-                                        src="assets/images/navbar/icon_google.png"
+                                        src="assets/images/navbar/icon_google.svg"
                                         alt="Google Logo"
                                     />
                                 }
@@ -460,7 +462,7 @@ const SignUp = () => {
                             >
                                 Continue with Google
                             </Button>
-                            <Button
+                            {/* <Button
                                 variant="outlined"
                                 startIcon={<AppleIcon sx={{ color: "#000000" }} />}
                                 sx={{
@@ -487,7 +489,7 @@ const SignUp = () => {
                                 }}
                             >
                                 Continue with Facebook
-                            </Button>
+                            </Button> */}
                             <TextField
                                 label="Business Name"
                                 variant="outlined"

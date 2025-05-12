@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate } from "react-router-dom";
-//import GoogleIcon from "@mui/icons-material/Google";
+import GoogleIcon from "@mui/icons-material/Google";
 import AppleIcon from "@mui/icons-material/Apple";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import API_ENDPOINTS from "../api/apiConfig";
@@ -195,16 +195,18 @@ const Login = () => {
           justifyContent: "flex-start",
         }}
       >
-        <img
-          src="assets/images/navbar/activatreelogo.png"
-          alt="Tree Design"
-          style={{
-            height: "50px",
-            width: "auto",
-            marginLeft: "13%",
-            //marginLeft: window.innerWidth >= 1920 ? "13%" : "0px",
-          }}
-        />
+        <Link to="/">
+          <img
+            src="assets/images/navbar/activatreelogo.png"
+            alt="Tree Design"
+            style={{
+              height: "50px",
+              width: "auto",
+              marginLeft: "70%",
+              //marginLeft: window.innerWidth >= 1920 ? "13%" : "0px",
+            }}
+          />
+        </Link>
       </Box>
       <Box
         sx={{
@@ -272,7 +274,7 @@ const Login = () => {
             onClick={() => googleOauthURL(AuthTypeEnum.GOOGLE)}
             startIcon={
               <img
-                src="assets/images/navbar/icon_google.png"
+                src="../assets/images/navbar/icon_google.svg"
                 alt="Google Logo"
               />
             }
@@ -289,7 +291,7 @@ const Login = () => {
           >
             Continue with Google
           </Button>
-          <Button
+          {/* <Button
             variant="outlined"
             onClick={() => handleOauth(AuthTypeEnum.APPLE)}
             startIcon={<AppleIcon sx={{ color: "#000000" }} />}
@@ -320,7 +322,7 @@ const Login = () => {
             }}
           >
             Continue with Facebook
-          </Button>
+          </Button> */}
           <Typography sx={{ my: 2 }}></Typography>
 
           <TextField

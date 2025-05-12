@@ -1,4 +1,5 @@
 import axios from "axios";
+import { env } from "../config/env";
 
 export const networkRequest = async (
   method,
@@ -6,16 +7,21 @@ export const networkRequest = async (
   body = {},
   headers = {},
   queryParams = {},
-  urlParams = {}
+  urlParams = {},
+  isAdmin = false
 ) => {
   try {
     const formData = new FormData();
 
-    //debugger;
-
-    if (method !== "GET" && method !== "HEAD" && !body instanceof FormData) {
+    if (method !== "GET" && method !== "HEAD" && !(body instanceof FormData)) {
       for (const key in body) {
-        formData.append(key, body[key]);
+        if (Array.isArray(body[key])) {
+          body[key].forEach((file) => {
+            formData.append(key, file);
+          });
+        } else {
+          formData.append(key, body[key]);
+        }
       }
     }
 
@@ -33,18 +39,36 @@ export const networkRequest = async (
     };
 
     if (method !== "GET" && method !== "HEAD") {
-      config.data = !body instanceof FormData ? formData : body;
+      config.data = !(body instanceof FormData) ? formData : body;
       if (!config.headers) {
         config.headers = {};
       }
       config.headers["Content-Type"] = "multipart/form-data";
     }
-
+    // debugger;
     const response = await axios(config);
+
+    // debugger;
 
     return response.data;
   } catch (error) {
+    // debugger;
     console.error("Error with network request:", error);
-    throw error;
+
+    // console.log(window.location.href);
+
+    // debugger;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !isAdmin &&
+      window.location.href != `${env.FRONT_END_URL}/`
+    ) {
+      console.warn("Session expired. Redirecting to login...");
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    // throw error;
   }
 };

@@ -1,18 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { io } from "socket.io-client";
+//import { toast } from 'react-toastify';
 import { networkRequest } from "../utils/networkRequest";
 import API_ENDPOINTS from "../api/apiConfig";
+import { env } from "../config/env";
 
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isActiveCalss, setIsActiveCalss] = useState(false);
+    const [isNotificationPopupOpen, setIsNotificationPopupOpen] = useState(false);
+    const [isActiveCalssNotification, setisActiveCalssNotification] = useState(false);
+    const [isNotificationHistory, setIsNotificationHistory] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
+    async function getAllNotification() {
+        try {
+            if (!user) {
+                return
+            }
+            const response = await networkRequest("GET", API_ENDPOINTS.GET_ALL_NOTIFICATION, {}, {}, { ...(isNotificationHistory && { isRead: true }) });
+            setNotifications(response?.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const notificationImage = {
+        "Product Created": "ProductCreated",
+        "Product Updated": "ProductUpdated",
+        "Product Deleted": "ProductDeleted",
+        "Product Approved": "ProductApprove",
+        "Product Rejected": "ProductReject",
+        "Product Sold": "ProductSold",
+        "Product Purchased": "ProductPurchased"
+    }
+
+    useEffect(() => {
+        getAllNotification();
+        const socket = io(env.BACK_END_URL);
+        socket.on("notification", (data) => {
+            setNotifications((prevNotifications) => [data, ...prevNotifications]);
+        });
+        socket.emit("register", user?._id);
+        return () => {
+            socket.off("notification");
+            socket.disconnect();
+        };
+    }, [user?._id, isNotificationHistory]);
+
+    const handleClearNotification = async () => {
+        try {
+            const response = await networkRequest("PATCH", API_ENDPOINTS.GET_ALL_NOTIFICATION, {});
+            if (response.statusCode === 201) {
+                setNotifications([]);
+                console.log("Notification clear successfully!");
+            } else {
+                console.log("Else!");
+            }
+        } catch (error) {
+            console.error("Error clear notification:", error);
+        }
+    };
+
+
     const handleProfileClick = () => {
+        setIsActiveCalss(!isActiveCalss);
         setIsPopupOpen(true);
+    };
+
+    const handleNotificationClick = () => {
+        setisActiveCalssNotification(!isActiveCalssNotification);
+        setIsNotificationPopupOpen(true);
     };
 
     const handleNavigation = (path) => {
@@ -39,6 +103,30 @@ function Header() {
     };
 
     const isActive = (path) => location.pathname === path;
+    const formatDate = (createdAt) => {
+        const now = new Date();
+        const createdDate = new Date(createdAt);
+        const timeDiff = now - createdDate;
+        const seconds = Math.floor(timeDiff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days >= 1) {
+            return createdDate.toLocaleDateString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+            });
+        } else if (hours >= 1) {
+            return `${hours}h ago`;
+        } else if (minutes >= 1) {
+            return `${minutes}m ago`;
+        } else {
+            return "Just now";
+        }
+    };
+
 
     return (
         <>
@@ -144,18 +232,7 @@ function Header() {
                             .auth-buttons a {
                                 max-width: 30px;
                             }
-                        }
-                        // @media (max-width: 325px) {
-                        //     .auth-buttons a {
-                        //         max-width: 5px;
-                        //     }
-                        // }                    
-                        // @media (max-width: 320px) {
-                        //     .auth-buttons a {
-                        //         max-width: 15px;
-                        //     }
-                        // }
-
+                        }                        
                         @media (max-width: 325px) {
                             .auth-buttons {
                                 flex-direction: inherit;
@@ -180,16 +257,64 @@ function Header() {
                                 display: flex !important;
                             }
                         }
-                    }
-                `}
+
+                        .notification-content {
+                            top: 50px;
+                            transform: translateX(-50%);
+                            z-index: 999;
+                            background: white;
+                            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+                            border-radius: 18px !important;
+                            //padding: 15px;
+                            white-space: nowrap !important;
+                            // max-height: 400px;
+                            overflow-y: auto;
+                        }
+
+                        @media (max-width: 991px) {
+                            .notification-content {
+                                position: fixed !important;
+                                top: 100px !important;
+                                left: 30% !important;
+                                transform: translateX(-50%);
+                                z-index: 999;
+                                white-space: nowrap !important; 
+                                border-radius: 18px !important;                                                          
+                            }
+                        }
+
+                        @media (max-width: 768px) {
+                            .notification-content {
+                                width: 80%;
+                                position: fixed !important;
+                                top: 80px !important;
+                                left: 10% !important;
+                                transform: translateX(-50%);
+                                z-index: 999;
+                                white-space: nowrap !important;
+                                border-radius: 18px !important;
+                            }
+                        }
+
+                        @media (max-width: 480px) {
+                            .notification-content {
+                                width: 50%;
+                                max-width: 150px;
+                                top: 50px;
+                                transform: translateX(-50%);
+                                z-index: 999;
+                                white-space: nowrap !important;
+                            }
+                        }
+                    `}
                 </style>
                 <nav className="navbar navbar-expand-lg p-0">
                     <div className="container">
                         <nav className="navbar w-100 navbar-expand-lg justify-content-between">
-                            <Link to="/socialMedia" className="navbar-brand activatreelogo">
+                            <Link to="/" className="navbar-brand activatreelogo">
                                 <img src="../assets/images/navbar/activatreelogo.png" className="activatreelogo" alt="Activatree Logo" />
                             </Link>
-                            <Link to="socialMedia" className="navbar-brand atlogo">
+                            <Link to="" className="navbar-brand atlogo">
                                 <img src="../assets/images/navbar/ATlogo.png" className="atlogo" alt="AT Logo" />
                             </Link>
                             <ul className="navbar-nav feed py-4 py-lg-0 m-lg-auto ms-auto ms-aut align-self-center">
@@ -244,7 +369,7 @@ function Header() {
                                         </div>
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link to="/discussionForum" className="nav-icon">
                                         <div className="icon-container">
                                             <img
@@ -260,7 +385,7 @@ function Header() {
                                             <span>Discussion Forum</span>
                                         </div>
                                     </Link>
-                                </li>
+                                </li> */}
                                 {!token && (
                                     <li className="d-flex authloginjoin">
                                         <Link
@@ -305,7 +430,56 @@ function Header() {
                             </ul>
                             {token && user && (
                                 <div className="right-area position-relative d-flex gap-3 gap-xxl-6 align-items-center">
-                                    <div className="single-item profile-area position-relative">
+                                    {/* <div className={`single-item messages-area notification-area ${isActiveCalssNotification ? "active" : ""}`}>
+                                        <div className="notification-btn cmn-head position-relative" onClick={handleNotificationClick}>
+                                            <div className="icon-area d-center position-relative">
+                                                {!isNotificationHistory && <span className="abs-area position-absolute d-center mdtxt">{notifications?.length || 0}</span>}
+                                                <img
+                                                    className="avatar-img max-un"
+                                                    src="../assets/images/navbar/notification.png"
+                                                    alt="avatar"
+                                                    style={{ width: "50px", height: "50px" }}
+                                                />
+                                            </div>
+                                        </div>
+                                        {notifications?.length > 0 && (
+                                            <div className="main-area p-5 notification-content">
+                                                <h5 className="mb-8">Notification</h5>
+                                                {notifications.map((notification) => (
+                                                    <div key={notification._id} className="single-box p-0 mb-7">
+                                                        <a
+                                                            id={notification?._id}
+                                                            href="#"
+                                                            className="d-flex justify-content-between align-items-center"
+                                                        >
+                                                            <div className="left-item position-relative d-inline-flex gap-3">
+                                                                <div className="avatar position-relative d-inline-flex">
+                                                                    <img
+                                                                        className="avatar-img max-un"
+                                                                        src={`../assets/images/navbar/${notificationImage[notification?.type]}.png`}
+                                                                        alt="avatar"
+                                                                        style={{ width: "50px", height: "50px" }}
+                                                                    />
+                                                                </div>
+                                                                <div className="text-area">
+                                                                    <h6 className="m-0 mb-1">{notification?.type}</h6>
+                                                                    <p className="mdtxt">{notification?.message}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="time-remaining">
+                                                                <p className="mdtxt">{formatDate(notification.createdAt)}</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                ))}
+                                                <div className="btn-area d-flex justify-content-between">
+                                                    <button onClick={() => setIsNotificationHistory((prev) => !prev)}>{isNotificationHistory ? "Live Notifications" : "Notification History"}</button>
+                                                    {!isNotificationHistory && <button onClick={handleClearNotification} style={{ color: "#29008B" }}>Clear All</button>}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div> */}
+                                    <div className={`single-item profile-area position-relative ${isActiveCalss ? "active" : ""}`}>
                                         <div className="profile-pic d-flex align-items-center" onClick={handleProfileClick}>
                                             <span className="avatar cmn-head active-status">
                                                 <img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" style={{ width: "50px", height: "50px" }} />
@@ -314,6 +488,7 @@ function Header() {
                                         {isPopupOpen && (
                                             <div className="main-area p-5 profile-content">
                                                 <div className="head-area">
+
                                                     <div className="d-flex gap-3 align-items-center">
                                                         <div className="avatar-item">
                                                             <img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="avatar" />
@@ -339,9 +514,8 @@ function Header() {
                                                                 cursor: "pointer",
                                                             }}
                                                         >
-                                                            <i className="material-symbols-outlined mat-icon">
-                                                                power_settings_new
-                                                            </i>
+                                                            <img className="avatar-img max-un" src="../assets/images/navbar/signout.png" alt="avatar" style={{ width: "24px", height: "24px", borderRadius: "30px" }} />
+                                                            {/* <i className="material-symbols-outlined mat-icon">power_settings_new</i> */}
                                                             Sign Out
                                                         </button>
                                                     </li>
