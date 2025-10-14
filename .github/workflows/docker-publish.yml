@@ -3,56 +3,36 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: dev
+
     steps:
-    - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    # Step 1: Build the Docker image
-    - name: Build the Docker image
-      run: |
-        IMAGE_NAME="${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.CONTAINER_NAME }}"
-        IMAGE_TAG="latest"
-        docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_TAG
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ vars.IAM_ROLE_ARN }}
 
-    # Step 2: Log in to Docker Hub and push the image
-    - name: Log in to Docker Hub
-      run: |
-        docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.CONTAINER_NAME }}:latest
+      - name: Docker login to ECR
+        run: |
+          aws ecr get-login-password --region ${{ vars.AWS_REGION }} \
+          | docker login --username AWS --password-stdin ${{ vars.ECR_REGISTRY_URI }}
 
-    # Step 3: Deploy Docker Image on EC2
-    - name: Deploy Docker Image on EC2
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_KEY }}
-        script: |
-          CONTAINER_NAME="${{ secrets.CONTAINER_NAME }}"
-          IMAGE_NAME="${{ secrets.DOCKER_HUB_USERNAME }}/$CONTAINER_NAME"
-          IMAGE_TAG="latest"
-          ENV_FILE="/tmp/env.json"
-         
-          # Stop and remove old container
-          sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          sudo docker stop $CONTAINER_NAME || true
-          sudo docker rm $CONTAINER_NAME || true
-          sudo docker image rm $IMAGE_NAME:$IMAGE_TAG || true
-         
-          # Pull the latest image
-          sudo docker pull $IMAGE_NAME:$IMAGE_TAG
-         
-          # Run container with environment variables
-          sudo docker run -d --name $CONTAINER_NAME --restart=on-failure \
-          -e REACT_APP_PORT="${{ secrets.REACT_APP_PORT }}" \
-          -e REACT_APP_USER_SERVICE_URL="${{ secrets.REACT_APP_USER_SERVICE_URL }}" \
-          -e REACT_APP_POST_SERVICE_URL="${{ secrets.REACT_APP_POST_SERVICE_URL }}" \
-          -e REACT_APP_GOOGLE_CLIENT_ID="${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" \
-          -e REACT_APP_GOOGLE_CLIENT_SECRETE="${{ secrets.REACT_APP_GOOGLE_CLIENT_SECRETE }}" \
-          -e REACT_APP_GOOGLE_REDIRECT_URL="${{ secrets.REACT_APP_GOOGLE_REDIRECT_URL }}" \
-          -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG
+      - name: Build Docker image
+        run: |
+          docker build -t backend-ecr-dev .
 
-          # exit the session
-           exit
+      - name: Tag and push image to ECR
+        run: |
+          docker tag backend-ecr-dev:latest ${{ vars.ECR_REGISTRY_URI }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ vars.ECR_REGISTRY_URI }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
