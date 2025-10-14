@@ -103,13 +103,13 @@ function SocialSidebar() {
                         <div className="profile-pic d-flex gap-2 align-items-center">
                             <div className="position-relative1">
                                 <Link to="/profile"><img className="avatar-img max-un"
-                                    src={user.profilePicture || "../assets/images/navbar/picture.png"}
+                                    src={user?.profilePicture || "../assets/images/navbar/picture.png"}
                                     alt="avatar" style={{ width: "40px", height: "40px" }} />
                                 </Link>
                             </div>
                             <div className="text-area">
-                                <h6 className="m-0 mb-1"><Link to="/profile">{user.userName}</Link></h6>
-                                <p className="mdtxt">@{user.userName}</p>
+                                <h6 className="m-0 mb-1"><Link to="/profile">{user?.userName}</Link></h6>
+                                <p className="mdtxt">@{user?.userName}</p>
                             </div>
                         </div>
                     )}
@@ -144,7 +144,6 @@ function SocialSidebar() {
                                 <span style={{ marginLeft: "-10%" }}>ActivaPost</span>
                             </Link>
                         </li>
-
                         {[
 
                             { path: "/video", label: "Video/Vlog", icon: "video.png" },

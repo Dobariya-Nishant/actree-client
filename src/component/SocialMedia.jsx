@@ -113,6 +113,9 @@ function SocialMedia(post) {
 
     const handlePostSubmit = async (e) => {
         e.preventDefault();
+        if (e.target.value.length <= 300) {
+            setPostContent(e.target.value);
+        }
 
         const formData = new FormData();
         formData.append("content", postContent);
@@ -538,6 +541,41 @@ function SocialMedia(post) {
             console.error("Error in delete post operation:", error);
         }
     };
+
+    const [selectedPostId, setSelectedPostId] = useState(null);
+    const [selectedReason, setSelectedReason] = useState(null);
+    const reportReasons = [
+        "Sexual Content", "Abuse & Harassment", "Hate Speech", "Child safety",
+        "Privacy", "Spam", "Suicide or self-harm", "Sensitive or disturbing media",
+        "Impersonation", "Violent & hateful entities", "Fake Account", "Illegal goods",
+        "I just don’t like it"
+    ];
+    const openReportModal = (postId) => {
+        setSelectedPostId(postId);
+        setSelectedReason("");
+    };
+    const handleSelectReason = (reason) => {
+        setSelectedReason(reason);
+    };
+    const handleReport = async (e) => {
+        try {
+            e.preventDefault();
+            const response = await networkRequest("POST", API_ENDPOINTS.POST_REPORT, {
+                contentId: selectedPostId,
+                type: selectedReason,
+                contentType: "post",
+            });
+            if (response.statusCode === 201) {
+                console.log("report successfully!", response);
+                window.location.reload();
+            } else {
+                console.error("Failed to report");
+            }
+        } catch (error) {
+            console.error("Error in report operation:", error);
+        }
+    };
+
     const [repost, setRepost] = useState([]);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showEmojiPickerAdd, setShowEmojiPickerAdd] = useState(false);
@@ -655,9 +693,9 @@ function SocialMedia(post) {
                                 <div className="single-item">
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
-                                            <img className="bg-img" src="assets/images/story-slider-1.png" alt="image" />
+                                            <img className="bg-img" src="assets/images/story-slider-1.png" alt="image1" />
                                             <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
-                                                <img src="assets/images/Billy_Williams.png" alt="image" />
+                                                <img src="assets/images/Billy_Williams.png" alt="image1" />
                                                 <span className="mdtxt">Alen Lio</span>
                                             </Link>
                                         </div>
@@ -666,9 +704,9 @@ function SocialMedia(post) {
                                 <div className="single-item">
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
-                                            <img className="bg-img" src="assets/images/story-slider-2.png" alt="image" />
+                                            <img className="bg-img" src="assets/images/story-slider-2.png" alt="image1" />
                                             <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
-                                                <img src="assets/images/Justus_Everett.png" alt="image" />
+                                                <img src="assets/images/Justus_Everett.png" alt="image1" />
                                                 <span className="mdtxt">Josep</span>
                                             </Link>
                                         </div>
@@ -677,9 +715,9 @@ function SocialMedia(post) {
                                 <div className="single-item">
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
-                                            <img className="bg-img" src="assets/images/story-slider-3.png" alt="image" />
+                                            <img className="bg-img" src="assets/images/story-slider-3.png" alt="image1" />
                                             <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
-                                                <img src="assets/images/Julie Bates.png" alt="image" />
+                                                <img src="assets/images/Julie Bates.png" alt="image1" />
                                                 <span className="mdtxt">Jessica</span>
                                             </Link>
                                         </div>
@@ -688,9 +726,9 @@ function SocialMedia(post) {
                                 <div className="single-item">
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
-                                            <img className="bg-img" src="assets/images/story-slider-4.png" alt="image" />
+                                            <img className="bg-img" src="assets/images/story-slider-4.png" alt="image1" />
                                             <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
-                                                <img src="assets/images/avatar-4.png" alt="image" />
+                                                <img src="assets/images/avatar-4.png" alt="image1" />
                                                 <span className="mdtxt">Alen</span>
                                             </Link>
                                         </div>
@@ -699,9 +737,9 @@ function SocialMedia(post) {
                                 <div className="single-item">
                                     <div className="single-slide">
                                         <div className="position-relative d-flex">
-                                            <img className="bg-img" src="assets/images/story-slider-4.png" alt="image" />
+                                            <img className="bg-img" src="assets/images/story-slider-4.png" alt="image1" />
                                             <Link to="/socialMedia" className="abs-area p-3 position-absolute bottom-0">
-                                                <img src="assets/images/avatar-5.png" alt="image" />
+                                                <img src="assets/images/avatar-5.png" alt="image1" />
                                                 <span className="mdtxt">Jacob Jones</span>
                                             </Link>
                                         </div>
@@ -710,7 +748,7 @@ function SocialMedia(post) {
                             </Slider>
                             <div className="share-post d-flex gap-3 gap-sm-5 p-3 p-sm-5">
                                 <div className="profile-box">
-                                    <Link to="/profile"><img className="avatar-img max-un" src={user.profilePicture || "../assets/images/navbar/picture.png"} alt="icon"
+                                    <Link to="/profile"><img className="avatar-img max-un" src={user?.profilePicture || "../assets/images/navbar/picture.png"} alt="icon"
                                         style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                                     </Link>
                                 </div>
@@ -719,13 +757,14 @@ function SocialMedia(post) {
                                         className="mb-2"
                                         name="content"
                                         cols="10"
-                                        rows="1"
-                                        placeholder={`Write something to ${user.userName || "user"}...`}
+                                        rows="3"
+                                        placeholder={`Write something to ${user?.userName || "user"}...`}
                                         value={postContent}
                                         onChange={(e) => setPostContent(e.target.value)}
+                                        maxLength={300}
                                         style={{
                                             borderRadius: "50px",
-                                            height: "40px",
+                                            //height: "40px",
                                         }}
                                     ></input>
                                     <ul className="d-flex justify-content-between flex-wrap textremove">
@@ -737,10 +776,10 @@ function SocialMedia(post) {
                                             <img src="../assets/images/socialsidebar/emojiicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                                             <span style={{ color: "#1565c0" }}>GIF/Emoji</span>
                                         </li>
-                                        <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
+                                        {/* <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
                                             <img src="../assets/images/socialsidebar/pollicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                                             <span style={{ color: "#1565c0" }}>Poll</span>
-                                        </li>
+                                        </li> */}
                                         <li className="d-flex align-items-center gap-1 me-3">
                                             <button onClick={handlePostSubmit} className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "35px" }}>POST</button>
                                         </li>
@@ -758,7 +797,7 @@ function SocialMedia(post) {
                                                             to={post.user._id === user._id ? "/profile" : `/accountProfile/${post.user.userName}`}
                                                         >
                                                             <img className="avatar-img max-un"
-                                                                src={post.user.profilePicture || "../assets/images/navbar/picture.png"}
+                                                                src={post.user?.profilePicture || "../assets/images/navbar/picture.png"}
                                                                 alt="avatar"
                                                                 style={{ borderRadius: "50px", width: "40px", height: "40px" }}
                                                             />
@@ -817,44 +856,44 @@ function SocialMedia(post) {
                                                     >
                                                         {post.isBookMarked ? (
                                                             <li>
-                                                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(post._id)}>
+                                                                <Link className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(post._id)}>
                                                                     <i className="material-symbols-outlined mat-icon">delete</i>
-                                                                    <span>Unsave Post</span>
-                                                                </a>
+                                                                    <span>Bookmark</span>
+                                                                </Link>
                                                             </li>
                                                         ) : (
                                                             <li>
-                                                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmark(post._id)}>
+                                                                <Link className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmark(post._id)}>
                                                                     <i className="material-symbols-outlined mat-icon">bookmark_add</i>
-                                                                    <span>Save Post</span>
-                                                                </a>
+                                                                    <span>Bookmark</span>
+                                                                </Link>
                                                             </li>
                                                         )}
                                                         {post.user._id === user._id && (
                                                             <li>
-                                                                <a className="droplist d-flex align-items-center gap-2" onClick={() => handleDeletePost(post._id)}>
+                                                                <Link className="droplist d-flex align-items-center gap-2" onClick={() => handleDeletePost(post._id)}>
                                                                     <i className="material-symbols-outlined mat-icon">delete</i>
                                                                     <span>Delete Post</span>
-                                                                </a>
+                                                                </Link>
                                                             </li>
                                                         )}
-                                                        <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        {/* <li>
+                                                            <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                                                 <span>Hide Post</span>
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                            <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> lock </i>
                                                                 <span>Block</span>
-                                                            </a>
-                                                        </li>
+                                                            </Link>
+                                                        </li> */}
                                                         <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                            <Link className="droplist d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#reportPostMod" onClick={() => openReportModal(post._id)}>
                                                                 <i className="material-symbols-outlined mat-icon"> flag </i>
                                                                 <span>Report Post</span>
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -882,7 +921,7 @@ function SocialMedia(post) {
                                                     {post.media.length === 1 && (
                                                         <div className="post-img">
                                                             {post.media[0].type === "photos" ? (
-                                                                <img src={post.media[0].url} className="w-100" alt="image" />
+                                                                <img src={post.media[0].url} className="w-100" alt="image1" />
                                                             ) : (
                                                                 <video controls className="w-100">
                                                                     <source src={post.media[0].url} type="video/mp4" />
@@ -896,7 +935,7 @@ function SocialMedia(post) {
                                                             {post.media.map((media, index) => (
                                                                 <div key={index} className="single" style={{ width: "49%" }}>
                                                                     {media.type === "photos" ? (
-                                                                        <img src={media.url} className="w-100" alt="image" />
+                                                                        <img src={media.url} className="w-100" alt="image1" />
                                                                     ) : (
                                                                         <video controls className="w-100">
                                                                             <source src={media.url} type="video/mp4" />
@@ -911,7 +950,7 @@ function SocialMedia(post) {
                                                         <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
                                                             <div className="single" style={{ width: "50%" }}>
                                                                 {post.media[0].type === "photos" ? (
-                                                                    <img src={post.media[0].url} className="w-100" alt="image" />
+                                                                    <img src={post.media[0].url} className="w-100" alt="image1" />
                                                                 ) : (
                                                                     <video controls className="w-100">
                                                                         <source src={post.media[0].url} type="video/mp4" />
@@ -923,7 +962,7 @@ function SocialMedia(post) {
                                                                 {post.media.slice(1).map((media, index) => (
                                                                     <div key={index}>
                                                                         {media.type === "photos" ? (
-                                                                            <img src={media.url} className="w-100" alt="image" />
+                                                                            <img src={media.url} className="w-100" alt="image1" />
                                                                         ) : (
                                                                             <video controls className="w-100">
                                                                                 <source src={media.url} type="video/mp4" />
@@ -940,7 +979,7 @@ function SocialMedia(post) {
                                                             {post.media.map((media, index) => (
                                                                 <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
                                                                     {media.type === "photos" ? (
-                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image1" />
                                                                     ) : (
                                                                         <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
                                                                             <source src={media.url} type="video/mp4" />
@@ -1110,7 +1149,7 @@ function SocialMedia(post) {
                                                     {post.orignalPostId.media.length === 1 && (
                                                         <div className="post-img">
                                                             {post.orignalPostId.media[0].type === "photos" ? (
-                                                                <img src={post.orignalPostId.media[0].url} className="w-100" alt="image" />
+                                                                <img src={post.orignalPostId.media[0].url} className="w-100" alt="image1" />
                                                             ) : (
                                                                 <video controls className="w-100">
                                                                     <source src={post.orignalPostId.media[0].url} type="video/mp4" />
@@ -1124,7 +1163,7 @@ function SocialMedia(post) {
                                                             {post.orignalPostId.media.map((media, index) => (
                                                                 <div key={index} className="single" style={{ width: "49%" }}>
                                                                     {media.type === "photos" ? (
-                                                                        <img src={media.url} className="w-100" alt="image" />
+                                                                        <img src={media.url} className="w-100" alt="image1" />
                                                                     ) : (
                                                                         <video controls className="w-100">
                                                                             <source src={media.url} type="video/mp4" />
@@ -1139,7 +1178,7 @@ function SocialMedia(post) {
                                                         <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
                                                             <div className="single" style={{ width: "50%" }}>
                                                                 {post.orignalPostId.media[0].type === "photos" ? (
-                                                                    <img src={post.orignalPostId.media[0].url} className="w-100" alt="image" />
+                                                                    <img src={post.orignalPostId.media[0].url} className="w-100" alt="image1" />
                                                                 ) : (
                                                                     <video controls className="w-100">
                                                                         <source src={post.orignalPostId.media[0].url} type="video/mp4" />
@@ -1151,7 +1190,7 @@ function SocialMedia(post) {
                                                                 {post.orignalPostId.media.slice(1).map((media, index) => (
                                                                     <div key={index}>
                                                                         {media.type === "photos" ? (
-                                                                            <img src={media.url} className="w-100" alt="image" />
+                                                                            <img src={media.url} className="w-100" alt="image1" />
                                                                         ) : (
                                                                             <video controls className="w-100">
                                                                                 <source src={media.url} type="video/mp4" />
@@ -1168,7 +1207,7 @@ function SocialMedia(post) {
                                                             {post.orignalPostId.media.map((media, index) => (
                                                                 <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
                                                                     {media.type === "photos" ? (
-                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image1" />
                                                                     ) : (
                                                                         <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
                                                                             <source src={media.url} type="video/mp4" />
@@ -1306,7 +1345,11 @@ function SocialMedia(post) {
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
-                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <h6 className="m-0">
+                                                                        <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                            {suggestedUser?.userName}
+                                                                        </Link>
+                                                                    </h6>
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>
@@ -1352,7 +1395,7 @@ function SocialMedia(post) {
                             </div>
                         </div>
                     </div>
-                </div >
+                </div>
             </main >
             {/* <ToastContainer /> */}
             <div className="go-live-popup">
@@ -1373,7 +1416,7 @@ function SocialMedia(post) {
                                         <div className="mid-area">
                                             <div className="d-flex mb-5 gap-3">
                                                 <div className="profile-box">
-                                                    <a href="#"><img src="../assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
+                                                    <Link href="#"><img src="../assets/images/add-post-avatar.png" className="max-un" alt="icon" /></Link>
                                                 </div>
                                                 <textarea cols="10" rows="1" placeholder="Write something to Lerio.."></textarea>
                                             </div>
@@ -1420,23 +1463,24 @@ function SocialMedia(post) {
                                         <div className="mid-area">
                                             <div className="d-flex mb-5 gap-3">
                                                 <div className="profile-box">
-                                                    <a href="#">
-                                                        <img src={user.profilePicture || "../assets/images/add-post-avatar.png"}
+                                                    <Link href="#">
+                                                        <img src={user?.profilePicture || "../assets/images/add-post-avatar.png"}
                                                             className="max-un" alt="icon"
                                                             style={{ width: "40px", height: "40px", borderRadius: "30px" }} />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <input
                                                     className="mb-2"
                                                     name="content"
                                                     cols="10"
-                                                    rows="1"
-                                                    placeholder={`Write something to ${user.userName || "user"}...`}
+                                                    rows="3"
+                                                    placeholder={`Write something to ${user?.userName || "user"}...`}
                                                     value={postContent}
                                                     onChange={(e) => setPostContent(e.target.value)}
+                                                    maxLength={300}
                                                     style={{
                                                         borderRadius: "50px",
-                                                        height: "40px",
+                                                        //height: "40px",
                                                     }}
                                                 >
                                                 </input>
@@ -1506,26 +1550,27 @@ function SocialMedia(post) {
                                         <div className="mid-area">
                                             <div className="d-flex mb-5 gap-3">
                                                 <div className="profile-box">
-                                                    <a href="#">
+                                                    <Link href="#">
                                                         <img
-                                                            src={user.profilePicture || "assets/images/add-post-avatar.png"}
+                                                            src={user?.profilePicture || "assets/images/add-post-avatar.png"}
                                                             className="max-un"
                                                             alt="icon"
                                                             style={{ width: "40px", height: "40px", borderRadius: "30px" }}
                                                         />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <input
                                                     className="mb-2"
                                                     name="content"
                                                     cols="10"
-                                                    rows="1"
-                                                    placeholder={`Whats your mood ${user.userName || "user"}...`}
+                                                    rows="3"
+                                                    placeholder={`Whats your mood ${user?.userName || "user"}...`}
                                                     value={postContent}
                                                     onChange={(e) => setPostContent(e.target.value)}
+                                                    maxLength={300}
                                                     style={{
                                                         borderRadius: "50px",
-                                                        height: "40px",
+                                                        //height: "40px",
                                                     }}
                                                 ></input>
                                             </div>
@@ -1754,7 +1799,7 @@ function SocialMedia(post) {
                                                                     <div className="top-area px-4 py-3 d-flex justify-content-between">
                                                                         <div className="title-area">
                                                                             <h6 className="m-0 mb-2 comment-user-name">
-                                                                                <a href="#">{comment.user.userName}</a>
+                                                                                <Link href="#">{comment.user.userName}</Link>
                                                                             </h6>
                                                                         </div>
                                                                         <div className="info-area" style={{ marginTop: "-10px", marginLeft: "10px" }}>
@@ -1778,7 +1823,7 @@ function SocialMedia(post) {
                                                                                 style={{ marginLeft: "350px", marginTop: "10px" }}
                                                                             >
                                                                                 <li>
-                                                                                    <a
+                                                                                    <Link
                                                                                         className="droplist d-flex align-items-center gap-2"
                                                                                         onClick={() => {
                                                                                             handleEditComment(comment._id, comment.content, comment.media);
@@ -1787,16 +1832,16 @@ function SocialMedia(post) {
                                                                                     >
                                                                                         <i className="material-symbols-outlined mat-icon">edit</i>
                                                                                         <span>Edit</span>
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
                                                                                 <li>
-                                                                                    <a
+                                                                                    <Link
                                                                                         className="droplist d-flex align-items-center gap-2"
                                                                                         onClick={() => handleDeleteComment(comment._id)}
                                                                                     >
                                                                                         <i className="material-symbols-outlined mat-icon">delete</i>
                                                                                         <span>Delete</span>
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -1866,10 +1911,14 @@ function SocialMedia(post) {
                                                                         >
                                                                             <textarea
                                                                                 value={editedContent}
-                                                                                onChange={(e) => setEditedContent(e.target.value)}
+                                                                                //onChange={(e) => setEditedContent(e.target.value)}
+                                                                                onChange={(e) => {
+                                                                                    if (e.target.value.length <= 300) {
+                                                                                        setEditedContent(e.target.value);
+                                                                                    }
+                                                                                }}
                                                                                 placeholder="Edit your comment"
                                                                                 className="form-control mb-2 mt-4"
-                                                                                rows="2"
                                                                                 style={{ width: "700px" }}
                                                                             ></textarea>
                                                                             {mediaPreview && (
@@ -1974,7 +2023,7 @@ function SocialMedia(post) {
                                             >
                                                 <div className="d-flex mt-5 gap-3">
                                                     <img
-                                                        src={user.profilePicture || "../assets/images/navbar/picture.png"}
+                                                        src={user?.profilePicture || "../assets/images/navbar/picture.png"}
                                                         alt="icon"
                                                         style={{
                                                             borderRadius: "50%",
@@ -1985,7 +2034,12 @@ function SocialMedia(post) {
                                                         placeholder="Write a comment..."
                                                         name="commentInput"
                                                         value={commentInput}
-                                                        onChange={(e) => setCommentInput(e.target.value)}
+                                                        //onChange={(e) => setCommentInput(e.target.value)}
+                                                        onChange={(e) => {
+                                                            if (e.target.value.length <= 300) {
+                                                                setCommentInput(e.target.value);
+                                                            }
+                                                        }}
                                                         className="form-control"
                                                         style={{
                                                             borderRadius: "50px",
@@ -2117,11 +2171,11 @@ function SocialMedia(post) {
                                         </div>
                                         <div className="d-flex top-content pb-5 gap-3">
                                             <div className="profile-box">
-                                                <a href="#"><img src={user.profilePicture || "../assets/images/add-post-avatar.png"} className="max-un" alt="icon" style={{ width: "40px", borderRadius: "30px" }} /></a>
+                                                <Link href="#"><img src={user?.profilePicture || "../assets/images/add-post-avatar.png"} className="max-un" alt="icon" style={{ width: "40px", borderRadius: "30px" }} /></Link>
                                             </div>
                                             <div className="profile-box">
-                                                <h6 className="m-0">{user.userName}</h6>
-                                                <span className="mdtxt status">@{user.userName}</span>
+                                                <h6 className="m-0">{user?.userName}</h6>
+                                                <span className="mdtxt status">@{user?.userName}</span>
                                             </div>
                                         </div>
                                         <div className="mid-area">
@@ -2139,7 +2193,7 @@ function SocialMedia(post) {
                                             </div>
                                             <div className="d-flex top-content pb-5 gap-3">
                                                 <div className="profile-box">
-                                                    <a href="#"><img src={repost.profilePicture || "../assets/images/add-post-avatar.png"} className="max-un" alt="icon" style={{ width: "40px", borderRadius: "30px" }} /></a>
+                                                    <Link href="#"><img src={repost.profilePicture || "../assets/images/add-post-avatar.png"} className="max-un" alt="icon" style={{ width: "40px", borderRadius: "30px" }} /></Link>
                                                 </div>
                                                 <div className="profile-box">
                                                     <h6 className="m-0">{repost.userName}</h6>
@@ -2194,6 +2248,76 @@ function SocialMedia(post) {
                                             <div className="btn-area d-flex justify-content-end gap-2">
                                                 <button type="button" className="cmn-btn alt" data-bs-dismiss="modal" aria-label="Close" style={{ borderRadius: "50px", }}>Cancel</button>
                                                 <button className="cmn-btn" onClick={handleRepostSubmit} style={{ borderRadius: "50px", }}>Post</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                {`    
+                    .report-btn {
+                        background: #E4E4E4;
+                        padding: 4px 15px;
+                        color: #131010;
+                        display: inline-flex;
+                        align-items: center;
+                        font-size: 14px;
+                        z-index: 0;
+                        border-radius: 30px;
+                        transition: 0.3s;
+                    }
+                    .report-btn.selected {
+                        background: var(--primary-color);
+                        color: white;
+                        font-weight: bold;
+                    }
+                    .cmn-btn:disabled {
+                        background: #036dcf; 
+                        cursor: not-allowed;
+                        opacity: 0.6;
+                    }
+                `}
+            </style>
+            <div className="go-live-popup">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-8">
+                            <div className="modal cmn-modal fade" id="reportPostMod">
+                                <div className="modal-dialog modal-dialog-centered">
+                                    <div className="modal-content p-5">
+                                        <div className="modal-header justify-content-center">
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i className="material-symbols-outlined mat-icon xxltxt"> close </i>
+                                            </button>
+                                        </div>
+                                        <div className="top-content pb-5">
+                                            <h5>Report Comment</h5><hr />
+                                        </div>
+                                        <div className="mid-area">
+                                            <div className="d-flex mb-5 gap-3">
+                                                <div className="profile-box">
+                                                    <h6>Why are you reporting this comment?</h6>
+                                                </div>
+                                            </div>
+                                            <div className="">
+                                                {reportReasons.map((reason, index) => (
+                                                    <button
+                                                        key={index}
+                                                        className={`report-btn me-2 mt-2 ${selectedReason === reason ? "selected" : ""}`}
+                                                        onClick={() => handleSelectReason(reason)}
+                                                    >
+                                                        {reason}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="footer-area pt-5">
+                                            <div className="btn-area d-flex justify-content-end gap-2">
+                                                <button className="cmn-btn" style={{ borderRadius: "40px" }} disabled={!selectedReason} onClick={handleReport}>Done</button>
                                             </div>
                                         </div>
                                     </div>

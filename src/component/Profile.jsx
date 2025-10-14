@@ -8,7 +8,7 @@ import SocialSidebar from "./SocialSidebar";
 import EmojiPicker from "emoji-picker-react";
 
 const Profile = () => {
-  const token = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
   //const user = JSON.parse(localStorage.getItem("user")) || {};
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
   const [suggestList, setSuggestList] = useState([]);
@@ -126,6 +126,9 @@ const Profile = () => {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
+    if (e.target.value.length <= 300) {
+      setPostContent(e.target.value);
+    }
     // if (!postContent && uploadedFiles.length === 0) {
     //     toast.error("Please add some content or upload a file.");
     //     return;
@@ -485,6 +488,9 @@ const Profile = () => {
 
   const handlePostUpdate = async (e) => {
     e.preventDefault();
+    if (e.target.value.length <= 300) {
+      setPostContent(e.target.value);
+    }
     const formData = new FormData();
     formData.append("postId", selectedPost._id);
     formData.append("content", postContent);
@@ -845,7 +851,7 @@ const Profile = () => {
                           const logoSrc = logoMap[link.logoName] || "assets/images/sociallink/default.png";
 
                           return (
-                            <a
+                            <Link
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -862,7 +868,7 @@ const Profile = () => {
                                   width: "40px",
                                 }}
                               />
-                            </a>
+                            </Link>
                           );
                         })}
                       </div>
@@ -961,13 +967,13 @@ const Profile = () => {
                       className="mb-2"
                       name="content"
                       cols="10"
-                      rows="1"
+                      rows="3"
                       placeholder={`Write something to ${user.userName || "user"}...`}
                       value={postContent}
                       onChange={(e) => setPostContent(e.target.value)}
                       style={{
                         borderRadius: "50px",
-                        height: "40px",
+                        //height: "40px",
                       }}
                     ></input>
                     <ul className="d-flex justify-content-between flex-wrap textremove">
@@ -979,10 +985,10 @@ const Profile = () => {
                         <img src="../assets/images/socialsidebar/emojiicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                         <span style={{ color: "#1565c0" }}>GIF/Emoji</span>
                       </li>
-                      <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
+                      {/* <li className="d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#activityMod">
                         <img src="../assets/images/socialsidebar/pollicon.png" className="max-un" alt="icon" style={{ width: "25px" }} />
                         <span style={{ color: "#1565c0" }}>Poll</span>
-                      </li>
+                      </li> */}
                       <li className="d-flex align-items-center gap-1 me-3">
                         <button onClick={handlePostSubmit} className="cmn-btn px-2 px-sm-5 px-lg-6" style={{ borderRadius: "50px", height: "35px" }}>POST</button>
                       </li>
@@ -1002,7 +1008,7 @@ const Profile = () => {
                               style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                           </div>
                           <div className="info-area">
-                            <h6 className="m-0"><a href="public-profile-post?.html">{post?.user?.userName}</a></h6>
+                            <h6 className="m-0"><Link href="#">{post?.user?.userName}</Link></h6>
                             <span className="mdtxt status">{post?.createdAt &&
                               new Date(post?.createdAt).toLocaleDateString("en-US", {
                                 month: "short",
@@ -1059,35 +1065,35 @@ const Profile = () => {
                           >
                             {post?.isBookMarked ? (
                               <li>
-                                <a className="droplist d-flex align-items-center gap-2"
+                                <Link className="droplist d-flex align-items-center gap-2"
                                   onClick={() => handleBookmarkRemove(post?._id)}
                                 >
                                   <i className="material-symbols-outlined mat-icon">delete</i>
                                   <span>Unsave Post</span>
-                                </a>
+                                </Link>
                               </li>
                             ) : (
                               <li>
-                                <a className="droplist d-flex align-items-center gap-2"
+                                <Link className="droplist d-flex align-items-center gap-2"
                                   onClick={() => handleBookmark(post?._id)}
                                 >
                                   <i className="material-symbols-outlined mat-icon">bookmark_add</i>
                                   <span>Save Post</span>
-                                </a>
+                                </Link>
                               </li>
                             )}
                             {post?.user._id === user._id && (
                               <li>
-                                <a className="droplist d-flex align-items-center gap-2"
+                                <Link className="droplist d-flex align-items-center gap-2"
                                   onClick={() => handleDeletePost(post?._id)}
                                 >
                                   <i className="material-symbols-outlined mat-icon">delete</i>
                                   <span>Delete Post</span>
-                                </a>
+                                </Link>
                               </li>
                             )}
                             <li>
-                              <a className="droplist d-flex align-items-center gap-2"
+                              <Link className="droplist d-flex align-items-center gap-2"
                                 data-bs-toggle="modal"
                                 data-bs-target="#photoVideoModEdit"
                                 //onClick={() => handleEditPost(post?._id, post)}
@@ -1098,10 +1104,10 @@ const Profile = () => {
                               >
                                 <i className="material-symbols-outlined mat-icon">edit</i>
                                 <span>Edit Post</span>
-                              </a>
+                              </Link>
                             </li>
                             <li>
-                              <a className="droplist d-flex align-items-center gap-2"
+                              <Link className="droplist d-flex align-items-center gap-2"
                                 //onClick={() => handlePinToggle(post?._id, post?.isPinned)}
                                 onClick={() => {
                                   handlePinToggle(post?._id, post?.isPinned);
@@ -1110,25 +1116,25 @@ const Profile = () => {
                               >
                                 <i className="material-symbols-outlined mat-icon">  {post.isPinned ? "push_pin" : "push_pin"} </i>
                                 <span>{post.isPinned ? "Unpin Post" : "Pin Post"}</span>
-                              </a>
+                              </Link>
                             </li>
-                            <li>
-                              <a className="droplist d-flex align-items-center gap-2" href="#">
+                            {/* <li>
+                              <Link className="droplist d-flex align-items-center gap-2" href="#">
                                 <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                 <span>Hide Post</span>
-                              </a>
+                              </Link>
                             </li>
                             <li>
-                              <a className="droplist d-flex align-items-center gap-2" href="#">
+                              <Link className="droplist d-flex align-items-center gap-2" href="#">
                                 <i className="material-symbols-outlined mat-icon"> lock </i>
                                 <span>Block</span>
-                              </a>
-                            </li>
+                              </Link>
+                            </li> */}
                             <li>
-                              <a className="droplist d-flex align-items-center gap-2" href="#">
+                              <Link className="droplist d-flex align-items-center gap-2" href="#">
                                 <i className="material-symbols-outlined mat-icon"> flag </i>
                                 <span>Report Post</span>
-                              </a>
+                              </Link>
                             </li>
                           </ul>
                         </div>
@@ -1193,7 +1199,7 @@ const Profile = () => {
                           {post.media.length === 1 && (
                             <div className="post-img">
                               {post.media[0].type === "photos" ? (
-                                <img src={post.media[0].url} className="w-100" alt="image" />
+                                <img src={post.media[0].url} className="w-100" alt="" />
                               ) : (
                                 <video controls className="w-100">
                                   <source src={post.media[0].url} type="video/mp4" />
@@ -1207,7 +1213,7 @@ const Profile = () => {
                               {post.media.map((media, index) => (
                                 <div key={index} className="single" style={{ width: "49%" }}>
                                   {media.type === "photos" ? (
-                                    <img src={media.url} className="w-100" alt="image" />
+                                    <img src={media.url} className="w-100" alt="" />
                                   ) : (
                                     <video controls className="w-100">
                                       <source src={media.url} type="video/mp4" />
@@ -1222,7 +1228,7 @@ const Profile = () => {
                             <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
                               <div className="single" style={{ width: "50%" }}>
                                 {post.media[0].type === "photos" ? (
-                                  <img src={post.media[0].url} className="w-100" alt="image" />
+                                  <img src={post.media[0].url} className="w-100" alt="" />
                                 ) : (
                                   <video controls className="w-100">
                                     <source src={post.media[0].url} type="video/mp4" />
@@ -1234,7 +1240,7 @@ const Profile = () => {
                                 {post.media.slice(1).map((media, index) => (
                                   <div key={index}>
                                     {media.type === "photos" ? (
-                                      <img src={media.url} className="w-100" alt="image" />
+                                      <img src={media.url} className="w-100" alt="" />
                                     ) : (
                                       <video controls className="w-100">
                                         <source src={media.url} type="video/mp4" />
@@ -1251,7 +1257,7 @@ const Profile = () => {
                               {post.media.map((media, index) => (
                                 <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
                                   {media.type === "photos" ? (
-                                    <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                    <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="" />
                                   ) : (
                                     <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
                                       <source src={media.url} type="video/mp4" />
@@ -1380,7 +1386,7 @@ const Profile = () => {
                           {post.orignalPostId.media.length === 1 && (
                             <div className="post-img">
                               {post.orignalPostId.media[0].type === "photos" ? (
-                                <img src={post.orignalPostId.media[0].url} className="w-100" alt="image" />
+                                <img src={post.orignalPostId.media[0].url} className="w-100" alt="" />
                               ) : (
                                 <video controls className="w-100">
                                   <source src={post.orignalPostId.media[0].url} type="video/mp4" />
@@ -1394,7 +1400,7 @@ const Profile = () => {
                               {post.orignalPostId.media.map((media, index) => (
                                 <div key={index} className="single" style={{ width: "49%" }}>
                                   {media.type === "photos" ? (
-                                    <img src={media.url} className="w-100" alt="image" />
+                                    <img src={media.url} className="w-100" alt="" />
                                   ) : (
                                     <video controls className="w-100">
                                       <source src={media.url} type="video/mp4" />
@@ -1409,7 +1415,7 @@ const Profile = () => {
                             <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
                               <div className="single" style={{ width: "50%" }}>
                                 {post.orignalPostId.media[0].type === "photos" ? (
-                                  <img src={post.orignalPostId.media[0].url} className="w-100" alt="image" />
+                                  <img src={post.orignalPostId.media[0].url} className="w-100" alt="" />
                                 ) : (
                                   <video controls className="w-100">
                                     <source src={post.orignalPostId.media[0].url} type="video/mp4" />
@@ -1421,7 +1427,7 @@ const Profile = () => {
                                 {post.orignalPostId.media.slice(1).map((media, index) => (
                                   <div key={index}>
                                     {media.type === "photos" ? (
-                                      <img src={media.url} className="w-100" alt="image" />
+                                      <img src={media.url} className="w-100" alt="" />
                                     ) : (
                                       <video controls className="w-100">
                                         <source src={media.url} type="video/mp4" />
@@ -1438,7 +1444,7 @@ const Profile = () => {
                               {post.orignalPostId.media.map((media, index) => (
                                 <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
                                   {media.type === "photos" ? (
-                                    <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                    <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="" />
                                   ) : (
                                     <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
                                       <source src={media.url} type="video/mp4" />
@@ -1531,7 +1537,10 @@ const Profile = () => {
                               />
                             </div>
                             <div className="info-area">
-                              <h6 className="m-0"><a href="public-profile-post?.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                              <h6 className="m-0">
+                                <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                  {suggestedUser?.userName}
+                                </Link></h6>
                               <p className="mdtxt">@{suggestedUser.userName}</p>
                             </div>
                           </div>
@@ -1685,7 +1694,7 @@ const Profile = () => {
                                   <div className="top-area px-4 py-3 d-flex justify-content-between">
                                     <div className="title-area">
                                       <h6 className="m-0 mb-2 comment-user-name">
-                                        <a href="#">{comment.user.userName}</a>
+                                        <Link href="#">{comment.user.userName}</Link>
                                       </h6>
                                     </div>
                                     <div className="info-area" style={{ marginTop: "-10px", marginLeft: "10px" }}>
@@ -1709,7 +1718,7 @@ const Profile = () => {
                                         style={{ marginLeft: "350px", marginTop: "10px" }}
                                       >
                                         <li>
-                                          <a
+                                          <Link
                                             className="droplist d-flex align-items-center gap-2"
                                             onClick={() => {
                                               handleEditComment(comment._id, comment.content, comment.media);
@@ -1718,16 +1727,16 @@ const Profile = () => {
                                           >
                                             <i className="material-symbols-outlined mat-icon">edit</i>
                                             <span>Edit</span>
-                                          </a>
+                                          </Link>
                                         </li>
                                         <li>
-                                          <a
+                                          <Link
                                             className="droplist d-flex align-items-center gap-2"
                                             onClick={() => handleDeleteComment(comment._id)}
                                           >
                                             <i className="material-symbols-outlined mat-icon">delete</i>
                                             <span>Delete</span>
-                                          </a>
+                                          </Link>
                                         </li>
                                       </ul>
                                     </div>
@@ -2053,25 +2062,25 @@ const Profile = () => {
                     <div className="mid-area">
                       <div className="d-flex mb-5 gap-3">
                         <div className="profile-box">
-                          <a href="#">
+                          <Link href="#">
                             <img
                               src={user.profilePicture || "../assets/images/add-post-avatar.png"}
                               className="max-un"
                               alt="icon"
                               style={{ width: "40px", height: "40px", borderRadius: "30px" }} />
-                          </a>
+                          </Link>
                         </div>
                         <input
                           className="mb-2"
                           name="content"
                           cols="10"
-                          rows="1"
+                          rows="3"
                           placeholder={`Write something to ${user.userName || "user"}...`}
                           value={postContent}
                           onChange={(e) => setPostContent(e.target.value)}
                           style={{
                             borderRadius: "50px",
-                            height: "40px",
+                            //height: "40px",
                           }}
                         >
                         </input>
@@ -2168,25 +2177,25 @@ const Profile = () => {
                     <div className="mid-area">
                       <div className="d-flex mb-5 gap-3">
                         <div className="profile-box">
-                          <a href="#">
+                          <Link href="#">
                             <img
                               src={user.profilePicture || "../assets/images/add-post-avatar.png"}
                               className="max-un"
                               alt="icon"
                               style={{ width: "40px", height: "40px", borderRadius: "30px" }} />
-                          </a>
+                          </Link>
                         </div>
                         <input
                           className="mb-2"
                           name="content"
                           cols="10"
-                          rows="1"
+                          rows="3"
                           placeholder={`Write something to ${user.userName || "user"}...`}
                           value={postContent}
                           onChange={(e) => setPostContent(e.target.value)}
                           style={{
                             borderRadius: "50px",
-                            height: "40px",
+                            //height: "40px",
                           }}
                         >
                         </input>
@@ -2257,26 +2266,26 @@ const Profile = () => {
                     <div className="mid-area">
                       <div className="d-flex mb-5 gap-3">
                         <div className="profile-box">
-                          <a href="#">
+                          <Link href="#">
                             <img
                               src={user.profilePicture || "../assets/images/add-post-avatar.png"}
                               className="max-un"
                               alt="icon"
                               style={{ width: "40px", height: "40px", borderRadius: "30px" }}
                             />
-                          </a>
+                          </Link>
                         </div>
                         <input
                           className="mb-2"
                           name="content"
                           cols="10"
-                          rows="1"
+                          rows="3"
                           placeholder={`Whats your mood ${user.userName || "user"}...`}
                           value={postContent}
                           onChange={(e) => setPostContent(e.target.value)}
                           style={{
                             borderRadius: "50px",
-                            height: "40px",
+                            //height: "40px",
                           }}
                         ></input>
                       </div>

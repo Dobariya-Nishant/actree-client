@@ -389,16 +389,19 @@ const Home = () => {
                     text-align: center;
                     gap: 16px;
                     flex-wrap: wrap;
-                    margin-left: 20%;
+                    margin-left: 30%;
                 }
                 .btn-primary1 {
                     background: white;
                     color: black;
                     padding: 4px 10px;
                     border-radius: 30px;
-                    //font-weight: 600;
                     font-size: 18px;
                     margin-top: 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
                 }
                 .btn-secondary {
                     border: 1px solid white !important;
@@ -414,6 +417,8 @@ const Home = () => {
                 .features-section {
                     text-align: center;
                     padding: 50px 0;
+                    width: 100%;
+                    max-width: 100% !important
                 }
                 .section-title {
                     font-family: 'Poppins', sans-serif;
@@ -464,10 +469,14 @@ const Home = () => {
 
                     .feature-card {
                         text-align: center;
+                        padding: 4px;
+                        width: 100%;
                     }
 
                     .feature-image {
                         width: 100%;
+                        height: auto;
+                        object-fit: cover;
                     }
                     .image-text {
                         font-size: 12px;

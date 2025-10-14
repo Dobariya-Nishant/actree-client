@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+//import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 const Privacypolicy = () => {
@@ -27,11 +27,11 @@ const Privacypolicy = () => {
                         <p className="mt-2"><span>Effective Date:</span> Monday, Oct 28, 2024</p>
                         <p className="mt-2"><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
                         <p className="mt-2"><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
-                        <p className="mt-2"><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
+                        <p className="mt-2"><span>Contact Email:</span> <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</Link></p>
                     </div>
                     <div className="welcome-activatree mb-5 mt-5">
                         <h2>Introduction</h2>
-                        <p>This Privacy Policy outlines Activatree <b>(“ we ”, “us”, “ our ”, or “ the Company ”)</b> practices with respect to information collected from users who access our website at <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>www.activatree.com</a> <b>(“ Site ”)</b>, or otherwise share personal information with us (collectively: <b> " Users "</b>).</p>
+                        <p>This Privacy Policy outlines Activatree <b>(“ we ”, “us”, “ our ”, or “ the Company ”)</b> practices with respect to information collected from users who access our website at <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>www.activatree.com</Link> <b>(“ Site ”)</b>, or otherwise share personal information with us (collectively: <b> " Users "</b>).</p>
                     </div>
                     <div className="welcome-activatree mb-5 mt-5">
                         <h2>Grounds for data collection </h2>
@@ -107,7 +107,7 @@ const Privacypolicy = () => {
                             <li><img src="assets/images/img/point.png" alt=" Ponit" />Request to restrict processing of your personal information by us.</li>
                             <li><img src="assets/images/img/point.png" alt="Ponit" />Lodge a complaint with a supervisory authority.</li>
                         </ul>
-                        <p>However, please note that these rights are not absolute, and may be subject to our own legitimate interests and regulatory requirements. If you wish to exercise any of the aforementioned rights, or receive more information, please contact our Data Protection Officer (“DPO”) using the details provided below: <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a>.</p>
+                        <p>However, please note that these rights are not absolute, and may be subject to our own legitimate interests and regulatory requirements. If you wish to exercise any of the aforementioned rights, or receive more information, please contact our Data Protection Officer (“DPO”) using the details provided below: <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</Link>.</p>
                     </div>
                     <div className="welcome-activatree mb-3">
                         <h2>Retention</h2>
@@ -127,7 +127,7 @@ const Privacypolicy = () => {
                             <li><img src="assets/images/img/point.png" alt="Ponit" /><span style={{ fontWeight: 'bold' }}>'third party cookies'</span> which are set by other online services who run content on the page you are viewing, for example by third party analytics companies who monitor and analyze our web access.</li>
                         </ul>
                         <p>Cookies do not contain any information that personally identifies you, but Personal Information that we store about you may be linked, by us, to the information stored in and obtained from cookies. You may remove the cookies by following the instructions of your device preferences; however, if you choose to disable cookies, some features of our Site may not operate properly and your online experience may be limited.</p>
-                        <p>We also use a tool called “Google Analytics” to collect information about your use of the Site. Google Analytics collects information such as how often users access the Site, what pages they visit when they do so, etc. We use the information we get from Google Analytics only to improve our Site and services. Google Analytics collects the IP address assigned to you on the date you visit sites, rather than your name or other identifying information. We do not combine the information collected through the use of Google Analytics with personally identifiable information. Google’s ability to use and share information collected by Google Analytics about your visits to this Site is restricted by the Google Analytics <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>Terms of Use</a> and the <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>Google Privacy Policy</a>.</p>
+                        <p>We also use a tool called “Google Analytics” to collect information about your use of the Site. Google Analytics collects information such as how often users access the Site, what pages they visit when they do so, etc. We use the information we get from Google Analytics only to improve our Site and services. Google Analytics collects the IP address assigned to you on the date you visit sites, rather than your name or other identifying information. We do not combine the information collected through the use of Google Analytics with personally identifiable information. Google’s ability to use and share information collected by Google Analytics about your visits to this Site is restricted by the Google Analytics <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>Terms of Use</Link> and the <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>Google Privacy Policy</Link>.</p>
                     </div>
                     <div className="welcome-activatree mb-3">
                         <h2>Third party collection of information</h2>
@@ -181,7 +181,7 @@ const Privacypolicy = () => {
                     </div>
                     <div className="welcome-activatree mb-3">
                         <h2>Minors</h2>
-                        <p>We understand the importance of protecting children’s privacy, especially in an online environment. The Site is not designed for or directed at children. Under no circumstances shall we allow use of our services by minors without prior consent or authorization by a parent or legal guardian. We do not knowingly collect Personal Information from minors. If a parent or guardian becomes aware that his or her child has provided us with Personal Information without their consent, he or she should contact us at <a href="">info@activatree.com</a>.</p>
+                        <p>We understand the importance of protecting children’s privacy, especially in an online environment. The Site is not designed for or directed at children. Under no circumstances shall we allow use of our services by minors without prior consent or authorization by a parent or legal guardian. We do not knowingly collect Personal Information from minors. If a parent or guardian becomes aware that his or her child has provided us with Personal Information without their consent, he or she should contact us at <Link href="">info@activatree.com</Link>.</p>
                     </div>
                     <div className="welcome-activatree mb-3">
                         <h2>Updates or Amendments to This Privacy Policy</h2>
@@ -189,7 +189,7 @@ const Privacypolicy = () => {
                     </div>
                     <div className="welcome-activatree mb-3">
                         <h2>How to contact us</h2>
-                        <p>If you have any general questions about the Site or the information we collect about you and how we use it, you can contact us at <a href="">info@activatree.com</a>.</p>
+                        <p>If you have any general questions about the Site or the information we collect about you and how we use it, you can contact us at <Link href="">info@activatree.com</Link>.</p>
                     </div>
                 </div>
             </main>

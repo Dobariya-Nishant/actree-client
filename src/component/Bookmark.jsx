@@ -425,7 +425,7 @@ function Bookmark(post) {
                                                             style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                                                     </div>
                                                     <div className="info-area">
-                                                        <h6 className="m-0"><a href="public-profile-post.html">{bookmark.user?.userName}</a></h6>
+                                                        <h6 className="m-0"><Link href="#">{bookmark.user?.userName}</Link></h6>
                                                         <span className="mdtxt status">{bookmark.createdAt &&
                                                             new Date(bookmark.createdAt).toLocaleDateString("en-US", {
                                                                 month: "short",
@@ -447,28 +447,28 @@ function Bookmark(post) {
                                                         className={`dropdown-menu p-4 mt-8 pt-2 ${openDropdown === bookmark._id ? "show fade-in" : ""} `}
                                                     >
                                                         <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(bookmark.postId._id)}>
+                                                            <Link className="droplist d-flex align-items-center gap-2" onClick={() => handleBookmarkRemove(bookmark.postId._id)}>
                                                                 <i className="material-symbols-outlined mat-icon">delete</i>
-                                                                <span>Unsave Post</span>
-                                                            </a>
+                                                                <span>Bookmark</span>
+                                                            </Link>
                                                         </li>
-                                                        <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        {/* <li>
+                                                            <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                                                 <span>Hide Post</span>
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                            <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> lock </i>
                                                                 <span>Block</span>
-                                                            </a>
-                                                        </li>
+                                                            </Link>
+                                                        </li> */}
                                                         <li>
-                                                            <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                            <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                 <i className="material-symbols-outlined mat-icon"> flag </i>
                                                                 <span>Report Post</span>
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -519,7 +519,7 @@ function Bookmark(post) {
                                                     {bookmark.postId.media.length === 1 && (
                                                         <div className="post-img">
                                                             {bookmark.postId.media[0].type === "photos" ? (
-                                                                <img src={bookmark.postId.media[0].url} className="w-100" alt="image" />
+                                                                <img src={bookmark.postId.media[0].url} className="w-100" alt="" />
                                                             ) : (
                                                                 <video controls className="w-100">
                                                                     <source src={bookmark.postId.media[0].url} type="video/mp4" />
@@ -533,7 +533,7 @@ function Bookmark(post) {
                                                             {bookmark.postId.media.map((media, index) => (
                                                                 <div key={index} className="single" style={{ width: "49%" }}>
                                                                     {media.type === "photos" ? (
-                                                                        <img src={media.url} className="w-100" alt="image" />
+                                                                        <img src={media.url} className="w-100" alt="" />
                                                                     ) : (
                                                                         <video controls className="w-100">
                                                                             <source src={media.url} type="video/mp4" />
@@ -548,7 +548,7 @@ function Bookmark(post) {
                                                         <div className="post-img d-flex justify-content-between flex-wrap gap-2 gap-lg-3">
                                                             <div className="single" style={{ width: "50%" }}>
                                                                 {bookmark.postId.media[0].type === "photos" ? (
-                                                                    <img src={bookmark.postId.media[0].url} className="w-100" alt="image" />
+                                                                    <img src={bookmark.postId.media[0].url} className="w-100" alt="" />
                                                                 ) : (
                                                                     <video controls className="w-100">
                                                                         <source src={bookmark.postId.media[0].url} type="video/mp4" />
@@ -560,7 +560,7 @@ function Bookmark(post) {
                                                                 {bookmark.postId.media.slice(1).map((media, index) => (
                                                                     <div key={index}>
                                                                         {media.type === "photos" ? (
-                                                                            <img src={media.url} className="w-100" alt="image" />
+                                                                            <img src={media.url} className="w-100" alt="" />
                                                                         ) : (
                                                                             <video controls className="w-100">
                                                                                 <source src={media.url} type="video/mp4" />
@@ -577,7 +577,7 @@ function Bookmark(post) {
                                                             {bookmark.postId.media.map((media, index) => (
                                                                 <div key={index} className="single" style={{ width: "100%", height: "100%" }}>
                                                                     {media.type === "photos" ? (
-                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="image" />
+                                                                        <img src={media.url} className="w-100 h-100" style={{ objectFit: "cover" }} alt="" />
                                                                     ) : (
                                                                         <video controls className="w-100 h-100" style={{ objectFit: "cover" }}>
                                                                             <source src={media.url} type="video/mp4" />
@@ -683,7 +683,11 @@ function Bookmark(post) {
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
-                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <h6 className="m-0">
+                                                                        <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                            {suggestedUser?.userName}
+                                                                        </Link>
+                                                                    </h6>
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>
@@ -760,7 +764,7 @@ function Bookmark(post) {
                                                                     <div className="top-area px-4 py-3 d-flex justify-content-between">
                                                                         <div className="title-area">
                                                                             <h6 className="m-0 mb-2 comment-user-name">
-                                                                                <a href="#">{comment.user.userName}</a>
+                                                                                <Link href="#">{comment.user.userName}</Link>
                                                                             </h6>
                                                                         </div>
                                                                         <div className="info-area" style={{ marginTop: "-10px", marginLeft: "10px" }}>
@@ -784,7 +788,7 @@ function Bookmark(post) {
                                                                                 style={{ marginLeft: "350px", marginTop: "10px" }}
                                                                             >
                                                                                 <li>
-                                                                                    <a
+                                                                                    <Link
                                                                                         className="droplist d-flex align-items-center gap-2"
                                                                                         onClick={() => {
                                                                                             handleEditComment(comment._id, comment.content, comment.media);
@@ -793,16 +797,16 @@ function Bookmark(post) {
                                                                                     >
                                                                                         <i className="material-symbols-outlined mat-icon">edit</i>
                                                                                         <span>Edit</span>
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
                                                                                 <li>
-                                                                                    <a
+                                                                                    <Link
                                                                                         className="droplist d-flex align-items-center gap-2"
                                                                                         onClick={() => handleDeleteComment(comment._id)}
                                                                                     >
                                                                                         <i className="material-symbols-outlined mat-icon">delete</i>
                                                                                         <span>Delete</span>
-                                                                                    </a>
+                                                                                    </Link>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>

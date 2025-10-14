@@ -6,8 +6,8 @@ import { networkRequest } from "../utils/networkRequest";
 
 function Followers() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const token = localStorage.getItem("token");
+    // const location = useLocation();
+    // const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
     const [activeItem, setActiveItem] = useState("");
     const [followerCount, setFollowersCount] = useState(0);
@@ -142,7 +142,7 @@ function Followers() {
                                                             />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="#">{follower.followedUser.userName}</a></h6>
+                                                            <h6 className="m-0"><Link href="#">{follower.followedUser.userName}</Link></h6>
                                                             <span className="mdtxt status">@{follower.followedUser.userName}</span>
                                                         </div>
                                                     </div>
@@ -201,7 +201,11 @@ function Followers() {
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
-                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <h6 className="m-0">
+                                                                        <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                            {suggestedUser?.userName}
+                                                                        </Link>
+                                                                    </h6>
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>
@@ -241,7 +245,7 @@ function Followers() {
                         </div>
                     </div>
                 </div>
-            </main >
+            </main>
         </>
     );
 }

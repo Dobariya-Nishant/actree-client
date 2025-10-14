@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import { Box, Typography } from "@mui/material";
+//import { Box, Typography } from "@mui/material";
 import Footer from "./Footer";
 const Termsofservice = () => {
     React.useEffect(() => {
@@ -29,7 +29,7 @@ const Termsofservice = () => {
                         <p className="mt-2"><span>Effective Date:</span> Monday, Oct 28, 2024</p>
                         <p className="mt-2"><span>Last Updated:  </span>Saturday, Nov 16, 2024</p>
                         <p className="mt-2"><span>Company: </span>Activatree, a Subsidiary of Infinatree, Inc.</p>
-                        <p className="mt-2"><span>Contact Email:</span> <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a></p>
+                        <p className="mt-2"><span>Contact Email:</span> <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</Link></p>
                     </div>
                     <div className="welcome-activatree mb-5 mt-5">
                         <p>Welcome to Activatree <b>(“ we ”, “us”, “ our ”, or “ the Company ”).</b> These Terms of Service (“Terms”) govern your access to and use of our platform, websites, applications, and services (collectively, the “Service”). By accessing or using the Service, you agree to these Terms. If you do not agree, you may not use the Service. Please read them carefully.</p>
@@ -91,7 +91,7 @@ const Termsofservice = () => {
                                     <li><img src="assets/images/img/point.png" alt="Ponit" />You own or have the necessary rights to use and grant the license for the User Content.</li>
                                     <li><img src="assets/images/img/point.png" alt="Ponit" />Your User Content and your use of the Service do not violate any applicable laws, regulations, or third-party rights.</li>
                                 </ul>
-                                <p>If you believe your account has been compromised, you must notify us immediately at <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a>.</p>
+                                <p>If you believe your account has been compromised, you must notify us immediately at <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</Link>.</p>
                             </ul>
                             <li style={{ fontWeight: '600' }}>6.2 Activatree Intellectual Property</li>
                             <ul className="m-5">
@@ -160,7 +160,7 @@ const Termsofservice = () => {
                     </div>
                     <div className="acceptance-terms mb-5 mt-5">
                         <h5>16. Contact Us</h5>
-                        <p className="mt-5">For any questions or concerns regarding these Terms, please contact us at:  <a href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</a>.</p>
+                        <p className="mt-5">For any questions or concerns regarding these Terms, please contact us at:  <Link href="" style={{ color: "#9A00A9", textDecoration: "none" }}>info@activatree.com</Link>.</p>
                     </div>
                 </div>
             </main>

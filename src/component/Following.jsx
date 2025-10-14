@@ -10,7 +10,7 @@ function Following() {
     const user = JSON.parse(localStorage.getItem("user"));
     const [activeItem, setActiveItem] = useState("");
     const [followingList, setFollowingList] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    //const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [followings, setFollowings] = useState([]);
     const [isFollowing, setIsFollowing] = useState(true);
@@ -145,7 +145,7 @@ function Following() {
                                                             />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="#">{following.followedUser.userName}</a></h6>
+                                                            <h6 className="m-0"><Link href="#">{following.followedUser.userName}</Link></h6>
                                                             <span className="mdtxt status">@{following.followedUser.userName}</span>
                                                         </div>
                                                     </div>
@@ -216,7 +216,11 @@ function Following() {
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
-                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <h6 className="m-0">
+                                                                        <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                            {suggestedUser?.userName}
+                                                                        </Link>
+                                                                    </h6>
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>

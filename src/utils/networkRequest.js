@@ -45,25 +45,26 @@ export const networkRequest = async (
       }
       config.headers["Content-Type"] = "multipart/form-data";
     }
-    // debugger;
+    //debugger;
     const response = await axios(config);
 
-    // debugger;
+    //debugger;
 
     return response.data;
   } catch (error) {
-    // debugger;
+    //debugger;
     console.error("Error with network request:", error);
 
     // console.log(window.location.href);
 
-    // debugger;
+    debugger;
 
     if (
       error.response &&
       error.response.status === 401 &&
       !isAdmin &&
-      window.location.href != `${env.FRONT_END_URL}/`
+      window.location.href != `${env.FRONT_END_URL}/` &&
+      url != `${env.BACK_END_URL}/api/notification`
     ) {
       console.warn("Session expired. Redirecting to login...");
       localStorage.removeItem("token");

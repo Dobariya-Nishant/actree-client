@@ -430,7 +430,7 @@ function Header() {
                             </ul>
                             {token && user && (
                                 <div className="right-area position-relative d-flex gap-3 gap-xxl-6 align-items-center">
-                                    {/* <div className={`single-item messages-area notification-area ${isActiveCalssNotification ? "active" : ""}`}>
+                                    <div className={`single-item messages-area notification-area ${isActiveCalssNotification ? "active" : ""}`}>
                                         <div className="notification-btn cmn-head position-relative" onClick={handleNotificationClick}>
                                             <div className="icon-area d-center position-relative">
                                                 {!isNotificationHistory && <span className="abs-area position-absolute d-center mdtxt">{notifications?.length || 0}</span>}
@@ -478,7 +478,7 @@ function Header() {
                                                 </div>
                                             </div>
                                         )}
-                                    </div> */}
+                                    </div>
                                     <div className={`single-item profile-area position-relative ${isActiveCalss ? "active" : ""}`}>
                                         <div className="profile-pic d-flex align-items-center" onClick={handleProfileClick}>
                                             <span className="avatar cmn-head active-status">

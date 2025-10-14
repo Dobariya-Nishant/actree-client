@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SocialSidebar from "./SocialSidebar";
-import { Box, Typography, Link } from "@mui/material";
+//import { Box, Typography, Link } from "@mui/material";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
 import Footer from "./Footer";
@@ -9,13 +9,13 @@ import Footer from "./Footer";
 function Groups() {
     const navigate = useNavigate();
     const location = useLocation();
-    const token = localStorage.getItem("token");
+    //const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    const [activeItem, setActiveItem] = useState("");
+    //const [activeItem, setActiveItem] = useState("");
     const [suggestList, setSuggestList] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
 
-    const getAllSuggest = async () => {
+    const getAllSuggest = useCallback(async () => {
         try {
             const response = await networkRequest("GET", API_ENDPOINTS.GET_SUGGEST, {}, {});
             if (response.statusCode === 200) {
@@ -28,7 +28,7 @@ function Groups() {
         } catch (error) {
             console.error("Error fetching suggestions:", error);
         }
-    };
+    }, [user._id])
 
     const handleFollowToggle = async (userId) => {
         try {
@@ -62,12 +62,11 @@ function Groups() {
             localStorage.removeItem("reloadAfterLogin");
             window.location.reload();
         }
+    }, [navigate, location.pathname, getAllSuggest]);
 
-    }, [navigate, location.pathname]);
-
-    const handleItemClick = (item) => {
-        setActiveItem(item);
-    };
+    // const handleItemClick = (item) => {
+    //     setActiveItem(item);
+    // };
 
     const goBack = () => {
         navigate(-1);
@@ -134,7 +133,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -147,7 +146,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -160,7 +159,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -173,7 +172,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -186,7 +185,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -199,7 +198,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -212,7 +211,7 @@ function Groups() {
                                             <div className="avatar-box position-relative">
                                                 <img className="avatar-img w-100" src="../assets/images/socialsidebar/groups.png" alt="avatar" />
                                             </div>
-                                            <a href="group-details.html"><h6 className="">Science & Facts</h6></a>
+                                            <Link href="#"><h6 className="">Science & Facts</h6></Link>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/member.png" alt="avatar" />100 members</p>
                                             <p className=""><img className="avatar-img" src="../assets/images/socialsidebar/picture.png" alt="avatar" />10 posts</p>
                                             <div className="d-center btn-border pt-1">
@@ -271,7 +270,11 @@ function Groups() {
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
-                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <h6 className="m-0">
+                                                                        <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                            {suggestedUser?.userName}
+                                                                        </Link>
+                                                                    </h6>
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>

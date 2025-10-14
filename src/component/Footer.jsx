@@ -180,7 +180,7 @@ const Footer = () => {
                     </div>
                     <div className="footer-bottom">
                         <hr />
-                        <p className="text-white">© 2024 Activatree, a Subsidiary of Infinatree, Inc.</p>
+                        <p className="text-white">© 2025 Activatree, a Subsidiary of Infinatree, Inc.</p>
                     </div>
                 </div>
             </footer>

@@ -458,7 +458,7 @@ const AccountProfile = () => {
                                                     <img className="avatar-img max-un" src="../assets/images/navbar/lock.png" alt="avatar" style={{ borderRadius: "50px", width: "40px", height: "40px" }} />
                                                 </div>
                                                 <div className="btn-item d-center gap-3">
-                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt mt-3">This Account is Private</a></h6>
+                                                    <h6 className="m-0"><Link href="#" className="mdtxt mt-3">This Account is Private</Link></h6>
                                                 </div>
                                                 <div className="btn-item d-center gap-3">
                                                     <span>Follow to see their photos and videos.</span>
@@ -541,40 +541,40 @@ const AccountProfile = () => {
                                                         >
                                                             {post.isBookMarked ? (
                                                                 <li>
-                                                                    <a className="droplist d-flex align-items-center gap-2"
+                                                                    <Link className="droplist d-flex align-items-center gap-2"
                                                                         onClick={() => handleBookmarkRemove(post._id)}
                                                                     >
                                                                         <i className="material-symbols-outlined mat-icon">delete</i>
                                                                         <span>Remove Post</span>
-                                                                    </a>
+                                                                    </Link>
                                                                 </li>
                                                             ) : (
                                                                 <li>
-                                                                    <a className="droplist d-flex align-items-center gap-2"
+                                                                    <Link className="droplist d-flex align-items-center gap-2"
                                                                         onClick={() => handleBookmark(post._id)}
                                                                     >
                                                                         <i className="material-symbols-outlined mat-icon">bookmark_add</i>
                                                                         <span>Save Post</span>
-                                                                    </a>
+                                                                    </Link>
                                                                 </li>
                                                             )}
                                                             <li>
-                                                                <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                                <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                     <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                                                     <span>Hide Post</span>
-                                                                </a>
+                                                                </Link>
                                                             </li>
                                                             <li>
-                                                                <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                                <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                     <i className="material-symbols-outlined mat-icon"> lock </i>
                                                                     <span>Block</span>
-                                                                </a>
+                                                                </Link>
                                                             </li>
                                                             <li>
-                                                                <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                                <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                                     <i className="material-symbols-outlined mat-icon"> flag </i>
                                                                     <span>Report Post</span>
-                                                                </a>
+                                                                </Link>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -597,7 +597,7 @@ const AccountProfile = () => {
                                                         {post.media[0].type === "photos" && (
                                                             <img
                                                                 src={post.media[0].url}
-                                                                alt="image"
+                                                                alt=""
                                                                 style={{
                                                                     maxWidth: "100%",
                                                                     maxHeight: "100%",
@@ -680,7 +680,11 @@ const AccountProfile = () => {
                                                             />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                            <h6 className="m-0">
+                                                                <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                    {suggestedUser?.userName}
+                                                                </Link>
+                                                            </h6>
                                                             <p className="mdtxt">@{suggestedUser.userName}</p>
                                                         </div>
                                                     </div>
@@ -759,7 +763,7 @@ const AccountProfile = () => {
                                                                     <div className="top-area px-4 py-3 d-flex gap-3 align-items-start justify-content-between">
                                                                         <div className="title-area">
                                                                             <h6 className="m-0 mb-3">
-                                                                                <a href="public-profile-post.html">{comment.user.userName}</a>
+                                                                                <Link href="#">{comment.user.userName}</Link>
                                                                             </h6>
                                                                             <p className="mdtxt">{comment.content}</p>
                                                                         </div>
@@ -781,14 +785,14 @@ const AccountProfile = () => {
                                             }} >
                                                 <div className="d-flex mt-5 gap-3">
                                                     <div className="profile-box d-none d-xxl-block">
-                                                        <a href="#">
+                                                        <Link href="#">
                                                             <img
                                                                 src={user.profilePicture || "assets/images/navbar/picture.png"}
                                                                 className="max-un"
                                                                 alt="icon"
                                                                 style={{ borderRadius: "50px", width: "40px" }}
                                                             />
-                                                        </a>
+                                                        </Link>
                                                     </div>
                                                     <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
                                                         <input

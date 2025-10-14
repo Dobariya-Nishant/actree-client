@@ -144,7 +144,7 @@ function FrindRequest() {
                                                             />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="#">{request.followerId.userName}</a></h6>
+                                                            <h6 className="m-0"><Link href="#">{request.followerId.userName}</Link></h6>
                                                             <span className="mdtxt status">@{request.followerId.userName}</span>
                                                         </div>
                                                     </div>
@@ -216,7 +216,11 @@ function FrindRequest() {
                                                                     />
                                                                 </div>
                                                                 <div className="info-area">
-                                                                    <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">{suggestedUser.userName}</a></h6>
+                                                                    <h6 className="m-0">
+                                                                        <Link to={suggestedUser?._id === user?._id ? "/profile" : `/accountProfile/${suggestedUser?.userName}`}>
+                                                                            {suggestedUser?.userName}
+                                                                        </Link>
+                                                                    </h6>
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import SocialSidebar from "./SocialSidebar";
 import Plyr from "plyr";
@@ -6,9 +6,9 @@ import Plyr from "plyr";
 function Video() {
     const navigate = useNavigate();
     const location = useLocation();
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
-    const [activeItem, setActiveItem] = useState("");
+    // const token = localStorage.getItem("token");
+    // const user = JSON.parse(localStorage.getItem("user"));
+    //const [activeItem, setActiveItem] = useState("");
 
     useEffect(() => {
         if (localStorage.getItem("reloadAfterLogin") === "true") {
@@ -33,9 +33,9 @@ function Video() {
 
     }, [navigate, location.pathname]);
 
-    const handleItemClick = (item) => {
-        setActiveItem(item);
-    };
+    // const handleItemClick = (item) => {
+    //     setActiveItem(item);
+    // };
 
     return (
         <>
@@ -53,7 +53,7 @@ function Video() {
                                                     <img className="avatar-img max-un" src="assets/images/avatar-1.png" alt="avatar" />
                                                 </div>
                                                 <div className="info-area">
-                                                    <h6 className="m-0"><a href="public-profile-post.html">Lori Cortez</a></h6>
+                                                    <h6 className="m-0"><Link href="#">Lori Cortez</Link></h6>
                                                     <span className="mdtxt status">Now 29, 2024</span>
                                                 </div>
                                             </div>
@@ -64,34 +64,34 @@ function Video() {
                                                 </button>
                                                 <ul className="dropdown-menu p-4 pt-2">
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> bookmark_add </i>
                                                             <span>Saved Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> person_remove </i>
                                                             <span>Unfollow</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                                             <span>Hide Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> lock </i>
                                                             <span>Block</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> flag </i>
                                                             <span>Report Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -99,8 +99,8 @@ function Video() {
                                         <div className="py-4">
                                             <p className="description">My Travel Video</p>
                                             <p className="hastag d-flex gap-2">
-                                                <a href="#">#Viral</a>
-                                                <a href="#">#travel</a>
+                                                <Link href="#">#Viral</Link>
+                                                <Link href="#">#travel</Link>
                                             </p>
                                         </div>
                                         <div className="post-img video-item">
@@ -119,9 +119,9 @@ function Video() {
                                     <div className="total-react-share pb-4 d-center gap-2 flex-wrap justify-content-between">
                                         <div className="friends-list d-flex gap-3 align-items-center text-center">
                                             <ul className="d-flex align-items-center justify-content-center">
-                                                <li><img src="assets/images/avatar-2.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-3.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-4.png" alt="image" /></li>
+                                                <li><img src="assets/images/avatar-2.png" alt="image2" /></li>
+                                                <li><img src="assets/images/avatar-3.png" alt="image3" /></li>
+                                                <li><img src="assets/images/avatar-4.png" alt="image4" /></li>
                                                 <li><span className="mdtxt d-center">8+</span></li>
                                             </ul>
                                         </div>
@@ -145,7 +145,7 @@ function Video() {
                                     <form action="#">
                                         <div className="d-flex mt-5 gap-3">
                                             <div className="profile-box d-none d-xxl-block">
-                                                <a href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
+                                                <Link href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></Link>
                                             </div>
                                             <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
                                                 <input placeholder="Write a comment.." />
@@ -187,7 +187,7 @@ function Video() {
                                                     <img className="avatar-img max-un" src="assets/images/avatar-1.png" alt="avatar" />
                                                 </div>
                                                 <div className="info-area">
-                                                    <h6 className="m-0"><a href="public-profile-post.html">Lori Cortez</a></h6>
+                                                    <h6 className="m-0"><Link href="#">Lori Cortez</Link></h6>
                                                     <span className="mdtxt status">Now 29, 2024</span>
                                                 </div>
                                             </div>
@@ -198,34 +198,34 @@ function Video() {
                                                 </button>
                                                 <ul className="dropdown-menu p-4 pt-2">
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> bookmark_add </i>
                                                             <span>Saved Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> person_remove </i>
                                                             <span>Unfollow</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                                             <span>Hide Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> lock </i>
                                                             <span>Block</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> flag </i>
                                                             <span>Report Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -233,8 +233,8 @@ function Video() {
                                         <div className="py-4">
                                             <p className="description">My Travel Video</p>
                                             <p className="hastag d-flex gap-2">
-                                                <a href="#">#Viral</a>
-                                                <a href="#">#travel</a>
+                                                <Link href="#">#Viral</Link>
+                                                <Link href="#">#travel</Link>
                                             </p>
                                         </div>
                                         <div className="post-img video-item">
@@ -253,9 +253,9 @@ function Video() {
                                     <div className="total-react-share pb-4 d-center gap-2 flex-wrap justify-content-between">
                                         <div className="friends-list d-flex gap-3 align-items-center text-center">
                                             <ul className="d-flex align-items-center justify-content-center">
-                                                <li><img src="assets/images/avatar-2.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-3.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-4.png" alt="image" /></li>
+                                                <li><img src="assets/images/avatar-2.png" alt="image2" /></li>
+                                                <li><img src="assets/images/avatar-3.png" alt="image3" /></li>
+                                                <li><img src="assets/images/avatar-4.png" alt="image4" /></li>
                                                 <li><span className="mdtxt d-center">8+</span></li>
                                             </ul>
                                         </div>
@@ -279,7 +279,7 @@ function Video() {
                                     <form action="#">
                                         <div className="d-flex mt-5 gap-3">
                                             <div className="profile-box d-none d-xxl-block">
-                                                <a href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
+                                                <Link href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></Link>
                                             </div>
                                             <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
                                                 <input placeholder="Write a comment.." />
@@ -321,7 +321,7 @@ function Video() {
                                                     <img className="avatar-img max-un" src="assets/images/avatar-1.png" alt="avatar" />
                                                 </div>
                                                 <div className="info-area">
-                                                    <h6 className="m-0"><a href="public-profile-post.html">Lori Cortez</a></h6>
+                                                    <h6 className="m-0"><Link href="#">Lori Cortez</Link></h6>
                                                     <span className="mdtxt status">Now 29, 2024</span>
                                                 </div>
                                             </div>
@@ -332,34 +332,34 @@ function Video() {
                                                 </button>
                                                 <ul className="dropdown-menu p-4 pt-2">
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> bookmark_add </i>
                                                             <span>Saved Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> person_remove </i>
                                                             <span>Unfollow</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> hide_source </i>
                                                             <span>Hide Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> lock </i>
                                                             <span>Block</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                     <li>
-                                                        <a className="droplist d-flex align-items-center gap-2" href="#">
+                                                        <Link className="droplist d-flex align-items-center gap-2" href="#">
                                                             <i className="material-symbols-outlined mat-icon"> flag </i>
                                                             <span>Report Post</span>
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -367,8 +367,8 @@ function Video() {
                                         <div className="py-4">
                                             <p className="description">My Travel Video</p>
                                             <p className="hastag d-flex gap-2">
-                                                <a href="#">#Viral</a>
-                                                <a href="#">#travel</a>
+                                                <Link href="#">#Viral</Link>
+                                                <Link href="#">#travel</Link>
                                             </p>
                                         </div>
                                         <div className="post-img video-item">
@@ -387,9 +387,9 @@ function Video() {
                                     <div className="total-react-share pb-4 d-center gap-2 flex-wrap justify-content-between">
                                         <div className="friends-list d-flex gap-3 align-items-center text-center">
                                             <ul className="d-flex align-items-center justify-content-center">
-                                                <li><img src="assets/images/avatar-2.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-3.png" alt="image" /></li>
-                                                <li><img src="assets/images/avatar-4.png" alt="image" /></li>
+                                                <li><img src="assets/images/avatar-2.png" alt="image2" /></li>
+                                                <li><img src="assets/images/avatar-3.png" alt="image3" /></li>
+                                                <li><img src="assets/images/avatar-4.png" alt="image4" /></li>
                                                 <li><span className="mdtxt d-center">8+</span></li>
                                             </ul>
                                         </div>
@@ -413,7 +413,7 @@ function Video() {
                                     <form action="#">
                                         <div className="d-flex mt-5 gap-3">
                                             <div className="profile-box d-none d-xxl-block">
-                                                <a href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></a>
+                                                <Link href="#"><img src="assets/images/add-post-avatar.png" className="max-un" alt="icon" /></Link>
                                             </div>
                                             <div className="form-content input-area py-1 d-flex gap-2 align-items-center w-100">
                                                 <input placeholder="Write a comment.." />
@@ -490,7 +490,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Billy_Williams.png" alt="avatar" style={{ borderRadius: "50px" }} />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Justus_Everett</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Justus_Everett</Link></h6>
                                                             <p className="mdtxt">@Justus_Everett</p>
                                                         </div>
                                                     </div>
@@ -504,7 +504,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Justus_Everett.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Billy_Williams</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Billy_Williams</Link></h6>
                                                             <p className="mdtxt">@Billy_Williams</p>
                                                         </div>
                                                     </div>
@@ -518,7 +518,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Julie Bates.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Darrell Steward</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Darrell Steward</Link></h6>
                                                             <p className="mdtxt">@Darrell Steward</p>
                                                         </div>
                                                     </div>
@@ -532,7 +532,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Hana Marshall.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Kristin Watson</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Kristin Watson</Link></h6>
                                                             <p className="mdtxt">@Kristin Watson</p>
                                                         </div>
                                                     </div>
@@ -546,7 +546,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Kelvin Leon.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Jane Cooper</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Jane Cooper</Link></h6>
                                                             <p className="mdtxt">@Jane Cooper</p>
                                                         </div>
                                                     </div>
@@ -560,7 +560,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Roy Benton.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Devon Lane</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Devon Lane</Link></h6>
                                                             <p className="mdtxt">@Devon Lane</p>
                                                         </div>
                                                     </div>
@@ -574,7 +574,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Noel_Hunt.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Annette Black</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Annette Black</Link></h6>
                                                             <p className="mdtxt">@Annette Black</p>
                                                         </div>
                                                     </div>
@@ -588,7 +588,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/avatar-10.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Jerome Bell</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Jerome Bell</Link></h6>
                                                             <p className="mdtxt">@Jerome Bell</p>
                                                         </div>
                                                     </div>
@@ -602,7 +602,7 @@ function Video() {
                                                             <img className="avatar-img max-un" src="assets/images/Hana Marshall.png" alt="avatar" />
                                                         </div>
                                                         <div className="info-area">
-                                                            <h6 className="m-0"><a href="public-profile-post.html" className="mdtxt">Guy Hawkins</a></h6>
+                                                            <h6 className="m-0"><Link href="#" className="mdtxt">Guy Hawkins</Link></h6>
                                                             <p className="mdtxt">@Guy Hawkins</p>
                                                         </div>
                                                     </div>

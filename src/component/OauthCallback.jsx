@@ -11,7 +11,7 @@ const OAuthCallback = () => {
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     const state = JSON.parse(params.get("state"));
-
+    debugger
     if (code) {
       const response = await networkRequest(
         "GET",
