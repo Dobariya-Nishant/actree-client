@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     environment: dev
 
@@ -23,16 +23,16 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ vars.IAM_ROLE_ARN }}
 
-      - name: Docker login to ECR
-        run: |
-          aws ecr get-login-password --region ${{ vars.AWS_REGION }} \
-          | docker login --username AWS --password-stdin ${{ vars.ECR_REGISTRY_URI }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build Docker image
+      - name: Build and Push image to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_URL: $ECR_REGISTRY/${{ env.IMAGE_NAME }}:${{ github.sha }}
         run: |
-          docker build -t backend-ecr-dev .
-
-      - name: Tag and push image to ECR
-        run: |
-          docker tag backend-ecr-dev:latest ${{ vars.ECR_REGISTRY_URI }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
-          docker push ${{ vars.ECR_REGISTRY_URI }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
+          docker build -t $ECR_URL .
+          docker push $ECR_URL
+          echo "image=$ECR_URL" >> $GITHUB_OUTPUT
