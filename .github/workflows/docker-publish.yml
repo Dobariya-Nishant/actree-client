@@ -32,7 +32,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          ECR_URL="$ECR_REGISTRY/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          ECR_URL="$ECR_REGISTRY/${{ vars.IMAGE_NAME }}:${{ github.sha }}"
           docker build -t $ECR_URL .
           docker push $ECR_URL
           echo "image=$ECR_URL" >> $GITHUB_OUTPUT
