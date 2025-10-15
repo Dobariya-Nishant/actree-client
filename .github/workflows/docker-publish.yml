@@ -35,4 +35,4 @@ jobs:
         run: |
           docker build -t $ECR_URL .
           docker push $ECR_URL
-          echo "image=$ECR_URL" >> $GITHUB_OUTPUT
+          echo "image=${{ $ECR_URL }}" >> $GITHUB_OUTPUT
