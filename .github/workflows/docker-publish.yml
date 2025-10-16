@@ -45,10 +45,19 @@ jobs:
           container-name: ${{ vars.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
-      - name: Create deployment
-        uses: aws-actions/aws-codedeploy-deploy-ecs@v1
-        with:
-          application-name: ${{ vars.CODEDEPLOY_APP }}
-          deployment-group: ${{ vars.CODEDEPLOY_DEPLOYMENT_GROUP }}
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          wait-for-deployment: true
+      - name: Register ECS task definition
+        id: register-task
+        run: |
+          TASK_DEF_JSON="${{ steps.task-def.outputs.task-definition }}"
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json "$TASK_DEF_JSON" \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "task_definition_arn=$TASK_DEF_ARN" >> $GITHUB_OUTPUT
+          
+      - name: Create ECS CodeDeploy deployment
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ vars.CODEDEPLOY_APP }} \
+            --deployment-group-name ${{ vars.CODEDEPLOY_DEPLOYMENT_GROUP }} \
+            --revision revisionType=AppSpecContent,appSpecContent="{\"version\":\"0.0\",\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"${{ steps.register-task.outputs.task_definition_arn }}\",\"LoadBalancerInfo\":{\"ContainerName\":\"${{ vars.CONTAINER_NAME }}\",\"ContainerPort\":80}}}}]}"
