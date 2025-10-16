@@ -1,0 +1,12 @@
+{
+  "applicationName": "frontend-cd-dev",
+  "deploymentGroupName": "frontend-dg-dev",
+  "revision": {
+    "revisionType": "S3",
+    "s3Location": {
+      "bucket": "backend-ecs-appspec-dev",
+      "key": "appspec.json",
+      "bundleType": "JSON"
+    }
+  }
+}
