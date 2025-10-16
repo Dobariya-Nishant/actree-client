@@ -60,5 +60,5 @@ jobs:
           aws deploy create-deployment \
             --application-name ${{ vars.CODEDEPLOY_APP }} \
             --deployment-group-name ${{ vars.CODEDEPLOY_DEPLOYMENT_GROUP }} \
-            --revision revisionType=S3,revisionLocation="{\"bucket\":\"${{ vars.APPSPEC_BUCKET }}\",\"key\":\"${{ vars.APPSPEC_KEY }}\",\"bundleType\":\"JSON\"}" \
+            --revision 'revisionType=S3,revisionLocation={\"bucket\":\"${{ vars.APPSPEC_BUCKET }}\",\"key\":\"${{ vars.APPSPEC_KEY }}\",\"bundleType\":\"JSON\"}' \
             --description "Deploy new task definition" 
