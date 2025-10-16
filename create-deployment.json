@@ -4,7 +4,7 @@
   "revision": {
     "revisionType": "S3",
     "s3Location": {
-      "bucket": "backend-ecs-appspec-dev",
+      "bucket": "frontend-ecs-appspec-dev",
       "key": "appspec.json",
       "bundleType": "JSON"
     }
