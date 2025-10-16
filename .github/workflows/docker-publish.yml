@@ -48,12 +48,11 @@ jobs:
       - name: Register ECS task definition
         id: register-task
         run: |
-          TASK_DEF_JSON="${{ steps.task-def.outputs.task-definition }}"
+          TASK_DEF_JSON=$(cat "${{ steps.task-def.outputs.task-definition }}")
           TASK_DEF_ARN=$(aws ecs register-task-definition \
             --cli-input-json "$TASK_DEF_JSON" \
             --query 'taskDefinition.taskDefinitionArn' \
             --output text)
-          echo "task_definition_arn=$TASK_DEF_ARN" >> $GITHUB_OUTPUT
           
       - name: Create ECS CodeDeploy deployment
         run: |
