@@ -2,8 +2,8 @@
   "family": "frontend-td-dev",
   "executionRoleArn": "arn:aws:iam::448049813494:role/frontend-task-execution-role-dev",
   "networkMode": "awsvpc",
-  "cpu": 1024,
-  "memory": 700,
+  "cpu": "1024",
+  "memory": "700",
   "containerDefinitions": [
     {
       "name": "frontend",
