@@ -56,27 +56,8 @@ jobs:
           
       - name: Create ECS CodeDeploy deployment
         run: |
-          cat > appspec.json <<EOF
-          {
-            "version": "0.0",
-            "Resources": [
-              {
-                "TargetService": {
-                  "Type": "AWS::ECS::Service",
-                  "Properties": {
-                    "TaskDefinition": "${{ steps.register-task.outputs.task_definition_arn }}",
-                    "LoadBalancerInfo": {
-                      "ContainerName": "${{ vars.CONTAINER_NAME }}",
-                      "ContainerPort": 80
-                    }
-                  }
-                }
-              }
-            ]
-          }
-          EOF
-          APP_SPEC_JSON=$(jq -c . appspec.json)
           aws deploy create-deployment \
             --application-name ${{ vars.CODEDEPLOY_APP }} \
             --deployment-group-name ${{ vars.CODEDEPLOY_DEPLOYMENT_GROUP }} \
-            --revision revisionType=AppSpecContent,appSpecContent="$APP_SPEC_JSON"
+            --revision revisionType=AppSpecContent,appSpecContent='{"version":"0.0","Resources":[{"TargetService":{"Type":"AWS::ECS::Service","Properties":{"TaskDefinition":"'"${{ steps.register-task.outputs.task_definition_arn }}"'","LoadBalancerInfo":{"ContainerName":"'"${{ vars.CONTAINER_NAME }}"'","ContainerPort":80}}}}]}'
+
