@@ -1,75 +1,89 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import MarketPlaceSidebar from "./MarketPlaceSidebar";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
 
 const SellerStripeConnect = () => {
-    const [status, setStatus] = useState("Inactive");
-    const [statusClass, setStatusClass] = useState("status-inactive");
-    const [paymentStatus, setPaymentStatus] = useState(false);
-    const [isConnected, setIsConnected] = useState(false);
-    const [requiredInfo, setRequiredInfo] = useState([]);
-    useEffect(() => {
-        getAccountStatus();
-    }, []);
+  const [status, setStatus] = useState("Inactive");
+  const [statusClass, setStatusClass] = useState("status-inactive");
+  const [paymentStatus, setPaymentStatus] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [requiredInfo, setRequiredInfo] = useState([]);
+  useEffect(() => {
+    getAccountStatus();
+  }, []);
 
-    const getAccountStatus = async () => {
-        try {
-            const response = await networkRequest("GET", API_ENDPOINTS.GET_ACCOUNT_STATUS, {}, {}, {});
-            if (response.statusCode === 200) {
-                console.log("Response:", response.data);
-                setStatus(response.data.isActive ? "Active" : "Inactive");
-                setStatusClass(response.data.isActive ? "status-active" : "status-inactive");
-                setPaymentStatus(response.data.chargesEnabled && response.data.payoutsEnabled);
-                setIsConnected(true);
-                setRequiredInfo(response.data.requirements?.currently_due || []);
-            } else {
-                console.log("Unknown status:", response);
-            }
-        } catch (error) {
-            console.error("Error fetching status:", error);
-            if (error.response?.status === 404) {
-                setStatus("Inactive");
-                setStatusClass("status-inactive");
-                setPaymentStatus(false);
-                setIsConnected(false);
-                setRequiredInfo([]);
-            }
-        }
-    };
+  const getAccountStatus = async () => {
+    try {
+      const response = await networkRequest(
+        "GET",
+        API_ENDPOINTS.GET_ACCOUNT_STATUS,
+        {},
+        {},
+        {}
+      );
+      if (response.statusCode === 200) {
+        console.log("Response:", response.data);
+        setStatus(response.data.isActive ? "Active" : "Inactive");
+        setStatusClass(
+          response.data.isActive ? "status-active" : "status-inactive"
+        );
+        setPaymentStatus(
+          response.data.chargesEnabled && response.data.payoutsEnabled
+        );
+        setIsConnected(true);
+        setRequiredInfo(response.data.requirements?.currently_due || []);
+      } else {
+        console.log("Unknown status:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching status:", error);
+      if (error.response?.status === 404) {
+        setStatus("Inactive");
+        setStatusClass("status-inactive");
+        setPaymentStatus(false);
+        setIsConnected(false);
+        setRequiredInfo([]);
+      }
+    }
+  };
 
-    const accountCreate = async () => {
-        try {
-            const response = await networkRequest("POST", API_ENDPOINTS.ACCOUNT_CREATE);
-            if (response.statusCode === 200) {
-                console.log("Account Created Successfully:", response.data);
-            } else {
-                console.error("Failed to create account:", response);
-            }
-        } catch (error) {
-            console.error("Error creating account:", error);
-        }
-    };
+  const accountCreate = async () => {
+    try {
+      const response = await networkRequest(
+        "POST",
+        API_ENDPOINTS.ACCOUNT_CREATE
+      );
+      if (response.statusCode == 201) {
+        window.open(response.data, "_blank", "noopener,noreferrer");
+        console.log("Account Created Successfully:", response.data);
+      } else {
+        console.error("Failed to create account:", response);
+      }
+    } catch (error) {
+      console.error("Error creating account:", error);
+    }
+  };
 
-    const dashboard = async () => {
-        try {
-            const response = await networkRequest("GET", API_ENDPOINTS.DASHBOARD);
-            if (response.statusCode === 200) {
-                console.log("Dashboard Data:", response.data);
-                window.open(response.data, "_blank");
-            } else {
-                console.error("Failed to fetch dashboard data:", response);
-            }
-        } catch (error) {
-            console.error("Error fetching dashboard data:", error);
-        }
-    };
+  const dashboard = async () => {
+    try {
+      const response = await networkRequest("GET", API_ENDPOINTS.DASHBOARD);
+      if (response.statusCode === 200) {
+        console.log("Dashboard Data:", response.data);
+        window.open(response.data, "_blank");
+      } else {
+        console.error("Failed to fetch dashboard data:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
+  };
 
-    return (
-        <>
-            <style>
-                {`
+  return (
+    <>
+      <style>
+        {`
                     .dashboard-header {
                         background: #9A00A9;
                         color: white;
@@ -191,72 +205,88 @@ const SellerStripeConnect = () => {
                         cursor: pointer;
                     }
                 `}
-            </style>
-            <main className="main-content">
-                <div className="container">
-                    <div className="row">
-                        <MarketPlaceSidebar />
-                        <div className="col-xl-9 col-lg-8">
-                            <div className="seller-dashboard">
-                                <div className="dashboard-header">
-                                    <h2>Seller Dashboard</h2>
-                                    <p>Manage your seller profile and payment settings</p>
-                                </div>
-                                <div className="content-box">
-                                    <div className="status-grid">
-                                        <div className="status-box">
-                                            <h5>Account Status</h5>
-                                            <p className={statusClass}>{status === "Active" ? "● Active" : "● Inactive"}</p>
-                                        </div>
-                                        <div className="status-box">
-                                            <h5>Payment Capability</h5>
-                                            <p className={paymentStatus ? "status-success" : "status-failure"}>
-                                                {paymentStatus ? "✔ Can accept payments" : "❌ Cannot accept payments"}
-                                            </p>
-                                            <p className={paymentStatus ? "status-success" : "status-failure"}>
-                                                {paymentStatus ? "✔ Can receive payouts" : "❌ Cannot receive payouts"}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="required-info">
-                                        <h5>Required Information</h5>
-                                        {requiredInfo.length > 0 ? (
-                                            <>
-                                                <p>Currently Required:</p>
-                                                <ul>
-                                                    {requiredInfo.map((item, index) => (
-                                                        <li key={index}>{item}</li>
-                                                    ))}
-                                                </ul>
-                                                <button className="btn-complete" onClick={accountCreate}>Complete Requirements</button>
-                                            </>
-                                        ) : (
-                                            <p>No additional information required.</p>
-                                        )}
-                                    </div>
-                                    <div className="bottom-buttons">
-                                        <button
-                                            className="btn-refresh"
-                                            onClick={dashboard}
-                                        >
-                                            Seller Dashboard
-                                        </button>
-                                        <button
-                                            className="btn-dashboard"
-                                            onClick={accountCreate}
-                                            disabled={isConnected}
-                                        >
-                                            {isConnected ? "Connected" : "Connect"}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      </style>
+      <main className="main-content">
+        <div className="container">
+          <div className="row">
+            <MarketPlaceSidebar />
+            <div className="col-xl-9 col-lg-8">
+              <div className="seller-dashboard">
+                <div className="dashboard-header">
+                  <h2>Seller Dashboard</h2>
+                  <p>Manage your seller profile and payment settings</p>
                 </div>
-            </main>
-        </>
-    );
+                <div className="content-box">
+                  <div className="status-grid">
+                    <div className="status-box">
+                      <h5>Account Status</h5>
+                      <p className={statusClass}>
+                        {status === "Active" ? "● Active" : "● Inactive"}
+                      </p>
+                    </div>
+                    <div className="status-box">
+                      <h5>Payment Capability</h5>
+                      <p
+                        className={
+                          paymentStatus ? "status-success" : "status-failure"
+                        }
+                      >
+                        {paymentStatus
+                          ? "✔ Can accept payments"
+                          : "❌ Cannot accept payments"}
+                      </p>
+                      <p
+                        className={
+                          paymentStatus ? "status-success" : "status-failure"
+                        }
+                      >
+                        {paymentStatus
+                          ? "✔ Can receive payouts"
+                          : "❌ Cannot receive payouts"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="required-info">
+                    <h5>Required Information</h5>
+                    {requiredInfo.length > 0 ? (
+                      <>
+                        <p>Currently Required:</p>
+                        <ul>
+                          {requiredInfo.map((item, index) => (
+                            <li key={index}>{item}</li>
+                          ))}
+                        </ul>
+                        <button
+                          className="btn-complete"
+                          onClick={accountCreate}
+                        >
+                          Complete Requirements
+                        </button>
+                      </>
+                    ) : (
+                      <p>No additional information required.</p>
+                    )}
+                  </div>
+                  <div className="bottom-buttons">
+                    <button className="btn-refresh" onClick={dashboard}>
+                      Seller Dashboard
+                    </button>
+                    <button
+                      className="btn-dashboard"
+                      onClick={accountCreate}
+                      disabled={isConnected}
+                    >
+                      {isConnected ? "Connected" : "Connect"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
+  );
 };
 
 export default SellerStripeConnect;
