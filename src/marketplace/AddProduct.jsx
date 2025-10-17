@@ -27,7 +27,7 @@ export default function AddProduct() {
     //const [language, setLanguage] = useState("");
     const [countryOfOrigin, setCountryOfOrigin] = useState("");
     const [price, setPrice] = useState("");
-    const [platformFee, setPlatformFee] = useState("0.00%");
+    const [platformFee, setPlatformFee] = useState("$0.00");
     const [sellerReceive, setSellerReceive] = useState("$0.00");
     const inputRef = useRef(null);
     const tagifyRef = useRef(null);
@@ -273,7 +273,7 @@ export default function AddProduct() {
         let enteredPrice = parseFloat(e.target.value);
         if (isNaN(enteredPrice)) {
             setPrice("");
-            setPlatformFee("0.00%");
+            setPlatformFee("$0.00");
             setSellerReceive("$0.00");
             return;
         }
@@ -699,7 +699,7 @@ export default function AddProduct() {
                                                                 type="text"
                                                                 className="form-control mb-3"
                                                                 value={platformFee}
-                                                                placeholder="%0.00"
+                                                                placeholder="$0.00"
                                                                 disabled
                                                             />
                                                             <label>You’ll Receive <span className="span">(The estimated amount you’ll receive after service fee)</span></label>

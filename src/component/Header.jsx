@@ -369,6 +369,23 @@ function Header() {
                                         </div>
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to="/monetize" className="nav-icon">
+                                        <div className="icon-container">
+                                            <img
+                                                src={
+                                                    isActive("/monetize")
+                                                        ? "../assets/images/navbar/monetize_active.png"
+                                                        : "../assets/images/navbar/monetize_defualt.png"
+                                                }
+                                                className="image"
+                                                alt="Monetize Icon"
+                                                style={{ width: "25px" }}
+                                            />
+                                            <span>Monetize</span>
+                                        </div>
+                                    </Link>
+                                </li>
                                 {/* <li>
                                     <Link to="/discussionForum" className="nav-icon">
                                         <div className="icon-container">

@@ -381,7 +381,7 @@ export default function AddNewProduct() {
                                         <label>25% Activatree Service Fee</label>
                                         <input
                                             type="number"
-                                            placeholder="%0.00"
+                                            placeholder="$0.00"
                                             name="servicefee"
                                             value={formData.servicefee}
                                             readOnly
@@ -389,7 +389,7 @@ export default function AddNewProduct() {
                                         <label> You'll Receive<span className="description">(The estimated amount you'll receive after service fee)</span></label>
                                         <input
                                             type="number"
-                                            placeholder="%0.00"
+                                            placeholder="$0.00"
                                             name="serviceAmount"
                                             value={formData.serviceAmount}
                                             readOnly

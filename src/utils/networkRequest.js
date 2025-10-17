@@ -57,7 +57,7 @@ export const networkRequest = async (
 
     // console.log(window.location.href);
 
-    debugger;
+    // debugger;
 
     if (
       error.response &&

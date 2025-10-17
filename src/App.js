@@ -26,6 +26,7 @@ import Termsofservice from "./component/Termsofservice";
 import SocialMedia from "./component/SocialMedia";
 //import MarketPlace from "./component/MarketPlace";
 import MarketPlace from "./marketplace/MarketPlace";
+import Monetize from "./monetize/Monetize";
 import ProductDetail from "./marketplace/ProductDetail";
 import BuyNow from "./marketplace/BuyNow";
 import Orders from "./marketplace/Orders";
@@ -59,7 +60,7 @@ import DiscussionForum from "./component/DiscussionForum";
 import OAuthCallback from "./component/OauthCallback";
 import Profile from "./component/Profile";
 import AccountProfile from "./component/AccountProfile";
-import Monetize from "./component/Monetize";
+// import Monetize from "./component/Monetize";
 import ActivaPost from "./component/ActivaPost";
 import Video from "./component/Video";
 import FrindRequest from "./component/FrindRequest";
@@ -164,6 +165,7 @@ function App() {
       <SignUpProvider>
         <Routes>
           {/* Admin Routes Start */}
+
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin"
@@ -181,8 +183,11 @@ function App() {
             <Route path="productDetail/:id" element={<AdminProductsDetail />} />
             <Route path="customeCategory" element={<CustomeCategory />} />
           </Route>
+
           {/* Admin Routes End */}
+
           {/* User Public Routes */}
+
           <Route path="/" element={<Home />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/blog" element={<Blog />} />
@@ -241,6 +246,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MarketPlace />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/monetize"
+            element={
+              <ProtectedRoute>
+                <Monetize />
               </ProtectedRoute>
             }
           />

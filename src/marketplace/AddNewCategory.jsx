@@ -18,7 +18,7 @@ export default function AddNewCategory() {
     });
     const [category, setCategory] = useState("");
     const [price, setPrice] = useState("");
-    const [platformFee, setPlatformFee] = useState("0.00%");
+    const [platformFee, setPlatformFee] = useState("$0.00");
     const [sellerReceive, setSellerReceive] = useState("$0.00");
 
     const handleChange = (e) => {
@@ -348,7 +348,7 @@ export default function AddNewCategory() {
                                                                 type="text"
                                                                 className="form-control mb-3"
                                                                 value={platformFee}
-                                                                placeholder="%0.00"
+                                                                placeholder="S 0.00"
                                                                 disabled
                                                             />
 
