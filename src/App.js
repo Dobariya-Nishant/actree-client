@@ -27,6 +27,7 @@ import SocialMedia from "./component/SocialMedia";
 //import MarketPlace from "./component/MarketPlace";
 import MarketPlace from "./marketplace/MarketPlace";
 import Monetize from "./monetize/Monetize";
+import MonetizeAnalytics from "./monetize/MonetizeAnalytics";
 import ProductDetail from "./marketplace/ProductDetail";
 import BuyNow from "./marketplace/BuyNow";
 import Orders from "./marketplace/Orders";
@@ -257,6 +258,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/monetizeanalytics"
+            element={
+              <ProtectedRoute>
+                <MonetizeAnalytics />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/product_detail/:id"
             element={

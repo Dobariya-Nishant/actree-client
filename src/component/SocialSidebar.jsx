@@ -128,6 +128,18 @@ function SocialSidebar() {
                                 <span>Monetize</span>
                             </Link>
                         </li>
+                        <li
+                            className={location.pathname === "/monetizeanalytics" ? "active-link" : ""}
+                        >
+                            <Link to="/monetizeanalytics" className="d-flex gap-2">
+                                <img
+                                    src="../assets/images/socialsidebar/monetize.png"
+                                    alt="icon"
+                                    style={{ width: "25px" }}
+                                />
+                                <span>Monetize Analytics Result </span>
+                            </Link>
+                        </li>
                         <hr />
                         <li>
                             <span className="mb-3 mt-3">Explore</span>

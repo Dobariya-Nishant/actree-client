@@ -4,6 +4,7 @@ import SocialSidebar from "../component/SocialSidebar";
 import API_ENDPOINTS from "../api/apiConfig";
 import { networkRequest } from "../utils/networkRequest";
 import "./Monetize.css";
+import AdTargetPopup from "./AdTargetPopup";
 
 function Monetize() {
     const navigate = useNavigate();
@@ -80,10 +81,12 @@ function Monetize() {
         }
     };
 
-
     const goBack = () => {
         navigate(-1);
     };
+
+    const [showAdPopup, setShowAdPopup] = useState(false);
+    const [selectedGoal, setSelectedGoal] = useState("");
 
     return (
         <>
@@ -143,7 +146,18 @@ function Monetize() {
                                             </label>
                                         </div>
 
-                                        <button className="continue-btn">Continue</button>
+                                        <button
+                                            className="continue-btn"
+                                            onClick={() => {
+                                                const selected = document.querySelector("input[name='adGoal']:checked");
+                                                if (!selected) {
+                                                    alert("Please select an ad goal");
+                                                    return;
+                                                }
+                                                setSelectedGoal(selected.value);
+                                                setShowAdPopup(true);
+                                            }}
+                                        >Continue</button>
 
                                         {/* <div className="goal-card lead-card">
                                             <div className="goal-content">
@@ -182,6 +196,7 @@ function Monetize() {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <div className="col-xxl-3 col-xl-4 col-lg-4 col-6 mt-5 mt-xl-0">
                             <div className="cus-overflow cus-scrollbar sidebar-head">
@@ -234,6 +249,7 @@ function Monetize() {
                                                                     <p className="mdtxt">@{suggestedUser.userName}</p>
                                                                 </div>
                                                             </div>
+
                                                             <div className="btn-group cus-dropdown dropend">
                                                                 <button
                                                                     className="cmn-btn"
@@ -268,6 +284,11 @@ function Monetize() {
                                 </div>
                             </div>
                         </div>
+                        {showAdPopup && (
+                            <AdTargetPopup
+                                closePopup={() => setShowAdPopup(false)}
+                            />
+                        )}
                     </div>
                 </div>
             </main>

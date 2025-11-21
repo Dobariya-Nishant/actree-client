@@ -1,0 +1,619 @@
+/* ================================ POPUP OVERLAY =================================*/
+.ad-popup-overlay {
+  position: fixed;
+  top: 15;
+  left: 0;
+  /* width: 100%;
+  height: 100%; */
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+/* ================================ MAIN POPUP BOX =================================*/
+.ad-popup {
+  width: 700px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+  animation: fadeIn 0.25s ease-out;
+  font-family: "Poppins", sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ================================ POPUP HEADER =================================*/
+.popup-header {
+  padding: 1px 10px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.close-btn {
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ================================ BODY: LEFT STEPS + RIGHT CONTENT =================================*/
+.ad-popup-body {
+  display: flex;
+  padding: 0;
+}
+
+/* ================================ LEFT SIDE STEPS =================================*/
+.steps-left {
+  /* width: 230px; */
+  /* background: #f3f3f3; */
+  padding: 22px 18px;
+  border-right: 1px solid #e3e3e3;
+}
+
+.step {
+  font-size: 15px;
+  color: #111;
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.step span {
+  background: #dcdcdc;
+  color: #111;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.step.active {
+  background: #fff;
+  font-weight: 500;
+  color: #4cd43c;
+}
+
+.step.active span {
+  background: #4cd43c;
+  color: #fff;
+}
+
+/* ================================ RIGHT CONTENT =================================*/
+.right-content {
+  flex: 1;
+  padding: 1px 28px;
+}
+
+/* ++++ */
+/* ===== POPUP OVERLAY ===== */
+.ad-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+/* ===== BODY LAYOUT (Desktop) ===== */
+/* .ad-popup-body {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+} */
+
+.right-content {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* ========================================= */
+/* ============ MOBILE RESPONSIVE ========== */
+/* ========================================= */
+
+@media (max-width: 768px) {
+  /* Popup full-screen */
+  .ad-popup {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  /* Body vertical instead of side-by-side */
+  .ad-popup-body {
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  /* Steps shift to horizontal scroll top bar */
+  .steps-left {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .step {
+    white-space: nowrap;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Right side full width */
+  .right-content {
+    width: 100%;
+    max-height: calc(100vh - 180px);
+    overflow-y: scroll;
+    padding-bottom: 20px;
+  }
+}
+
+/* SMALL MOBILE FIXES */
+@media (max-width: 480px) {
+  .popup-header h3 {
+    font-size: 16px;
+  }
+
+  .step {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+/* ================================ TAB BOXES (RIGHT SIDE) =================================*/
+.tab-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tab-box label {
+  font-size: 14px;
+  /* font-weight: 500; */
+  margin-bottom: -4px;
+  color: #131010;
+}
+
+.tab-box input,
+.tab-box select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ===== */
+.age-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Outer layout */
+.age-range-container {
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* Top rounded white boxes */
+.age-values-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  margin-left: 65%;
+  margin-top: -10%;
+}
+
+.value-box {
+  background: #fff;
+  padding: 8px 18px;
+  border-radius: 22px;
+  border: 1px solid #e5e5e5;
+  font-size: 15px;
+}
+
+/* Slider wrapper */
+.age-slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  /* margin-bottom: 12px; */
+}
+
+/* Track */
+.age-slider {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Purple–pink line */
+.age-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #9a00a9, #ff9bf9);
+}
+
+/* Pink circular handle */
+.age-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background: #ff3fff;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+  border: 3px solid #fff;
+  margin-top: -7px;
+}
+
+/* Label below slider */
+.age-limit-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  padding: 0 4px;
+}
+
+/* Age slider layout */
+/* .age-slider-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} */
+
+.gender-options {
+  display: flex;
+  gap: 22px;
+}
+.gender-type {
+  display: flex;
+  gap: 10px;
+}
+
+/* NEXT BUTTON */
+.next-btn {
+  margin-top: 10px;
+  margin-left: auto;
+  width: 120px;
+  background: #9a00a9;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.next-btn:hover {
+  opacity: 0.85;
+}
+
+/* --------------------------------------
+   TAB 2 – CHOOSE AD FORMAT
+-------------------------------------- */
+.choose-format-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.tab-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* RADIO OPTION STYLE */
+.ad-format-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.format-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.format-option input[type="radio"] {
+  accent-color: #a500da;
+  width: 18px;
+  height: 18px;
+  margin-top: 4px;
+}
+
+.format-option h5 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.format-option p {
+  font-size: 13px;
+  color: #888;
+  margin-top: -2px;
+}
+
+/* DIVIDER LINE */
+.divider-line {
+  width: 100%;
+  height: 1px;
+  background: #e4e4e4;
+  margin: 8px 0 2px;
+}
+
+/* UPLOAD SECTION */
+.upload-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.upload-box {
+  display: flex;
+  background: #f7f7f7;
+  padding: 12px;
+  border-radius: 10px;
+  align-items: center;
+  gap: 14px;
+}
+
+.upload-preview {
+  width: 110px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.upload-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.upload-info h5 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.change-img-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.delete-img-btn {
+  background: #fce4e4;
+  border: none;
+  color: #cc0000;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* INPUTS */
+.ad-input,
+.ad-textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.ad-textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* PREVIEW LINK */
+.preview-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #5b00c6;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.preview-link i {
+  font-size: 16px;
+}
+
+/* --------------------------------------
+   TAB 3 – Daily Budget
+-------------------------------------- */
+.tab3-wrapper {
+  display: flex;
+  gap: 30px;
+  padding: 20px 25px;
+}
+
+.left-steps {
+  width: 28%;
+  border-right: 1px solid #e5e5e5;
+  padding-right: 20px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  opacity: 0.5;
+}
+
+.step.completed,
+.step.active {
+  opacity: 1;
+}
+
+.step p {
+  margin-left: 12px;
+  font-size: 15px;
+}
+
+.circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #b3b3b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+}
+
+.done {
+  background: #41d261;
+  border: none !important;
+  color: #fff;
+}
+
+.active .circle {
+  border-color: #000;
+}
+
+.right-content {
+  width: 100%; /*  72% change */
+  padding-left: 20px;
+}
+
+.title {
+  font-size: 18px;
+  margin: 10px 0 12px;
+}
+
+.slider-box {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.budget-bubble {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  background: #9b06c6;
+  padding: 4px 12px;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 13px;
+}
+
+.budget-value {
+  position: absolute;
+  right: 0;
+  top: -25px;
+  background: #f4f4f4;
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+
+.budget-slider {
+  margin-top: 10%;
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  border-radius: 5px;
+  background: #e8c3ef;
+  outline: none;
+}
+
+.budget-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #c214d4;
+  cursor: pointer;
+}
+
+.budget-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.date-row {
+  display: flex;
+  /* gap: 15px; */
+}
+
+.date-input input {
+  width: 100%;
+  padding: 10px 18px;
+  border-radius: 30px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+}
+
+.total-box {
+  width: 180px;
+  padding: 10px 18px;
+  border-radius: 30px;
+  background: #f7f7f7;
+  border: 1px solid #dedede;
+  font-size: 16px;
+}
+
+.info-text {
+  font-size: 13px;
+  margin: 10px 0 20px;
+  color: #555;
+}
+
+.review-btn {
+  margin-top: 20px;
+  background: #b500e8;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+}
