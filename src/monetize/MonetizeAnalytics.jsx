@@ -240,8 +240,6 @@ function MonetizeAnalytics() {
         return `${m}m ${sec < 10 ? "0" : ""}${sec}s`;
     };
 
-
-
     const revenueData = [
         { date: "Apr 5", value: 5 },
         { date: "Apr 10", value: 6 },
@@ -343,7 +341,6 @@ function MonetizeAnalytics() {
                                             <div className="p-3 rounded shadow-sm bg-white" style={{ borderRadius: "14px" }}>
                                                 <p className="text-muted mb-1" style={{ fontWeight: 500 }}>Estimated Audience</p>
                                                 <h3 style={{ fontWeight: 500, fontSize: "30px" }}>5k</h3>
-
                                             </div>
                                         </div>
                                     </div>
@@ -507,7 +504,6 @@ function MonetizeAnalytics() {
                                         <div className="card-box mt-2">
                                             <div className="card-head">
                                                 <h3>User activity over time</h3>
-
                                                 <div className="legend">
                                                     <span><span className="dot purple"></span>30 days</span>
                                                     <span><span className="dot green"></span>7 days</span>
@@ -522,7 +518,6 @@ function MonetizeAnalytics() {
                                                         <XAxis dataKey="day" tick={{ fontSize: 12 }} />
                                                         <YAxis tickFormatter={(v) => `${v / 1000}k`} />
                                                         <Tooltip />
-
                                                         <Line type="monotone" dataKey="d30" stroke="#7A4DF5" strokeWidth={3} dot={false} />
                                                         <Line type="monotone" dataKey="d7" stroke="#4BAF73" strokeWidth={3} dot={false} />
                                                         <Line type="monotone" dataKey="d1" stroke="#FF7A3D" strokeWidth={3} dot={false} />
@@ -537,13 +532,11 @@ function MonetizeAnalytics() {
                                                 <h4>Active users in last 30 minutes</h4>
                                                 <h1>0</h1>
                                             </div>
-
                                             <div className="small-card">
                                                 <h4>Active users per minutes</h4>
                                                 <h1>0</h1>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div className="analytics-container mt-4">
@@ -576,6 +569,7 @@ function MonetizeAnalytics() {
                                                             axisLine={false}
                                                             tickLine={false}
                                                         />
+
                                                         <Tooltip labelFormatter={(l) => l} formatter={(value) => formatSecondsToMinSec(value)} />
                                                         <Line type="monotone" dataKey="secs" stroke="#1E90FF" strokeWidth={3} dot={false} />
                                                     </LineChart>

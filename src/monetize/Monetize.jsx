@@ -221,6 +221,7 @@ function Monetize() {
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="sidebar-area p-5">
                                             <div className="mb-4">
                                                 <h6 className="d-inline-flex">
